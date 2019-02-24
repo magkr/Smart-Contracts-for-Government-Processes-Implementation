@@ -1,0 +1,2466 @@
+{
+  "contractName": "Metering",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "edges",
+      "outputs": [
+        {
+          "name": "from",
+          "type": "bytes32"
+        },
+        {
+          "name": "to",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x00baae78"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "datas",
+      "outputs": [
+        {
+          "name": "title",
+          "type": "bytes32"
+        },
+        {
+          "name": "done",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x064d07d2"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor",
+      "signature": "constructor"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b506100437f726f6f7400000000000000000000000000000000000000000000000000000000640100000000610448810204565b7f726f6f740000000000000000000000000000000000000000000000000000000060009081526020527f065415422c7314fb6be32255cc77e4ea28b27ba4fc8f97b2efe37822f72731c8805460ff191660011790556100ca7f417262656a647374696465720000000000000000000000000000000000000000640100000000610448810204565b6100fc7f46616d696c6965666f72686f6c64000000000000000000000000000000000000640100000000610448810204565b61011c6000805160206106e7833981519152640100000000610448810204565b61014e7f567572646572696e672061662074696d65720000000000000000000000000000640100000000610448810204565b6101807f567572646572696e672061662073706172656465207564676966746572000000640100000000610448810204565b6101b27f42657265676e696e670000000000000000000000000000000000000000000000640100000000610448810204565b6102057f726f6f74000000000000000000000000000000000000000000000000000000007f417262656a6473746964657200000000000000000000000000000000000000006401000000006104b0810204565b6102587f726f6f74000000000000000000000000000000000000000000000000000000007f46616d696c6965666f72686f6c640000000000000000000000000000000000006401000000006104b0810204565b6102997f726f6f74000000000000000000000000000000000000000000000000000000006000805160206106e78339815191526401000000006104b0810204565b6102ec7f417262656a6473746964657200000000000000000000000000000000000000007f567572646572696e672061662074696d657200000000000000000000000000006401000000006104b0810204565b61033f7f417262656a6473746964657200000000000000000000000000000000000000007f567572646572696e6720616620737061726564652075646769667465720000006401000000006104b0810204565b6103927f46616d696c6965666f72686f6c640000000000000000000000000000000000007f567572646572696e672061662074696d657200000000000000000000000000006401000000006104b0810204565b6103d37f46616d696c6965666f72686f6c640000000000000000000000000000000000006000805160206107078339815191526401000000006104b0810204565b6104146000805160206106e78339815191527f567572646572696e672061662074696d657200000000000000000000000000006401000000006104b0810204565b6104436000805160206106e78339815191526000805160206107078339815191526401000000006104b0810204565b61058f565b6040805160608101825282815260006020808301828152845183815280830186528486019081528684528383529490922083518155915160018301805460ff191691151591909117905592518051929391926104aa9260028501920190610527565b50505050565b604080518082019091529182526020820190815260018054808201825560009190915291517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6600290930292830155517fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf790910155565b828054828255906000526020600020908101928215610562579160200282015b82811115610562578251825591602001919060010190610547565b5061056e929150610572565b5090565b61058c91905b8082111561056e5760008155600101610578565b90565b6101498061059e6000396000f3fe60806040526004361061004a5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041662baae78811461004f578063064d07d214610092575b600080fd5b34801561005b57600080fd5b506100796004803603602081101561007257600080fd5b50356100d5565b6040805192835260208301919091528051918290030190f35b34801561009e57600080fd5b506100bc600480360360208110156100b557600080fd5b5035610101565b6040805192835290151560208301528051918290030190f35b60018054829081106100e357fe5b60009182526020909120600290910201805460019091015490915082565b6000602081905290815260409020805460019091015460ff168256fea165627a7a723058208e8afd74b19f6a77ca4129652b1e5810f3cadb0d4f39ff1e89b23e9a64336c9c0029417262656a6473666c656b736962696c69746574000000000000000000000000567572646572696e672061662061662073706172656465207564676966746572",
+  "deployedBytecode": "0x60806040526004361061004a5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041662baae78811461004f578063064d07d214610092575b600080fd5b34801561005b57600080fd5b506100796004803603602081101561007257600080fd5b50356100d5565b6040805192835260208301919091528051918290030190f35b34801561009e57600080fd5b506100bc600480360360208110156100b557600080fd5b5035610101565b6040805192835290151560208301528051918290030190f35b60018054829081106100e357fe5b60009182526020909120600290910201805460019091015490915082565b6000602081905290815260409020805460019091015460ff168256fea165627a7a723058208e8afd74b19f6a77ca4129652b1e5810f3cadb0d4f39ff1e89b23e9a64336c9c0029",
+  "sourceMap": "54:857:0:-;;;90:744;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;291:16:2;;:8;;;;:16;:::i;:::-;314:13;:5;:13;;;;;:18;:25;;-1:-1:-1;;314:25:2;335:4;314:25;;;118:24:0;;:8;;;;:24;:::i;:::-;149:26;;:8;;;;:26;:::i;:::-;182:32;-1:-1:-1;;;;;;;;;;;182:8:0;;;;:32;:::i;:::-;221:30;;:8;;;;:30;:::i;:::-;258:41;;:8;;;;:41;:::i;:::-;306:21;;:8;;;;:21;:::i;:::-;336:31;;;:8;;;;:31;:::i;:::-;374:33;;;:8;;;;:33;:::i;:::-;414:39;;-1:-1:-1;;;;;;;;;;;414:8:0;;;;:39;:::i;:::-;462:45;;;:8;;;;:45;:::i;:::-;514:56;;;:8;;;;:56;:::i;:::-;577:47;;;:8;;;;:47;:::i;:::-;631:61;;-1:-1:-1;;;;;;;;;;;631:8:0;;;;:61;:::i;:::-;699:53;-1:-1:-1;;;;;;;;;;;699:53:0;:8;;;;:53;:::i;:::-;759:67;-1:-1:-1;;;;;;;;;;;;;;;;;;;;;;759:8:0;;;;:67;:::i;:::-;54:857;;351:106:2;417:34;;;;;;;;;;;-1:-1:-1;417:34:2;;;;;;;437:13;;;;;;;;;;417:34;;;;;;401:13;;;;;;;;;;:50;;;;;;;;;;;-1:-1:-1;;401:50:2;;;;;;;;;;;;;;417:34;;401:13;;:50;;;;;;;;;:::i;:::-;-1:-1:-1;;;;351:106:2:o;463:91::-;534:13;;;;;;;;;;;;;;;;;;523:5;27:10:-1;;23:18;;;45:23;;-1:-1;523:25:2;;;;;;;;;;;;;;;;;;;;;463:91::o;54:857:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;54:857:0;;;-1:-1:-1;54:857:0;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;",
+  "deployedSourceMap": "54:857:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;237:19:2;;8:9:-1;5:2;;;30:1;27;20:12;5:2;237:19:2;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;237:19:2;;;;;;;;;;;;;;;;;;;;;;;;;;192:38;;8:9:-1;5:2;;;30:1;27;20:12;5:2;192:38:2;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;192:38:2;;;;;;;;;;;;;;;;;;;;;;;;;;237:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;237:19:2;:::o;192:38::-;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.5.0;\r\n\r\nimport './Process.sol';\r\n\r\ncontract Metering is Process {\r\n\r\n  constructor() public {\r\n    _addData(\"Arbejdstider\");\r\n    _addData(\"Familieforhold\");\r\n    _addData(\"Arbejdsfleksibilitet\");\r\n    _addData(\"Vurdering af timer\");\r\n    _addData(\"Vurdering af sparede udgifter\");\r\n    _addData(\"Beregning\");\r\n\r\n    _addEdge(\"root\",\"Arbejdstider\");\r\n    _addEdge(\"root\",\"Familieforhold\");\r\n    _addEdge(\"root\",\"Arbejdsfleksibilitet\");\r\n\r\n    _addEdge(\"Arbejdstider\",\"Vurdering af timer\");\r\n    _addEdge(\"Arbejdstider\",\"Vurdering af sparede udgifter\");\r\n    _addEdge(\"Familieforhold\",\"Vurdering af timer\");\r\n    _addEdge(\"Familieforhold\",\"Vurdering af af sparede udgifter\");\r\n    _addEdge(\"Arbejdsfleksibilitet\",\"Vurdering af timer\");\r\n    _addEdge(\"Arbejdsfleksibilitet\",\"Vurdering af af sparede udgifter\");\r\n\r\n  }\r\n\r\n\r\n  /* function possibleActions() returns (Data[] storage) {\r\n\r\n  } */\r\n}\r\n",
+  "sourcePath": "D:/Data/Projects/bachelor-project/bachelor/BA-process42/contracts/Metering.sol",
+  "ast": {
+    "absolutePath": "/D/Data/Projects/bachelor-project/bachelor/BA-process42/contracts/Metering.sol",
+    "exportedSymbols": {
+      "Metering": [
+        78
+      ]
+    },
+    "id": 79,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "absolutePath": "/D/Data/Projects/bachelor-project/bachelor/BA-process42/contracts/Process.sol",
+        "file": "./Process.sol",
+        "id": 2,
+        "nodeType": "ImportDirective",
+        "scope": 79,
+        "sourceUnit": 211,
+        "src": "27:23:0",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 3,
+              "name": "Process",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 210,
+              "src": "75:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Process_$210",
+                "typeString": "contract Process"
+              }
+            },
+            "id": 4,
+            "nodeType": "InheritanceSpecifier",
+            "src": "75:7:0"
+          }
+        ],
+        "contractDependencies": [
+          210
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 78,
+        "linearizedBaseContracts": [
+          78,
+          210
+        ],
+        "name": "Metering",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 76,
+              "nodeType": "Block",
+              "src": "111:723:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 8,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "127:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        }
+                      ],
+                      "id": 7,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "118:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 9,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "118:24:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 10,
+                  "nodeType": "ExpressionStatement",
+                  "src": "118:24:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 12,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "158:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        }
+                      ],
+                      "id": 11,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "149:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 13,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "149:26:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 14,
+                  "nodeType": "ExpressionStatement",
+                  "src": "149:26:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 16,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "191:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        }
+                      ],
+                      "id": 15,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "182:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 17,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "182:32:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 18,
+                  "nodeType": "ExpressionStatement",
+                  "src": "182:32:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 20,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "230:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 19,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "221:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 21,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "221:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 22,
+                  "nodeType": "ExpressionStatement",
+                  "src": "221:30:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662073706172656465207564676966746572",
+                        "id": 24,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "267:31:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        },
+                        "value": "Vurdering af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        }
+                      ],
+                      "id": 23,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "258:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 25,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "258:41:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 26,
+                  "nodeType": "ExpressionStatement",
+                  "src": "258:41:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "42657265676e696e67",
+                        "id": 28,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "315:11:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_c477e50bf5e1afb327a9342bf6146ae1d4c5c386c1c205d552aa670e658782f5",
+                          "typeString": "literal_string \"Beregning\""
+                        },
+                        "value": "Beregning"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_c477e50bf5e1afb327a9342bf6146ae1d4c5c386c1c205d552aa670e658782f5",
+                          "typeString": "literal_string \"Beregning\""
+                        }
+                      ],
+                      "id": 27,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "306:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 29,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "306:21:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 30,
+                  "nodeType": "ExpressionStatement",
+                  "src": "306:21:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 32,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "345:6:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 33,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "352:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        }
+                      ],
+                      "id": 31,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "336:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 34,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "336:31:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 35,
+                  "nodeType": "ExpressionStatement",
+                  "src": "336:31:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 37,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "383:6:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 38,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "390:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        }
+                      ],
+                      "id": 36,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "374:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 39,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "374:33:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 40,
+                  "nodeType": "ExpressionStatement",
+                  "src": "374:33:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 42,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "423:6:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 43,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "430:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        }
+                      ],
+                      "id": 41,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "414:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 44,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "414:39:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 45,
+                  "nodeType": "ExpressionStatement",
+                  "src": "414:39:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 47,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "471:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 48,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "486:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 46,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "462:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 49,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "462:45:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 50,
+                  "nodeType": "ExpressionStatement",
+                  "src": "462:45:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 52,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "523:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662073706172656465207564676966746572",
+                        "id": 53,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "538:31:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        },
+                        "value": "Vurdering af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        }
+                      ],
+                      "id": 51,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "514:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 54,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "514:56:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 55,
+                  "nodeType": "ExpressionStatement",
+                  "src": "514:56:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 57,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "586:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 58,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "603:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 56,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "577:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 59,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "577:47:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 60,
+                  "nodeType": "ExpressionStatement",
+                  "src": "577:47:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 62,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "640:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662061662073706172656465207564676966746572",
+                        "id": 63,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "657:34:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        },
+                        "value": "Vurdering af af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        }
+                      ],
+                      "id": 61,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "631:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 64,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "631:61:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 65,
+                  "nodeType": "ExpressionStatement",
+                  "src": "631:61:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 67,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "708:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 68,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "731:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 66,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "699:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 69,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "699:53:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 70,
+                  "nodeType": "ExpressionStatement",
+                  "src": "699:53:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 72,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "768:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662061662073706172656465207564676966746572",
+                        "id": 73,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "791:34:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        },
+                        "value": "Vurdering af af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        }
+                      ],
+                      "id": 71,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "759:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 74,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "759:67:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 75,
+                  "nodeType": "ExpressionStatement",
+                  "src": "759:67:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 77,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "101:2:0"
+            },
+            "returnParameters": {
+              "id": 6,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "111:0:0"
+            },
+            "scope": 78,
+            "src": "90:744:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 79,
+        "src": "54:857:0"
+      }
+    ],
+    "src": "0:913:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/Data/Projects/bachelor-project/bachelor/BA-process42/contracts/Metering.sol",
+    "exportedSymbols": {
+      "Metering": [
+        78
+      ]
+    },
+    "id": 79,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "absolutePath": "/D/Data/Projects/bachelor-project/bachelor/BA-process42/contracts/Process.sol",
+        "file": "./Process.sol",
+        "id": 2,
+        "nodeType": "ImportDirective",
+        "scope": 79,
+        "sourceUnit": 211,
+        "src": "27:23:0",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 3,
+              "name": "Process",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 210,
+              "src": "75:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Process_$210",
+                "typeString": "contract Process"
+              }
+            },
+            "id": 4,
+            "nodeType": "InheritanceSpecifier",
+            "src": "75:7:0"
+          }
+        ],
+        "contractDependencies": [
+          210
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 78,
+        "linearizedBaseContracts": [
+          78,
+          210
+        ],
+        "name": "Metering",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 76,
+              "nodeType": "Block",
+              "src": "111:723:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 8,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "127:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        }
+                      ],
+                      "id": 7,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "118:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 9,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "118:24:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 10,
+                  "nodeType": "ExpressionStatement",
+                  "src": "118:24:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 12,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "158:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        }
+                      ],
+                      "id": 11,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "149:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 13,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "149:26:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 14,
+                  "nodeType": "ExpressionStatement",
+                  "src": "149:26:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 16,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "191:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        }
+                      ],
+                      "id": 15,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "182:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 17,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "182:32:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 18,
+                  "nodeType": "ExpressionStatement",
+                  "src": "182:32:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 20,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "230:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 19,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "221:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 21,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "221:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 22,
+                  "nodeType": "ExpressionStatement",
+                  "src": "221:30:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662073706172656465207564676966746572",
+                        "id": 24,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "267:31:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        },
+                        "value": "Vurdering af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        }
+                      ],
+                      "id": 23,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "258:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 25,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "258:41:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 26,
+                  "nodeType": "ExpressionStatement",
+                  "src": "258:41:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "42657265676e696e67",
+                        "id": 28,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "315:11:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_c477e50bf5e1afb327a9342bf6146ae1d4c5c386c1c205d552aa670e658782f5",
+                          "typeString": "literal_string \"Beregning\""
+                        },
+                        "value": "Beregning"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_c477e50bf5e1afb327a9342bf6146ae1d4c5c386c1c205d552aa670e658782f5",
+                          "typeString": "literal_string \"Beregning\""
+                        }
+                      ],
+                      "id": 27,
+                      "name": "_addData",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 192,
+                      "src": "306:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 29,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "306:21:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 30,
+                  "nodeType": "ExpressionStatement",
+                  "src": "306:21:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 32,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "345:6:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 33,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "352:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        }
+                      ],
+                      "id": 31,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "336:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 34,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "336:31:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 35,
+                  "nodeType": "ExpressionStatement",
+                  "src": "336:31:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 37,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "383:6:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 38,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "390:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        }
+                      ],
+                      "id": 36,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "374:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 39,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "374:33:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 40,
+                  "nodeType": "ExpressionStatement",
+                  "src": "374:33:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 42,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "423:6:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 43,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "430:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        }
+                      ],
+                      "id": 41,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "414:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 44,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "414:39:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 45,
+                  "nodeType": "ExpressionStatement",
+                  "src": "414:39:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 47,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "471:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 48,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "486:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 46,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "462:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 49,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "462:45:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 50,
+                  "nodeType": "ExpressionStatement",
+                  "src": "462:45:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a64737469646572",
+                        "id": 52,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "523:14:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        "value": "Arbejdstider"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662073706172656465207564676966746572",
+                        "id": 53,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "538:31:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        },
+                        "value": "Vurdering af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_505e88af930a79ba496b2b006e8779b62fe78a40ccb555e6cdeff92562e1bcc6",
+                          "typeString": "literal_string \"Arbejdstider\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_b9c99c46f363deb3d4b9ec2f808a2225c31bc45292e99d4d9618a088f9c8d8d6",
+                          "typeString": "literal_string \"Vurdering af sparede udgifter\""
+                        }
+                      ],
+                      "id": 51,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "514:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 54,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "514:56:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 55,
+                  "nodeType": "ExpressionStatement",
+                  "src": "514:56:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 57,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "586:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 58,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "603:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 56,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "577:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 59,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "577:47:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 60,
+                  "nodeType": "ExpressionStatement",
+                  "src": "577:47:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "46616d696c6965666f72686f6c64",
+                        "id": 62,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "640:16:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        "value": "Familieforhold"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662061662073706172656465207564676966746572",
+                        "id": 63,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "657:34:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        },
+                        "value": "Vurdering af af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_2853678051c7602d9bd78135fee44d0d4f38e13a9430b9c83e523ea2b1c41dc6",
+                          "typeString": "literal_string \"Familieforhold\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        }
+                      ],
+                      "id": 61,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "631:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 64,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "631:61:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 65,
+                  "nodeType": "ExpressionStatement",
+                  "src": "631:61:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 67,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "708:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662074696d6572",
+                        "id": 68,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "731:20:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        },
+                        "value": "Vurdering af timer"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_42aaaab022c31fc6aca1439979dfd689b7095803672c9d6219f28f7d5a9d8e66",
+                          "typeString": "literal_string \"Vurdering af timer\""
+                        }
+                      ],
+                      "id": 66,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "699:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 69,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "699:53:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 70,
+                  "nodeType": "ExpressionStatement",
+                  "src": "699:53:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "417262656a6473666c656b736962696c69746574",
+                        "id": 72,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "768:22:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        "value": "Arbejdsfleksibilitet"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "567572646572696e672061662061662073706172656465207564676966746572",
+                        "id": 73,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "791:34:0",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        },
+                        "value": "Vurdering af af sparede udgifter"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_80a4958d0752065124eb66be80ef43c73a4dfd5899cedcdbc8ebd74b6ea4c12b",
+                          "typeString": "literal_string \"Arbejdsfleksibilitet\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_6f429203aa9c8681488e4b76f587459eec99dfe23b940f36ff7e3319a3b2f00e",
+                          "typeString": "literal_string \"Vurdering af af sparede udgifter\""
+                        }
+                      ],
+                      "id": 71,
+                      "name": "_addEdge",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 209,
+                      "src": "759:8:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32,bytes32)"
+                      }
+                    },
+                    "id": 74,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "759:67:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 75,
+                  "nodeType": "ExpressionStatement",
+                  "src": "759:67:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 77,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "101:2:0"
+            },
+            "returnParameters": {
+              "id": 6,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "111:0:0"
+            },
+            "scope": 78,
+            "src": "90:744:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 79,
+        "src": "54:857:0"
+      }
+    ],
+    "src": "0:913:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x8d6b03391295EA08d2165466c9369581a852AdBc",
+      "transactionHash": "0xd9be729e6c1d6bbe181a9befd2e23fe2250a31b0cb33987e85561de6fc960c23"
+    }
+  },
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2019-02-24T15:28:49.962Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
