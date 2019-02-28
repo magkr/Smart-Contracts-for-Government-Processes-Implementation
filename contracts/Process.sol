@@ -1,7 +1,16 @@
 pragma solidity ^0.5.0;
 
+import {Graph } from "./Graph.sol";
+
 contract Process {
-  struct Data {
+  using Graph for Graph.Digraph;
+
+  Graph.Digraph graph;
+
+  constructor() public {
+    graph.createDigraph();
+  }
+  /* struct Data {
     bytes32 title;
     bool done;
     uint[] documents;
@@ -27,6 +36,6 @@ contract Process {
 
   function _addEdge(bytes32 from, bytes32 to) {
     edges.push(Edge(from,to));
-  }
+  } */
 
 }

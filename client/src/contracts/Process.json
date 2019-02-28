@@ -2,79 +2,30 @@
   "contractName": "Process",
   "abi": [
     {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "edges",
-      "outputs": [
-        {
-          "name": "from",
-          "type": "bytes32"
-        },
-        {
-          "name": "to",
-          "type": "bytes32"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x00baae78"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "name": "datas",
-      "outputs": [
-        {
-          "name": "title",
-          "type": "bytes32"
-        },
-        {
-          "name": "done",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x064d07d2"
-    },
-    {
       "inputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
+      "type": "constructor"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b506100437f726f6f740000000000000000000000000000000000000000000000000000000064010000000061009d810204565b7f726f6f740000000000000000000000000000000000000000000000000000000060009081526020527f065415422c7314fb6be32255cc77e4ea28b27ba4fc8f97b2efe37822f72731c8805460ff1916600117905561016d565b6040805160608101825282815260006020808301828152845183815280830186528486019081528684528383529490922083518155915160018301805460ff191691151591909117905592518051929391926100ff9260028501920190610105565b50505050565b828054828255906000526020600020908101928215610140579160200282015b82811115610140578251825591602001919060010190610125565b5061014c929150610150565b5090565b61016a91905b8082111561014c5760008155600101610156565b90565b6101498061017c6000396000f3fe60806040526004361061004a5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041662baae78811461004f578063064d07d214610092575b600080fd5b34801561005b57600080fd5b506100796004803603602081101561007257600080fd5b50356100d5565b6040805192835260208301919091528051918290030190f35b34801561009e57600080fd5b506100bc600480360360208110156100b557600080fd5b5035610101565b6040805192835290151560208301528051918290030190f35b60018054829081106100e357fe5b60009182526020909120600290910201805460019091015490915082565b6000602081905290815260409020805460019091015460ff168256fea165627a7a723058202e6adcbfb58522ca8046f407af99577c440c3e3855c47ca933e6b356030db7e00029",
-  "deployedBytecode": "0x60806040526004361061004a5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041662baae78811461004f578063064d07d214610092575b600080fd5b34801561005b57600080fd5b506100796004803603602081101561007257600080fd5b50356100d5565b6040805192835260208301919091528051918290030190f35b34801561009e57600080fd5b506100bc600480360360208110156100b557600080fd5b5035610101565b6040805192835290151560208301528051918290030190f35b60018054829081106100e357fe5b60009182526020909120600290910201805460019091015490915082565b6000602081905290815260409020805460019091015460ff168256fea165627a7a723058202e6adcbfb58522ca8046f407af99577c440c3e3855c47ca933e6b356030db7e00029",
-  "sourceMap": "27:532:2:-;;;263:82;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;291:16:2;;:8;;;;:16;:::i;:::-;314:13;:5;:13;;;;;:18;:25;;-1:-1:-1;;314:25:2;335:4;314:25;;;27:532;;351:106;417:34;;;;;;;;;;;-1:-1:-1;417:34:2;;;;;;;437:13;;;;;;;;;;417:34;;;;;;401:13;;;;;;;;;;:50;;;;;;;;;;;-1:-1:-1;;401:50:2;;;;;;;;;;;;;;417:34;;401:13;;:50;;;;;;;;;:::i;:::-;-1:-1:-1;;;;351:106:2:o;27:532::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;27:532:2;;;-1:-1:-1;27:532:2;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;",
-  "deployedSourceMap": "27:532:2:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;237:19;;8:9:-1;5:2;;;30:1;27;20:12;5:2;237:19:2;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;237:19:2;;;;;;;;;;;;;;;;;;;;;;;;;;192:38;;8:9:-1;5:2;;;30:1;27;20:12;5:2;192:38:2;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;192:38:2;;;;;;;;;;;;;;;;;;;;;;;;;;237:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;237:19:2;:::o;192:38::-;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity ^0.5.0;\r\n\r\ncontract Process {\r\n  struct Data {\r\n    bytes32 title;\r\n    bool done;\r\n    uint[] documents;\r\n  }\r\n\r\n  struct Edge {\r\n    bytes32 from;\r\n    bytes32 to;\r\n  }\r\n\r\n  mapping (bytes32 => Data) public datas;\r\n\r\n  Edge[] public edges;\r\n\r\n  constructor() public {\r\n    _addData(\"root\");\r\n    datas[\"root\"].done = true;\r\n  }\r\n\r\n  function _addData(bytes32 _title) internal {\r\n    datas[_title] = Data(_title, false, new uint[](0));\r\n  }\r\n\r\n  function _addEdge(bytes32 from, bytes32 to) internal {\r\n    edges.push(Edge(from,to));\r\n  }\r\n\r\n}\r\n",
-  "sourcePath": "D:\\Data\\Projects\\bachelor-project\\bachelor\\BA-process42\\contracts\\Process.sol",
+  "bytecode": "0x6080604052348015600f57600080fd5b50604080517fc5602b6000000000000000000000000000000000000000000000000000000000815260006004820181905260248201819052915173__Graph_________________________________9263c5602b609260448082019391829003018186803b158015607f57600080fd5b505af41580156092573d6000803e3d6000fd5b5050505060358060a36000396000f3fe6080604052600080fdfea165627a7a72305820e43b5b4fca0a02d2c797c04b84a08bc96343b464bd660971fcee8ac808408ecd0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820e43b5b4fca0a02d2c797c04b84a08bc96343b464bd660971fcee8ac808408ecd0029",
+  "sourceMap": "62:606:3:-;;;141:54;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;168:22:3;;;;;;:5;:22;;;;;;;;;;;;;;:19;;;;:22;;;;;;;;;;;:19;:22;;;5:2:-1;;;;30:1;27;20:12;5:2;168:22:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;168:22:3;;;;62:606;;;;;;",
+  "deployedSourceMap": "62:606:3:-;;;;;",
+  "source": "pragma solidity ^0.5.0;\n\nimport {Graph } from \"./Graph.sol\";\n\ncontract Process {\n  using Graph for Graph.Digraph;\n\n  Graph.Digraph graph;\n\n  constructor() public {\n    graph.createDigraph(0);\n  }\n  /* struct Data {\n    bytes32 title;\n    bool done;\n    uint[] documents;\n  }\n\n  struct Edge {\n    bytes32 from;\n    bytes32 to;\n  }\n\n  mapping (bytes32 => Data) public datas;\n\n  Edge[] public edges;\n\n  constructor() public {\n    _addData(\"root\");\n    datas[\"root\"].done = true;\n  }\n\n  function _addData(bytes32 _title) {\n    datas[_title] = Data(_title, false, new uint[](0));\n  }\n\n  function _addEdge(bytes32 from, bytes32 to) {\n    edges.push(Edge(from,to));\n  } */\n\n}\n",
+  "sourcePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
   "ast": {
-    "absolutePath": "/D/Data/Projects/bachelor-project/bachelor/BA-process42/contracts/Process.sol",
+    "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
     "exportedSymbols": {
       "Process": [
-        210
+        201
       ]
     },
-    "id": 211,
+    "id": 202,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 137,
+        "id": 183,
         "literals": [
           "solidity",
           "^",
@@ -82,7 +33,23 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:2"
+        "src": "0:23:3"
+      },
+      {
+        "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Graph.sol",
+        "file": "./Graph.sol",
+        "id": 185,
+        "nodeType": "ImportDirective",
+        "scope": 202,
+        "sourceUnit": 119,
+        "src": "25:35:3",
+        "symbolAliases": [
+          {
+            "foreign": 184,
+            "local": null
+          }
+        ],
+        "unitAlias": ""
       },
       {
         "baseContracts": [],
@@ -90,265 +57,75 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 210,
+        "id": 201,
         "linearizedBaseContracts": [
-          210
+          201
         ],
         "name": "Process",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "canonicalName": "Process.Data",
-            "id": 145,
-            "members": [
-              {
-                "constant": false,
-                "id": 139,
-                "name": "title",
-                "nodeType": "VariableDeclaration",
-                "scope": 145,
-                "src": "68:13:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                },
-                "typeName": {
-                  "id": 138,
-                  "name": "bytes32",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "68:7:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 141,
-                "name": "done",
-                "nodeType": "VariableDeclaration",
-                "scope": 145,
-                "src": "88:9:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bool",
-                  "typeString": "bool"
-                },
-                "typeName": {
-                  "id": 140,
-                  "name": "bool",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "88:4:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 144,
-                "name": "documents",
-                "nodeType": "VariableDeclaration",
-                "scope": 145,
-                "src": "104:16:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                  "typeString": "uint256[]"
-                },
-                "typeName": {
-                  "baseType": {
-                    "id": 142,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "104:4:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "id": 143,
-                  "length": null,
-                  "nodeType": "ArrayTypeName",
-                  "src": "104:6:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                    "typeString": "uint256[]"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
+            "id": 188,
+            "libraryName": {
+              "contractScope": null,
+              "id": 186,
+              "name": "Graph",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 118,
+              "src": "89:5:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Graph_$118",
+                "typeString": "library Graph"
               }
-            ],
-            "name": "Data",
-            "nodeType": "StructDefinition",
-            "scope": 210,
-            "src": "49:77:2",
-            "visibility": "public"
-          },
-          {
-            "canonicalName": "Process.Edge",
-            "id": 150,
-            "members": [
-              {
-                "constant": false,
-                "id": 147,
-                "name": "from",
-                "nodeType": "VariableDeclaration",
-                "scope": 150,
-                "src": "151:12:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                },
-                "typeName": {
-                  "id": 146,
-                  "name": "bytes32",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "151:7:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 149,
-                "name": "to",
-                "nodeType": "VariableDeclaration",
-                "scope": 150,
-                "src": "170:10:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                },
-                "typeName": {
-                  "id": 148,
-                  "name": "bytes32",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "170:7:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
+            },
+            "nodeType": "UsingForDirective",
+            "src": "83:30:3",
+            "typeName": {
+              "contractScope": null,
+              "id": 187,
+              "name": "Graph.Digraph",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 11,
+              "src": "99:13:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeString": "struct Graph.Digraph"
               }
-            ],
-            "name": "Edge",
-            "nodeType": "StructDefinition",
-            "scope": 210,
-            "src": "132:54:2",
-            "visibility": "public"
+            }
           },
           {
             "constant": false,
-            "id": 154,
-            "name": "datas",
+            "id": 190,
+            "name": "graph",
             "nodeType": "VariableDeclaration",
-            "scope": 210,
-            "src": "192:38:2",
+            "scope": 201,
+            "src": "117:19:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-              "typeString": "mapping(bytes32 => struct Process.Data)"
+              "typeIdentifier": "t_struct$_Digraph_$11_storage",
+              "typeString": "struct Graph.Digraph"
             },
             "typeName": {
-              "id": 153,
-              "keyType": {
-                "id": 151,
-                "name": "bytes32",
-                "nodeType": "ElementaryTypeName",
-                "src": "201:7:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                }
-              },
-              "nodeType": "Mapping",
-              "src": "192:25:2",
+              "contractScope": null,
+              "id": 189,
+              "name": "Graph.Digraph",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 11,
+              "src": "117:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-                "typeString": "mapping(bytes32 => struct Process.Data)"
-              },
-              "valueType": {
-                "contractScope": null,
-                "id": 152,
-                "name": "Data",
-                "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 145,
-                "src": "212:4:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Data_$145_storage_ptr",
-                  "typeString": "struct Process.Data"
-                }
+                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeString": "struct Graph.Digraph"
               }
             },
             "value": null,
-            "visibility": "public"
-          },
-          {
-            "constant": false,
-            "id": 157,
-            "name": "edges",
-            "nodeType": "VariableDeclaration",
-            "scope": 210,
-            "src": "237:19:2",
-            "stateVariable": true,
-            "storageLocation": "default",
-            "typeDescriptions": {
-              "typeIdentifier": "t_array$_t_struct$_Edge_$150_storage_$dyn_storage",
-              "typeString": "struct Process.Edge[]"
-            },
-            "typeName": {
-              "baseType": {
-                "contractScope": null,
-                "id": 155,
-                "name": "Edge",
-                "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 150,
-                "src": "237:4:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Edge_$150_storage_ptr",
-                  "typeString": "struct Process.Edge"
-                }
-              },
-              "id": 156,
-              "length": null,
-              "nodeType": "ArrayTypeName",
-              "src": "237:6:2",
-              "typeDescriptions": {
-                "typeIdentifier": "t_array$_t_struct$_Edge_$150_storage_$dyn_storage_ptr",
-                "typeString": "struct Process.Edge[]"
-              }
-            },
-            "value": null,
-            "visibility": "public"
+            "visibility": "internal"
           },
           {
             "body": {
-              "id": 171,
+              "id": 199,
               "nodeType": "Block",
-              "src": "284:61:2",
+              "src": "162:33:3",
               "statements": [
                 {
                   "expression": {
@@ -356,42 +133,58 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "hexValue": "726f6f74",
-                        "id": 161,
+                        "hexValue": "30",
+                        "id": 196,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
-                        "kind": "string",
+                        "kind": "number",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "300:6:2",
+                        "src": "188:1:3",
                         "subdenomination": null,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
-                          "typeString": "literal_string \"root\""
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
                         },
-                        "value": "root"
+                        "value": "0"
                       }
                     ],
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
-                          "typeString": "literal_string \"root\""
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
                         }
                       ],
-                      "id": 160,
-                      "name": "_addData",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 192,
-                      "src": "291:8:2",
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 193,
+                        "name": "graph",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 190,
+                        "src": "168:5:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Digraph_$11_storage",
+                          "typeString": "struct Graph.Digraph storage ref"
+                        }
+                      },
+                      "id": 195,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "createDigraph",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 55,
+                      "src": "168:19:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
-                        "typeString": "function (bytes32)"
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$11_storage_ptr_$_t_uint256_$returns$__$bound_to$_t_struct$_Digraph_$11_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer,uint256)"
                       }
                     },
-                    "id": 162,
+                    "id": 197,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -399,640 +192,62 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "291:16:2",
+                    "src": "168:22:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 163,
+                  "id": 198,
                   "nodeType": "ExpressionStatement",
-                  "src": "291:16:2"
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 169,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "leftHandSide": {
-                      "argumentTypes": null,
-                      "expression": {
-                        "argumentTypes": null,
-                        "baseExpression": {
-                          "argumentTypes": null,
-                          "id": 164,
-                          "name": "datas",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 154,
-                          "src": "314:5:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-                            "typeString": "mapping(bytes32 => struct Process.Data storage ref)"
-                          }
-                        },
-                        "id": 166,
-                        "indexExpression": {
-                          "argumentTypes": null,
-                          "hexValue": "726f6f74",
-                          "id": 165,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "kind": "string",
-                          "lValueRequested": false,
-                          "nodeType": "Literal",
-                          "src": "320:6:2",
-                          "subdenomination": null,
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
-                            "typeString": "literal_string \"root\""
-                          },
-                          "value": "root"
-                        },
-                        "isConstant": false,
-                        "isLValue": true,
-                        "isPure": false,
-                        "lValueRequested": false,
-                        "nodeType": "IndexAccess",
-                        "src": "314:13:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Data_$145_storage",
-                          "typeString": "struct Process.Data storage ref"
-                        }
-                      },
-                      "id": 167,
-                      "isConstant": false,
-                      "isLValue": true,
-                      "isPure": false,
-                      "lValueRequested": true,
-                      "memberName": "done",
-                      "nodeType": "MemberAccess",
-                      "referencedDeclaration": 141,
-                      "src": "314:18:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_bool",
-                        "typeString": "bool"
-                      }
-                    },
-                    "nodeType": "Assignment",
-                    "operator": "=",
-                    "rightHandSide": {
-                      "argumentTypes": null,
-                      "hexValue": "74727565",
-                      "id": 168,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": true,
-                      "kind": "bool",
-                      "lValueRequested": false,
-                      "nodeType": "Literal",
-                      "src": "335:4:2",
-                      "subdenomination": null,
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_bool",
-                        "typeString": "bool"
-                      },
-                      "value": "true"
-                    },
-                    "src": "314:25:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "id": 170,
-                  "nodeType": "ExpressionStatement",
-                  "src": "314:25:2"
+                  "src": "168:22:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 172,
+            "id": 200,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 158,
+              "id": 191,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "274:2:2"
+              "src": "152:2:3"
             },
             "returnParameters": {
-              "id": 159,
+              "id": 192,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "284:0:2"
+              "src": "162:0:3"
             },
-            "scope": 210,
-            "src": "263:82:2",
+            "scope": 201,
+            "src": "141:54:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
-          },
-          {
-            "body": {
-              "id": 191,
-              "nodeType": "Block",
-              "src": "394:63:2",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 189,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "leftHandSide": {
-                      "argumentTypes": null,
-                      "baseExpression": {
-                        "argumentTypes": null,
-                        "id": 177,
-                        "name": "datas",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 154,
-                        "src": "401:5:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-                          "typeString": "mapping(bytes32 => struct Process.Data storage ref)"
-                        }
-                      },
-                      "id": 179,
-                      "indexExpression": {
-                        "argumentTypes": null,
-                        "id": 178,
-                        "name": "_title",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 174,
-                        "src": "407:6:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_bytes32",
-                          "typeString": "bytes32"
-                        }
-                      },
-                      "isConstant": false,
-                      "isLValue": true,
-                      "isPure": false,
-                      "lValueRequested": true,
-                      "nodeType": "IndexAccess",
-                      "src": "401:13:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Data_$145_storage",
-                        "typeString": "struct Process.Data storage ref"
-                      }
-                    },
-                    "nodeType": "Assignment",
-                    "operator": "=",
-                    "rightHandSide": {
-                      "argumentTypes": null,
-                      "arguments": [
-                        {
-                          "argumentTypes": null,
-                          "id": 181,
-                          "name": "_title",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 174,
-                          "src": "422:6:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_bytes32",
-                            "typeString": "bytes32"
-                          }
-                        },
-                        {
-                          "argumentTypes": null,
-                          "hexValue": "66616c7365",
-                          "id": 182,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "kind": "bool",
-                          "lValueRequested": false,
-                          "nodeType": "Literal",
-                          "src": "430:5:2",
-                          "subdenomination": null,
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_bool",
-                            "typeString": "bool"
-                          },
-                          "value": "false"
-                        },
-                        {
-                          "argumentTypes": null,
-                          "arguments": [
-                            {
-                              "argumentTypes": null,
-                              "hexValue": "30",
-                              "id": 186,
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": true,
-                              "kind": "number",
-                              "lValueRequested": false,
-                              "nodeType": "Literal",
-                              "src": "448:1:2",
-                              "subdenomination": null,
-                              "typeDescriptions": {
-                                "typeIdentifier": "t_rational_0_by_1",
-                                "typeString": "int_const 0"
-                              },
-                              "value": "0"
-                            }
-                          ],
-                          "expression": {
-                            "argumentTypes": [
-                              {
-                                "typeIdentifier": "t_rational_0_by_1",
-                                "typeString": "int_const 0"
-                              }
-                            ],
-                            "id": 185,
-                            "isConstant": false,
-                            "isLValue": false,
-                            "isPure": true,
-                            "lValueRequested": false,
-                            "nodeType": "NewExpression",
-                            "src": "437:10:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_uint256_$dyn_memory_$",
-                              "typeString": "function (uint256) pure returns (uint256[] memory)"
-                            },
-                            "typeName": {
-                              "baseType": {
-                                "id": 183,
-                                "name": "uint",
-                                "nodeType": "ElementaryTypeName",
-                                "src": "441:4:2",
-                                "typeDescriptions": {
-                                  "typeIdentifier": "t_uint256",
-                                  "typeString": "uint256"
-                                }
-                              },
-                              "id": 184,
-                              "length": null,
-                              "nodeType": "ArrayTypeName",
-                              "src": "441:6:2",
-                              "typeDescriptions": {
-                                "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                                "typeString": "uint256[]"
-                              }
-                            }
-                          },
-                          "id": 187,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "kind": "functionCall",
-                          "lValueRequested": false,
-                          "names": [],
-                          "nodeType": "FunctionCall",
-                          "src": "437:13:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_array$_t_uint256_$dyn_memory",
-                            "typeString": "uint256[] memory"
-                          }
-                        }
-                      ],
-                      "expression": {
-                        "argumentTypes": [
-                          {
-                            "typeIdentifier": "t_bytes32",
-                            "typeString": "bytes32"
-                          },
-                          {
-                            "typeIdentifier": "t_bool",
-                            "typeString": "bool"
-                          },
-                          {
-                            "typeIdentifier": "t_array$_t_uint256_$dyn_memory",
-                            "typeString": "uint256[] memory"
-                          }
-                        ],
-                        "id": 180,
-                        "name": "Data",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 145,
-                        "src": "417:4:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Data_$145_storage_ptr_$",
-                          "typeString": "type(struct Process.Data storage pointer)"
-                        }
-                      },
-                      "id": 188,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "kind": "structConstructorCall",
-                      "lValueRequested": false,
-                      "names": [],
-                      "nodeType": "FunctionCall",
-                      "src": "417:34:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Data_$145_memory",
-                        "typeString": "struct Process.Data memory"
-                      }
-                    },
-                    "src": "401:50:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Data_$145_storage",
-                      "typeString": "struct Process.Data storage ref"
-                    }
-                  },
-                  "id": 190,
-                  "nodeType": "ExpressionStatement",
-                  "src": "401:50:2"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 192,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "_addData",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 175,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 174,
-                  "name": "_title",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 192,
-                  "src": "369:14:2",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 173,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "369:7:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "368:16:2"
-            },
-            "returnParameters": {
-              "id": 176,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "394:0:2"
-            },
-            "scope": 210,
-            "src": "351:106:2",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "internal"
-          },
-          {
-            "body": {
-              "id": 208,
-              "nodeType": "Block",
-              "src": "516:38:2",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "arguments": [
-                      {
-                        "argumentTypes": null,
-                        "arguments": [
-                          {
-                            "argumentTypes": null,
-                            "id": 203,
-                            "name": "from",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 194,
-                            "src": "539:4:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            }
-                          },
-                          {
-                            "argumentTypes": null,
-                            "id": 204,
-                            "name": "to",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 196,
-                            "src": "544:2:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            }
-                          }
-                        ],
-                        "expression": {
-                          "argumentTypes": [
-                            {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            },
-                            {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            }
-                          ],
-                          "id": 202,
-                          "name": "Edge",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 150,
-                          "src": "534:4:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_struct$_Edge_$150_storage_ptr_$",
-                            "typeString": "type(struct Process.Edge storage pointer)"
-                          }
-                        },
-                        "id": 205,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "kind": "structConstructorCall",
-                        "lValueRequested": false,
-                        "names": [],
-                        "nodeType": "FunctionCall",
-                        "src": "534:13:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Edge_$150_memory",
-                          "typeString": "struct Process.Edge memory"
-                        }
-                      }
-                    ],
-                    "expression": {
-                      "argumentTypes": [
-                        {
-                          "typeIdentifier": "t_struct$_Edge_$150_memory",
-                          "typeString": "struct Process.Edge memory"
-                        }
-                      ],
-                      "expression": {
-                        "argumentTypes": null,
-                        "id": 199,
-                        "name": "edges",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 157,
-                        "src": "523:5:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_Edge_$150_storage_$dyn_storage",
-                          "typeString": "struct Process.Edge storage ref[] storage ref"
-                        }
-                      },
-                      "id": 201,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "memberName": "push",
-                      "nodeType": "MemberAccess",
-                      "referencedDeclaration": null,
-                      "src": "523:10:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Edge_$150_storage_$returns$_t_uint256_$",
-                        "typeString": "function (struct Process.Edge storage ref) returns (uint256)"
-                      }
-                    },
-                    "id": 206,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "kind": "functionCall",
-                    "lValueRequested": false,
-                    "names": [],
-                    "nodeType": "FunctionCall",
-                    "src": "523:25:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "id": 207,
-                  "nodeType": "ExpressionStatement",
-                  "src": "523:25:2"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 209,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "_addEdge",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 197,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 194,
-                  "name": "from",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 209,
-                  "src": "481:12:2",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 193,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "481:7:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 196,
-                  "name": "to",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 209,
-                  "src": "495:10:2",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 195,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "495:7:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "480:26:2"
-            },
-            "returnParameters": {
-              "id": 198,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "516:0:2"
-            },
-            "scope": 210,
-            "src": "463:91:2",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "internal"
           }
         ],
-        "scope": 211,
-        "src": "27:532:2"
+        "scope": 202,
+        "src": "62:606:3"
       }
     ],
-    "src": "0:561:2"
+    "src": "0:669:3"
   },
   "legacyAST": {
-    "absolutePath": "/D/Data/Projects/bachelor-project/bachelor/BA-process42/contracts/Process.sol",
+    "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
     "exportedSymbols": {
       "Process": [
-        210
+        201
       ]
     },
-    "id": 211,
+    "id": 202,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 137,
+        "id": 183,
         "literals": [
           "solidity",
           "^",
@@ -1040,7 +255,23 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:2"
+        "src": "0:23:3"
+      },
+      {
+        "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Graph.sol",
+        "file": "./Graph.sol",
+        "id": 185,
+        "nodeType": "ImportDirective",
+        "scope": 202,
+        "sourceUnit": 119,
+        "src": "25:35:3",
+        "symbolAliases": [
+          {
+            "foreign": 184,
+            "local": null
+          }
+        ],
+        "unitAlias": ""
       },
       {
         "baseContracts": [],
@@ -1048,265 +279,75 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 210,
+        "id": 201,
         "linearizedBaseContracts": [
-          210
+          201
         ],
         "name": "Process",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "canonicalName": "Process.Data",
-            "id": 145,
-            "members": [
-              {
-                "constant": false,
-                "id": 139,
-                "name": "title",
-                "nodeType": "VariableDeclaration",
-                "scope": 145,
-                "src": "68:13:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                },
-                "typeName": {
-                  "id": 138,
-                  "name": "bytes32",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "68:7:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 141,
-                "name": "done",
-                "nodeType": "VariableDeclaration",
-                "scope": 145,
-                "src": "88:9:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bool",
-                  "typeString": "bool"
-                },
-                "typeName": {
-                  "id": 140,
-                  "name": "bool",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "88:4:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 144,
-                "name": "documents",
-                "nodeType": "VariableDeclaration",
-                "scope": 145,
-                "src": "104:16:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                  "typeString": "uint256[]"
-                },
-                "typeName": {
-                  "baseType": {
-                    "id": 142,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "104:4:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "id": 143,
-                  "length": null,
-                  "nodeType": "ArrayTypeName",
-                  "src": "104:6:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                    "typeString": "uint256[]"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
+            "id": 188,
+            "libraryName": {
+              "contractScope": null,
+              "id": 186,
+              "name": "Graph",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 118,
+              "src": "89:5:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Graph_$118",
+                "typeString": "library Graph"
               }
-            ],
-            "name": "Data",
-            "nodeType": "StructDefinition",
-            "scope": 210,
-            "src": "49:77:2",
-            "visibility": "public"
-          },
-          {
-            "canonicalName": "Process.Edge",
-            "id": 150,
-            "members": [
-              {
-                "constant": false,
-                "id": 147,
-                "name": "from",
-                "nodeType": "VariableDeclaration",
-                "scope": 150,
-                "src": "151:12:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                },
-                "typeName": {
-                  "id": 146,
-                  "name": "bytes32",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "151:7:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 149,
-                "name": "to",
-                "nodeType": "VariableDeclaration",
-                "scope": 150,
-                "src": "170:10:2",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                },
-                "typeName": {
-                  "id": 148,
-                  "name": "bytes32",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "170:7:2",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
+            },
+            "nodeType": "UsingForDirective",
+            "src": "83:30:3",
+            "typeName": {
+              "contractScope": null,
+              "id": 187,
+              "name": "Graph.Digraph",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 11,
+              "src": "99:13:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeString": "struct Graph.Digraph"
               }
-            ],
-            "name": "Edge",
-            "nodeType": "StructDefinition",
-            "scope": 210,
-            "src": "132:54:2",
-            "visibility": "public"
+            }
           },
           {
             "constant": false,
-            "id": 154,
-            "name": "datas",
+            "id": 190,
+            "name": "graph",
             "nodeType": "VariableDeclaration",
-            "scope": 210,
-            "src": "192:38:2",
+            "scope": 201,
+            "src": "117:19:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-              "typeString": "mapping(bytes32 => struct Process.Data)"
+              "typeIdentifier": "t_struct$_Digraph_$11_storage",
+              "typeString": "struct Graph.Digraph"
             },
             "typeName": {
-              "id": 153,
-              "keyType": {
-                "id": 151,
-                "name": "bytes32",
-                "nodeType": "ElementaryTypeName",
-                "src": "201:7:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes32",
-                  "typeString": "bytes32"
-                }
-              },
-              "nodeType": "Mapping",
-              "src": "192:25:2",
+              "contractScope": null,
+              "id": 189,
+              "name": "Graph.Digraph",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 11,
+              "src": "117:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-                "typeString": "mapping(bytes32 => struct Process.Data)"
-              },
-              "valueType": {
-                "contractScope": null,
-                "id": 152,
-                "name": "Data",
-                "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 145,
-                "src": "212:4:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Data_$145_storage_ptr",
-                  "typeString": "struct Process.Data"
-                }
+                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeString": "struct Graph.Digraph"
               }
             },
             "value": null,
-            "visibility": "public"
-          },
-          {
-            "constant": false,
-            "id": 157,
-            "name": "edges",
-            "nodeType": "VariableDeclaration",
-            "scope": 210,
-            "src": "237:19:2",
-            "stateVariable": true,
-            "storageLocation": "default",
-            "typeDescriptions": {
-              "typeIdentifier": "t_array$_t_struct$_Edge_$150_storage_$dyn_storage",
-              "typeString": "struct Process.Edge[]"
-            },
-            "typeName": {
-              "baseType": {
-                "contractScope": null,
-                "id": 155,
-                "name": "Edge",
-                "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 150,
-                "src": "237:4:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Edge_$150_storage_ptr",
-                  "typeString": "struct Process.Edge"
-                }
-              },
-              "id": 156,
-              "length": null,
-              "nodeType": "ArrayTypeName",
-              "src": "237:6:2",
-              "typeDescriptions": {
-                "typeIdentifier": "t_array$_t_struct$_Edge_$150_storage_$dyn_storage_ptr",
-                "typeString": "struct Process.Edge[]"
-              }
-            },
-            "value": null,
-            "visibility": "public"
+            "visibility": "internal"
           },
           {
             "body": {
-              "id": 171,
+              "id": 199,
               "nodeType": "Block",
-              "src": "284:61:2",
+              "src": "162:33:3",
               "statements": [
                 {
                   "expression": {
@@ -1314,42 +355,58 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "hexValue": "726f6f74",
-                        "id": 161,
+                        "hexValue": "30",
+                        "id": 196,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
-                        "kind": "string",
+                        "kind": "number",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "300:6:2",
+                        "src": "188:1:3",
                         "subdenomination": null,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
-                          "typeString": "literal_string \"root\""
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
                         },
-                        "value": "root"
+                        "value": "0"
                       }
                     ],
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
-                          "typeString": "literal_string \"root\""
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
                         }
                       ],
-                      "id": 160,
-                      "name": "_addData",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 192,
-                      "src": "291:8:2",
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 193,
+                        "name": "graph",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 190,
+                        "src": "168:5:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Digraph_$11_storage",
+                          "typeString": "struct Graph.Digraph storage ref"
+                        }
+                      },
+                      "id": 195,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "createDigraph",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 55,
+                      "src": "168:19:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
-                        "typeString": "function (bytes32)"
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$11_storage_ptr_$_t_uint256_$returns$__$bound_to$_t_struct$_Digraph_$11_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer,uint256)"
                       }
                     },
-                    "id": 162,
+                    "id": 197,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1357,627 +414,49 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "291:16:2",
+                    "src": "168:22:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 163,
+                  "id": 198,
                   "nodeType": "ExpressionStatement",
-                  "src": "291:16:2"
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 169,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "leftHandSide": {
-                      "argumentTypes": null,
-                      "expression": {
-                        "argumentTypes": null,
-                        "baseExpression": {
-                          "argumentTypes": null,
-                          "id": 164,
-                          "name": "datas",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 154,
-                          "src": "314:5:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-                            "typeString": "mapping(bytes32 => struct Process.Data storage ref)"
-                          }
-                        },
-                        "id": 166,
-                        "indexExpression": {
-                          "argumentTypes": null,
-                          "hexValue": "726f6f74",
-                          "id": 165,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "kind": "string",
-                          "lValueRequested": false,
-                          "nodeType": "Literal",
-                          "src": "320:6:2",
-                          "subdenomination": null,
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
-                            "typeString": "literal_string \"root\""
-                          },
-                          "value": "root"
-                        },
-                        "isConstant": false,
-                        "isLValue": true,
-                        "isPure": false,
-                        "lValueRequested": false,
-                        "nodeType": "IndexAccess",
-                        "src": "314:13:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Data_$145_storage",
-                          "typeString": "struct Process.Data storage ref"
-                        }
-                      },
-                      "id": 167,
-                      "isConstant": false,
-                      "isLValue": true,
-                      "isPure": false,
-                      "lValueRequested": true,
-                      "memberName": "done",
-                      "nodeType": "MemberAccess",
-                      "referencedDeclaration": 141,
-                      "src": "314:18:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_bool",
-                        "typeString": "bool"
-                      }
-                    },
-                    "nodeType": "Assignment",
-                    "operator": "=",
-                    "rightHandSide": {
-                      "argumentTypes": null,
-                      "hexValue": "74727565",
-                      "id": 168,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": true,
-                      "kind": "bool",
-                      "lValueRequested": false,
-                      "nodeType": "Literal",
-                      "src": "335:4:2",
-                      "subdenomination": null,
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_bool",
-                        "typeString": "bool"
-                      },
-                      "value": "true"
-                    },
-                    "src": "314:25:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "id": 170,
-                  "nodeType": "ExpressionStatement",
-                  "src": "314:25:2"
+                  "src": "168:22:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 172,
+            "id": 200,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 158,
+              "id": 191,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "274:2:2"
+              "src": "152:2:3"
             },
             "returnParameters": {
-              "id": 159,
+              "id": 192,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "284:0:2"
+              "src": "162:0:3"
             },
-            "scope": 210,
-            "src": "263:82:2",
+            "scope": 201,
+            "src": "141:54:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
-          },
-          {
-            "body": {
-              "id": 191,
-              "nodeType": "Block",
-              "src": "394:63:2",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 189,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "leftHandSide": {
-                      "argumentTypes": null,
-                      "baseExpression": {
-                        "argumentTypes": null,
-                        "id": 177,
-                        "name": "datas",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 154,
-                        "src": "401:5:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Data_$145_storage_$",
-                          "typeString": "mapping(bytes32 => struct Process.Data storage ref)"
-                        }
-                      },
-                      "id": 179,
-                      "indexExpression": {
-                        "argumentTypes": null,
-                        "id": 178,
-                        "name": "_title",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 174,
-                        "src": "407:6:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_bytes32",
-                          "typeString": "bytes32"
-                        }
-                      },
-                      "isConstant": false,
-                      "isLValue": true,
-                      "isPure": false,
-                      "lValueRequested": true,
-                      "nodeType": "IndexAccess",
-                      "src": "401:13:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Data_$145_storage",
-                        "typeString": "struct Process.Data storage ref"
-                      }
-                    },
-                    "nodeType": "Assignment",
-                    "operator": "=",
-                    "rightHandSide": {
-                      "argumentTypes": null,
-                      "arguments": [
-                        {
-                          "argumentTypes": null,
-                          "id": 181,
-                          "name": "_title",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 174,
-                          "src": "422:6:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_bytes32",
-                            "typeString": "bytes32"
-                          }
-                        },
-                        {
-                          "argumentTypes": null,
-                          "hexValue": "66616c7365",
-                          "id": 182,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "kind": "bool",
-                          "lValueRequested": false,
-                          "nodeType": "Literal",
-                          "src": "430:5:2",
-                          "subdenomination": null,
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_bool",
-                            "typeString": "bool"
-                          },
-                          "value": "false"
-                        },
-                        {
-                          "argumentTypes": null,
-                          "arguments": [
-                            {
-                              "argumentTypes": null,
-                              "hexValue": "30",
-                              "id": 186,
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": true,
-                              "kind": "number",
-                              "lValueRequested": false,
-                              "nodeType": "Literal",
-                              "src": "448:1:2",
-                              "subdenomination": null,
-                              "typeDescriptions": {
-                                "typeIdentifier": "t_rational_0_by_1",
-                                "typeString": "int_const 0"
-                              },
-                              "value": "0"
-                            }
-                          ],
-                          "expression": {
-                            "argumentTypes": [
-                              {
-                                "typeIdentifier": "t_rational_0_by_1",
-                                "typeString": "int_const 0"
-                              }
-                            ],
-                            "id": 185,
-                            "isConstant": false,
-                            "isLValue": false,
-                            "isPure": true,
-                            "lValueRequested": false,
-                            "nodeType": "NewExpression",
-                            "src": "437:10:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_uint256_$dyn_memory_$",
-                              "typeString": "function (uint256) pure returns (uint256[] memory)"
-                            },
-                            "typeName": {
-                              "baseType": {
-                                "id": 183,
-                                "name": "uint",
-                                "nodeType": "ElementaryTypeName",
-                                "src": "441:4:2",
-                                "typeDescriptions": {
-                                  "typeIdentifier": "t_uint256",
-                                  "typeString": "uint256"
-                                }
-                              },
-                              "id": 184,
-                              "length": null,
-                              "nodeType": "ArrayTypeName",
-                              "src": "441:6:2",
-                              "typeDescriptions": {
-                                "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                                "typeString": "uint256[]"
-                              }
-                            }
-                          },
-                          "id": 187,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "kind": "functionCall",
-                          "lValueRequested": false,
-                          "names": [],
-                          "nodeType": "FunctionCall",
-                          "src": "437:13:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_array$_t_uint256_$dyn_memory",
-                            "typeString": "uint256[] memory"
-                          }
-                        }
-                      ],
-                      "expression": {
-                        "argumentTypes": [
-                          {
-                            "typeIdentifier": "t_bytes32",
-                            "typeString": "bytes32"
-                          },
-                          {
-                            "typeIdentifier": "t_bool",
-                            "typeString": "bool"
-                          },
-                          {
-                            "typeIdentifier": "t_array$_t_uint256_$dyn_memory",
-                            "typeString": "uint256[] memory"
-                          }
-                        ],
-                        "id": 180,
-                        "name": "Data",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 145,
-                        "src": "417:4:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Data_$145_storage_ptr_$",
-                          "typeString": "type(struct Process.Data storage pointer)"
-                        }
-                      },
-                      "id": 188,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "kind": "structConstructorCall",
-                      "lValueRequested": false,
-                      "names": [],
-                      "nodeType": "FunctionCall",
-                      "src": "417:34:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Data_$145_memory",
-                        "typeString": "struct Process.Data memory"
-                      }
-                    },
-                    "src": "401:50:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Data_$145_storage",
-                      "typeString": "struct Process.Data storage ref"
-                    }
-                  },
-                  "id": 190,
-                  "nodeType": "ExpressionStatement",
-                  "src": "401:50:2"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 192,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "_addData",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 175,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 174,
-                  "name": "_title",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 192,
-                  "src": "369:14:2",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 173,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "369:7:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "368:16:2"
-            },
-            "returnParameters": {
-              "id": 176,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "394:0:2"
-            },
-            "scope": 210,
-            "src": "351:106:2",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "internal"
-          },
-          {
-            "body": {
-              "id": 208,
-              "nodeType": "Block",
-              "src": "516:38:2",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "arguments": [
-                      {
-                        "argumentTypes": null,
-                        "arguments": [
-                          {
-                            "argumentTypes": null,
-                            "id": 203,
-                            "name": "from",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 194,
-                            "src": "539:4:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            }
-                          },
-                          {
-                            "argumentTypes": null,
-                            "id": 204,
-                            "name": "to",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 196,
-                            "src": "544:2:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            }
-                          }
-                        ],
-                        "expression": {
-                          "argumentTypes": [
-                            {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            },
-                            {
-                              "typeIdentifier": "t_bytes32",
-                              "typeString": "bytes32"
-                            }
-                          ],
-                          "id": 202,
-                          "name": "Edge",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 150,
-                          "src": "534:4:2",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_struct$_Edge_$150_storage_ptr_$",
-                            "typeString": "type(struct Process.Edge storage pointer)"
-                          }
-                        },
-                        "id": 205,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "kind": "structConstructorCall",
-                        "lValueRequested": false,
-                        "names": [],
-                        "nodeType": "FunctionCall",
-                        "src": "534:13:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Edge_$150_memory",
-                          "typeString": "struct Process.Edge memory"
-                        }
-                      }
-                    ],
-                    "expression": {
-                      "argumentTypes": [
-                        {
-                          "typeIdentifier": "t_struct$_Edge_$150_memory",
-                          "typeString": "struct Process.Edge memory"
-                        }
-                      ],
-                      "expression": {
-                        "argumentTypes": null,
-                        "id": 199,
-                        "name": "edges",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 157,
-                        "src": "523:5:2",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_struct$_Edge_$150_storage_$dyn_storage",
-                          "typeString": "struct Process.Edge storage ref[] storage ref"
-                        }
-                      },
-                      "id": 201,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "memberName": "push",
-                      "nodeType": "MemberAccess",
-                      "referencedDeclaration": null,
-                      "src": "523:10:2",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Edge_$150_storage_$returns$_t_uint256_$",
-                        "typeString": "function (struct Process.Edge storage ref) returns (uint256)"
-                      }
-                    },
-                    "id": 206,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "kind": "functionCall",
-                    "lValueRequested": false,
-                    "names": [],
-                    "nodeType": "FunctionCall",
-                    "src": "523:25:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "id": 207,
-                  "nodeType": "ExpressionStatement",
-                  "src": "523:25:2"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 209,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "_addEdge",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 197,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 194,
-                  "name": "from",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 209,
-                  "src": "481:12:2",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 193,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "481:7:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 196,
-                  "name": "to",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 209,
-                  "src": "495:10:2",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 195,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "495:7:2",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "480:26:2"
-            },
-            "returnParameters": {
-              "id": 198,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "516:0:2"
-            },
-            "scope": 210,
-            "src": "463:91:2",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "internal"
           }
         ],
-        "scope": 211,
-        "src": "27:532:2"
+        "scope": 202,
+        "src": "62:606:3"
       }
     ],
-    "src": "0:561:2"
+    "src": "0:669:3"
   },
   "compiler": {
     "name": "solc",
@@ -1992,7 +471,7 @@
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-02-24T15:28:49.957Z",
+  "updatedAt": "2019-02-27T10:06:20.332Z",
   "devdoc": {
     "methods": {}
   },

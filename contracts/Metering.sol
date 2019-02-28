@@ -4,7 +4,7 @@ import './Process.sol';
 
 contract Metering is Process {
 
-  constructor() public {
+  /* constructor() public {
     _addData("Arbejdstider");
     _addData("Familieforhold");
     _addData("Arbejdsfleksibilitet");
@@ -23,7 +23,7 @@ contract Metering is Process {
     _addEdge("Arbejdsfleksibilitet","Vurdering af timer");
     _addEdge("Arbejdsfleksibilitet","Vurdering af af sparede udgifter");
 
-  }
+  } */
 
 
   /* function possibleActions() returns (Data[] storage) {
