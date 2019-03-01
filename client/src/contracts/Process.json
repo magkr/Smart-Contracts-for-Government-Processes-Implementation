@@ -6,26 +6,40 @@
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "test",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50604080517fc5602b6000000000000000000000000000000000000000000000000000000000815260006004820181905260248201819052915173__Graph_________________________________9263c5602b609260448082019391829003018186803b158015607f57600080fd5b505af41580156092573d6000803e3d6000fd5b5050505060358060a36000396000f3fe6080604052600080fdfea165627a7a72305820e43b5b4fca0a02d2c797c04b84a08bc96343b464bd660971fcee8ac808408ecd0029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820e43b5b4fca0a02d2c797c04b84a08bc96343b464bd660971fcee8ac808408ecd0029",
-  "sourceMap": "62:606:3:-;;;141:54;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;168:22:3;;;;;;:5;:22;;;;;;;;;;;;;;:19;;;;:22;;;;;;;;;;;:19;:22;;;5:2:-1;;;;30:1;27;20:12;5:2;168:22:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;168:22:3;;;;62:606;;;;;;",
-  "deployedSourceMap": "62:606:3:-;;;;;",
-  "source": "pragma solidity ^0.5.0;\n\nimport {Graph } from \"./Graph.sol\";\n\ncontract Process {\n  using Graph for Graph.Digraph;\n\n  Graph.Digraph graph;\n\n  constructor() public {\n    graph.createDigraph(0);\n  }\n  /* struct Data {\n    bytes32 title;\n    bool done;\n    uint[] documents;\n  }\n\n  struct Edge {\n    bytes32 from;\n    bytes32 to;\n  }\n\n  mapping (bytes32 => Data) public datas;\n\n  Edge[] public edges;\n\n  constructor() public {\n    _addData(\"root\");\n    datas[\"root\"].done = true;\n  }\n\n  function _addData(bytes32 _title) {\n    datas[_title] = Data(_title, false, new uint[](0));\n  }\n\n  function _addEdge(bytes32 from, bytes32 to) {\n    edges.push(Edge(from,to));\n  } */\n\n}\n",
+  "bytecode": "0x608060405234801561001057600080fd5b50604080517fb68529c5000000000000000000000000000000000000000000000000000000008152600060048201819052915173__Graph_________________________________9263b68529c59260248082019391829003018186803b15801561007a57600080fd5b505af415801561008e573d6000803e3d6000fd5b5050604080517f9c639b4b0000000000000000000000000000000000000000000000000000000081526000600482018190527f66697273740000000000000000000000000000000000000000000000000000006024830152915173__Graph_________________________________9450639c639b4b935060448083019392829003018186803b15801561012157600080fd5b505af4158015610135573d6000803e3d6000fd5b5050604080517febf856850000000000000000000000000000000000000000000000000000000081526000600482018190527f726f6f740000000000000000000000000000000000000000000000000000000060248301527f66697273740000000000000000000000000000000000000000000000000000006044830152915173__Graph_________________________________945063ebf85685935060648083019392829003018186803b1580156101ee57600080fd5b505af4158015610202573d6000803e3d6000fd5b505050506101eb806102156000396000f3fe6080604052600436106100405763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663f8a8fd6d8114610045575b600080fd5b34801561005157600080fd5b5061005a6100aa565b60408051602080825283518183015283519192839290830191858101910280838360005b8381101561009657818101518382015260200161007e565b505050509050019250505060405180910390f35b60028054606091829160009081106100be57fe5b906000526020600020906004020160010180548060200260200160405190810160405280929190818152602001828054801561011957602002820191906000526020600020905b815481526020019060010190808311610105575b50505050509050600081519050606081604051908082528060200260200182016040528015610152578160200160208202803883390190505b50905060005b828110156101b757835160029085908390811061017157fe5b602090810290910101518154811061018557fe5b90600052602060002090600402016000015482828151811015156101a557fe5b60209081029091010152600101610158565b50925050509056fea165627a7a72305820b3d8588f2c1bc95b45cf33bd0cc2e53e43095006c50b9dca9ec70343e4977ebb0029",
+  "deployedBytecode": "0x6080604052600436106100405763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663f8a8fd6d8114610045575b600080fd5b34801561005157600080fd5b5061005a6100aa565b60408051602080825283518183015283519192839290830191858101910280838360005b8381101561009657818101518382015260200161007e565b505050509050019250505060405180910390f35b60028054606091829160009081106100be57fe5b906000526020600020906004020160010180548060200260200160405190810160405280929190818152602001828054801561011957602002820191906000526020600020905b815481526020019060010190808311610105575b50505050509050600081519050606081604051908082528060200260200182016040528015610152578160200160208202803883390190505b50905060005b828110156101b757835160029085908390811061017157fe5b602090810290910101518154811061018557fe5b90600052602060002090600402016000015482828151811015156101a557fe5b60209081029091010152600101610158565b50925050509056fea165627a7a72305820b3d8588f2c1bc95b45cf33bd0cc2e53e43095006c50b9dca9ec70343e4977ebb0029",
+  "sourceMap": "61:979:3:-;;;163:110;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;190:12:3;;;;;;:5;:12;;;;;;;;:10;;;;:12;;;;;;;;;;;:10;:12;;;5:2:-1;;;;30:1;27;20:12;5:2;190:12:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;;208:24:3;;;;;;:5;:24;;;;;;;;;;;;;:15;;-1:-1:-1;208:15:3;;-1:-1:-1;208:24:3;;;;;:5;:24;;;;;:15;:24;;;5:2:-1;;;;30:1;27;20:12;5:2;208:24:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;;238:30:3;;;;;;:5;:30;;;;;;;;;;;;;;;;;;:13;;-1:-1:-1;238:13:3;;-1:-1:-1;238:30:3;;;;;:5;:30;;;;;:13;:30;;;5:2:-1;;;;30:1;27;20:12;5:2;238:30:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;238:30:3;;;;61:979;;;;;;",
+  "deployedSourceMap": "61:979:3:-;;;;;;;;;;;;;;;;;;;;;;;277:290;;8:9:-1;5:2;;;30:1;27;20:12;5:2;277:290:3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;277:290:3;;;;;;;;;;;;;;;;;;358:12;:15;;314:16;;;;358:5;;:15;;;;;;;;;;;;;;;;:19;;338:39;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;383:11;397:3;:10;383:24;;413:20;450:6;436:21;;;;;;;;;;;;;;;;;;;;;;29:2:-1;21:6;17:15;117:4;105:10;97:6;88:34;136:17;;-1:-1;436:21:3;-1:-1:-1;413:44:3;-1:-1:-1;468:6:3;463:84;484:6;480:1;:10;463:84;;;527:6;;514:12;;527:3;;531:1;;527:6;;;;;;;;;;;;;;;514:20;;;;;;;;;;;;;;;;;;:26;;;505:3;509:1;505:6;;;;;;;;;;;;;;;;;;:35;492:3;;463:84;;;-1:-1:-1;559:3:3;-1:-1:-1;;;277:290:3;:::o",
+  "source": "pragma solidity ^0.5.0;\n\nimport {Graph} from \"./Graph.sol\";\n\ncontract Process {\n  using Graph for Graph.Digraph;\n\n  Graph.Digraph graph;\n  Graph.Vertex vertex;\n\n  constructor() public {\n    graph.init();\n    graph.addVertex(\"first\");\n    graph.addEdge(\"root\", \"first\");\n  }\n\n  function test() public view returns (bytes32[] memory) {\n    uint[] memory adj = graph.vertxs[0].adj;\n    uint length = adj.length;\n    bytes32[] memory res = new bytes32[](length);\n    for (uint i = 0; i < length; i++) {\n      res[i] = graph.vertxs[adj[i]].title;\n    }\n    return res;\n  }\n  /* struct Data {\n    bytes32 title;\n    bool done;\n    uint[] documents;\n  }\n\n  struct Edge {\n    bytes32 from;\n    bytes32 to;\n  }\n\n  mapping (bytes32 => Data) public datas;\n\n  Edge[] public edges;\n\n  constructor() public {\n    _addData(\"root\");\n    datas[\"root\"].done = true;\n  }\n\n  function _addData(bytes32 _title) {\n    datas[_title] = Data(_title, false, new uint[](0));\n  }\n\n  function _addEdge(bytes32 from, bytes32 to) {\n    edges.push(Edge(from,to));\n  } */\n\n}\n",
   "sourcePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
   "ast": {
     "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
     "exportedSymbols": {
       "Process": [
-        201
+        385
       ]
     },
-    "id": 202,
+    "id": 386,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 183,
+        "id": 295,
         "literals": [
           "solidity",
           "^",
@@ -38,14 +52,14 @@
       {
         "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Graph.sol",
         "file": "./Graph.sol",
-        "id": 185,
+        "id": 297,
         "nodeType": "ImportDirective",
-        "scope": 202,
-        "sourceUnit": 119,
-        "src": "25:35:3",
+        "scope": 386,
+        "sourceUnit": 231,
+        "src": "25:34:3",
         "symbolAliases": [
           {
-            "foreign": 184,
+            "foreign": 296,
             "local": null
           }
         ],
@@ -57,64 +71,64 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 201,
+        "id": 385,
         "linearizedBaseContracts": [
-          201
+          385
         ],
         "name": "Process",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 188,
+            "id": 300,
             "libraryName": {
               "contractScope": null,
-              "id": 186,
+              "id": 298,
               "name": "Graph",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 118,
-              "src": "89:5:3",
+              "referencedDeclaration": 230,
+              "src": "88:5:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Graph_$118",
+                "typeIdentifier": "t_contract$_Graph_$230",
                 "typeString": "library Graph"
               }
             },
             "nodeType": "UsingForDirective",
-            "src": "83:30:3",
+            "src": "82:30:3",
             "typeName": {
               "contractScope": null,
-              "id": 187,
+              "id": 299,
               "name": "Graph.Digraph",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11,
-              "src": "99:13:3",
+              "referencedDeclaration": 13,
+              "src": "98:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeIdentifier": "t_struct$_Digraph_$13_storage_ptr",
                 "typeString": "struct Graph.Digraph"
               }
             }
           },
           {
             "constant": false,
-            "id": 190,
+            "id": 302,
             "name": "graph",
             "nodeType": "VariableDeclaration",
-            "scope": 201,
-            "src": "117:19:3",
+            "scope": 385,
+            "src": "116:19:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_struct$_Digraph_$11_storage",
+              "typeIdentifier": "t_struct$_Digraph_$13_storage",
               "typeString": "struct Graph.Digraph"
             },
             "typeName": {
               "contractScope": null,
-              "id": 189,
+              "id": 301,
               "name": "Graph.Digraph",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11,
-              "src": "117:13:3",
+              "referencedDeclaration": 13,
+              "src": "116:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeIdentifier": "t_struct$_Digraph_$13_storage_ptr",
                 "typeString": "struct Graph.Digraph"
               }
             },
@@ -122,69 +136,73 @@
             "visibility": "internal"
           },
           {
+            "constant": false,
+            "id": 304,
+            "name": "vertex",
+            "nodeType": "VariableDeclaration",
+            "scope": 385,
+            "src": "139:19:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_struct$_Vertex_$25_storage",
+              "typeString": "struct Graph.Vertex"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 303,
+              "name": "Graph.Vertex",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 25,
+              "src": "139:12:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_Vertex_$25_storage_ptr",
+                "typeString": "struct Graph.Vertex"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
             "body": {
-              "id": 199,
+              "id": 325,
               "nodeType": "Block",
-              "src": "162:33:3",
+              "src": "184:89:3",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "arguments": [
-                      {
-                        "argumentTypes": null,
-                        "hexValue": "30",
-                        "id": 196,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": true,
-                        "kind": "number",
-                        "lValueRequested": false,
-                        "nodeType": "Literal",
-                        "src": "188:1:3",
-                        "subdenomination": null,
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_rational_0_by_1",
-                          "typeString": "int_const 0"
-                        },
-                        "value": "0"
-                      }
-                    ],
+                    "arguments": [],
                     "expression": {
-                      "argumentTypes": [
-                        {
-                          "typeIdentifier": "t_rational_0_by_1",
-                          "typeString": "int_const 0"
-                        }
-                      ],
+                      "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 193,
+                        "id": 307,
                         "name": "graph",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 190,
-                        "src": "168:5:3",
+                        "referencedDeclaration": 302,
+                        "src": "190:5:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Digraph_$11_storage",
+                          "typeIdentifier": "t_struct$_Digraph_$13_storage",
                           "typeString": "struct Graph.Digraph storage ref"
                         }
                       },
-                      "id": 195,
+                      "id": 309,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberName": "createDigraph",
+                      "memberName": "init",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 55,
-                      "src": "168:19:3",
+                      "referencedDeclaration": 59,
+                      "src": "190:10:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$11_storage_ptr_$_t_uint256_$returns$__$bound_to$_t_struct$_Digraph_$11_storage_ptr_$",
-                        "typeString": "function (struct Graph.Digraph storage pointer,uint256)"
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$13_storage_ptr_$returns$__$bound_to$_t_struct$_Digraph_$13_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer)"
                       }
                     },
-                    "id": 197,
+                    "id": 310,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -192,62 +210,931 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "168:22:3",
+                    "src": "190:12:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 198,
+                  "id": 311,
                   "nodeType": "ExpressionStatement",
-                  "src": "168:22:3"
+                  "src": "190:12:3"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "6669727374",
+                        "id": 315,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "224:7:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        },
+                        "value": "first"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 312,
+                        "name": "graph",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 302,
+                        "src": "208:5:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                          "typeString": "struct Graph.Digraph storage ref"
+                        }
+                      },
+                      "id": 314,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "addVertex",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 97,
+                      "src": "208:15:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$13_storage_ptr_$_t_bytes32_$returns$__$bound_to$_t_struct$_Digraph_$13_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer,bytes32)"
+                      }
+                    },
+                    "id": 316,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "208:24:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 317,
+                  "nodeType": "ExpressionStatement",
+                  "src": "208:24:3"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 321,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "252:6:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "6669727374",
+                        "id": 322,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "260:7:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        },
+                        "value": "first"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 318,
+                        "name": "graph",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 302,
+                        "src": "238:5:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                          "typeString": "struct Graph.Digraph storage ref"
+                        }
+                      },
+                      "id": 320,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "addEdge",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 139,
+                      "src": "238:13:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$13_storage_ptr_$_t_bytes32_$_t_bytes32_$returns$__$bound_to$_t_struct$_Digraph_$13_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer,bytes32,bytes32)"
+                      }
+                    },
+                    "id": 323,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "238:30:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 324,
+                  "nodeType": "ExpressionStatement",
+                  "src": "238:30:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 200,
+            "id": 326,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 191,
+              "id": 305,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "152:2:3"
+              "src": "174:2:3"
             },
             "returnParameters": {
-              "id": 192,
+              "id": 306,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "162:0:3"
+              "src": "184:0:3"
             },
-            "scope": 201,
-            "src": "141:54:3",
+            "scope": 385,
+            "src": "163:110:3",
             "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 383,
+              "nodeType": "Block",
+              "src": "332:235:3",
+              "statements": [
+                {
+                  "assignments": [
+                    335
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 335,
+                      "name": "adj",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 383,
+                      "src": "338:17:3",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                        "typeString": "uint256[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 333,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "338:4:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 334,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "338:6:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                          "typeString": "uint256[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 341,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 336,
+                          "name": "graph",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 302,
+                          "src": "358:5:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                            "typeString": "struct Graph.Digraph storage ref"
+                          }
+                        },
+                        "id": 337,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "vertxs",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 8,
+                        "src": "358:12:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Vertex_$25_storage_$dyn_storage",
+                          "typeString": "struct Graph.Vertex storage ref[] storage ref"
+                        }
+                      },
+                      "id": 339,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "hexValue": "30",
+                        "id": 338,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "371:1:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        "value": "0"
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "358:15:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Vertex_$25_storage",
+                        "typeString": "struct Graph.Vertex storage ref"
+                      }
+                    },
+                    "id": 340,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "adj",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 18,
+                    "src": "358:19:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage",
+                      "typeString": "uint256[] storage ref"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "338:39:3"
+                },
+                {
+                  "assignments": [
+                    343
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 343,
+                      "name": "length",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 383,
+                      "src": "383:11:3",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 342,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "383:4:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 346,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 344,
+                      "name": "adj",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 335,
+                      "src": "397:3:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                        "typeString": "uint256[] memory"
+                      }
+                    },
+                    "id": 345,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "397:10:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "383:24:3"
+                },
+                {
+                  "assignments": [
+                    350
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 350,
+                      "name": "res",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 383,
+                      "src": "413:20:3",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                        "typeString": "bytes32[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 348,
+                          "name": "bytes32",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "413:7:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "id": 349,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "413:9:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                          "typeString": "bytes32[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 356,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 354,
+                        "name": "length",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 343,
+                        "src": "450:6:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 353,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "436:13:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_bytes32_$dyn_memory_$",
+                        "typeString": "function (uint256) pure returns (bytes32[] memory)"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 351,
+                          "name": "bytes32",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "440:7:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "id": 352,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "440:9:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                          "typeString": "bytes32[]"
+                        }
+                      }
+                    },
+                    "id": 355,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "436:21:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes32_$dyn_memory",
+                      "typeString": "bytes32[] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "413:44:3"
+                },
+                {
+                  "body": {
+                    "id": 379,
+                    "nodeType": "Block",
+                    "src": "497:50:3",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 377,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "baseExpression": {
+                              "argumentTypes": null,
+                              "id": 367,
+                              "name": "res",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 350,
+                              "src": "505:3:3",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                                "typeString": "bytes32[] memory"
+                              }
+                            },
+                            "id": 369,
+                            "indexExpression": {
+                              "argumentTypes": null,
+                              "id": 368,
+                              "name": "i",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 358,
+                              "src": "509:1:3",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": true,
+                            "nodeType": "IndexAccess",
+                            "src": "505:6:3",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "baseExpression": {
+                                "argumentTypes": null,
+                                "expression": {
+                                  "argumentTypes": null,
+                                  "id": 370,
+                                  "name": "graph",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 302,
+                                  "src": "514:5:3",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                                    "typeString": "struct Graph.Digraph storage ref"
+                                  }
+                                },
+                                "id": 371,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "vertxs",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 8,
+                                "src": "514:12:3",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_array$_t_struct$_Vertex_$25_storage_$dyn_storage",
+                                  "typeString": "struct Graph.Vertex storage ref[] storage ref"
+                                }
+                              },
+                              "id": 375,
+                              "indexExpression": {
+                                "argumentTypes": null,
+                                "baseExpression": {
+                                  "argumentTypes": null,
+                                  "id": 372,
+                                  "name": "adj",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 335,
+                                  "src": "527:3:3",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                                    "typeString": "uint256[] memory"
+                                  }
+                                },
+                                "id": 374,
+                                "indexExpression": {
+                                  "argumentTypes": null,
+                                  "id": 373,
+                                  "name": "i",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 358,
+                                  "src": "531:1:3",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                },
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "nodeType": "IndexAccess",
+                                "src": "527:6:3",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "nodeType": "IndexAccess",
+                              "src": "514:20:3",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Vertex_$25_storage",
+                                "typeString": "struct Graph.Vertex storage ref"
+                              }
+                            },
+                            "id": 376,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "title",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 15,
+                            "src": "514:26:3",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "src": "505:35:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "id": 378,
+                        "nodeType": "ExpressionStatement",
+                        "src": "505:35:3"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 363,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 361,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 358,
+                      "src": "480:1:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 362,
+                      "name": "length",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 343,
+                      "src": "484:6:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "480:10:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 380,
+                  "initializationExpression": {
+                    "assignments": [
+                      358
+                    ],
+                    "declarations": [
+                      {
+                        "constant": false,
+                        "id": 358,
+                        "name": "i",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 380,
+                        "src": "468:6:3",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "typeName": {
+                          "id": 357,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "468:4:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "value": null,
+                        "visibility": "internal"
+                      }
+                    ],
+                    "id": 360,
+                    "initialValue": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 359,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "477:1:3",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "nodeType": "VariableDeclarationStatement",
+                    "src": "468:10:3"
+                  },
+                  "loopExpression": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 365,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "UnaryOperation",
+                      "operator": "++",
+                      "prefix": false,
+                      "src": "492:3:3",
+                      "subExpression": {
+                        "argumentTypes": null,
+                        "id": 364,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 358,
+                        "src": "492:1:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 366,
+                    "nodeType": "ExpressionStatement",
+                    "src": "492:3:3"
+                  },
+                  "nodeType": "ForStatement",
+                  "src": "463:84:3"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 381,
+                    "name": "res",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 350,
+                    "src": "559:3:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                      "typeString": "bytes32[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 331,
+                  "id": 382,
+                  "nodeType": "Return",
+                  "src": "552:10:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 384,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "test",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 327,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "290:2:3"
+            },
+            "returnParameters": {
+              "id": 331,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 330,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 384,
+                  "src": "314:16:3",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                    "typeString": "bytes32[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 328,
+                      "name": "bytes32",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "314:7:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "id": 329,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "314:9:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                      "typeString": "bytes32[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "313:18:3"
+            },
+            "scope": 385,
+            "src": "277:290:3",
+            "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 202,
-        "src": "62:606:3"
+        "scope": 386,
+        "src": "61:979:3"
       }
     ],
-    "src": "0:669:3"
+    "src": "0:1041:3"
   },
   "legacyAST": {
     "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
     "exportedSymbols": {
       "Process": [
-        201
+        385
       ]
     },
-    "id": 202,
+    "id": 386,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 183,
+        "id": 295,
         "literals": [
           "solidity",
           "^",
@@ -260,14 +1147,14 @@
       {
         "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Graph.sol",
         "file": "./Graph.sol",
-        "id": 185,
+        "id": 297,
         "nodeType": "ImportDirective",
-        "scope": 202,
-        "sourceUnit": 119,
-        "src": "25:35:3",
+        "scope": 386,
+        "sourceUnit": 231,
+        "src": "25:34:3",
         "symbolAliases": [
           {
-            "foreign": 184,
+            "foreign": 296,
             "local": null
           }
         ],
@@ -279,64 +1166,64 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 201,
+        "id": 385,
         "linearizedBaseContracts": [
-          201
+          385
         ],
         "name": "Process",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 188,
+            "id": 300,
             "libraryName": {
               "contractScope": null,
-              "id": 186,
+              "id": 298,
               "name": "Graph",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 118,
-              "src": "89:5:3",
+              "referencedDeclaration": 230,
+              "src": "88:5:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Graph_$118",
+                "typeIdentifier": "t_contract$_Graph_$230",
                 "typeString": "library Graph"
               }
             },
             "nodeType": "UsingForDirective",
-            "src": "83:30:3",
+            "src": "82:30:3",
             "typeName": {
               "contractScope": null,
-              "id": 187,
+              "id": 299,
               "name": "Graph.Digraph",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11,
-              "src": "99:13:3",
+              "referencedDeclaration": 13,
+              "src": "98:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeIdentifier": "t_struct$_Digraph_$13_storage_ptr",
                 "typeString": "struct Graph.Digraph"
               }
             }
           },
           {
             "constant": false,
-            "id": 190,
+            "id": 302,
             "name": "graph",
             "nodeType": "VariableDeclaration",
-            "scope": 201,
-            "src": "117:19:3",
+            "scope": 385,
+            "src": "116:19:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_struct$_Digraph_$11_storage",
+              "typeIdentifier": "t_struct$_Digraph_$13_storage",
               "typeString": "struct Graph.Digraph"
             },
             "typeName": {
               "contractScope": null,
-              "id": 189,
+              "id": 301,
               "name": "Graph.Digraph",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 11,
-              "src": "117:13:3",
+              "referencedDeclaration": 13,
+              "src": "116:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Digraph_$11_storage_ptr",
+                "typeIdentifier": "t_struct$_Digraph_$13_storage_ptr",
                 "typeString": "struct Graph.Digraph"
               }
             },
@@ -344,69 +1231,73 @@
             "visibility": "internal"
           },
           {
+            "constant": false,
+            "id": 304,
+            "name": "vertex",
+            "nodeType": "VariableDeclaration",
+            "scope": 385,
+            "src": "139:19:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_struct$_Vertex_$25_storage",
+              "typeString": "struct Graph.Vertex"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 303,
+              "name": "Graph.Vertex",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 25,
+              "src": "139:12:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_Vertex_$25_storage_ptr",
+                "typeString": "struct Graph.Vertex"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
             "body": {
-              "id": 199,
+              "id": 325,
               "nodeType": "Block",
-              "src": "162:33:3",
+              "src": "184:89:3",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "arguments": [
-                      {
-                        "argumentTypes": null,
-                        "hexValue": "30",
-                        "id": 196,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": true,
-                        "kind": "number",
-                        "lValueRequested": false,
-                        "nodeType": "Literal",
-                        "src": "188:1:3",
-                        "subdenomination": null,
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_rational_0_by_1",
-                          "typeString": "int_const 0"
-                        },
-                        "value": "0"
-                      }
-                    ],
+                    "arguments": [],
                     "expression": {
-                      "argumentTypes": [
-                        {
-                          "typeIdentifier": "t_rational_0_by_1",
-                          "typeString": "int_const 0"
-                        }
-                      ],
+                      "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 193,
+                        "id": 307,
                         "name": "graph",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 190,
-                        "src": "168:5:3",
+                        "referencedDeclaration": 302,
+                        "src": "190:5:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Digraph_$11_storage",
+                          "typeIdentifier": "t_struct$_Digraph_$13_storage",
                           "typeString": "struct Graph.Digraph storage ref"
                         }
                       },
-                      "id": 195,
+                      "id": 309,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberName": "createDigraph",
+                      "memberName": "init",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 55,
-                      "src": "168:19:3",
+                      "referencedDeclaration": 59,
+                      "src": "190:10:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$11_storage_ptr_$_t_uint256_$returns$__$bound_to$_t_struct$_Digraph_$11_storage_ptr_$",
-                        "typeString": "function (struct Graph.Digraph storage pointer,uint256)"
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$13_storage_ptr_$returns$__$bound_to$_t_struct$_Digraph_$13_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer)"
                       }
                     },
-                    "id": 197,
+                    "id": 310,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -414,49 +1305,918 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "168:22:3",
+                    "src": "190:12:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 198,
+                  "id": 311,
                   "nodeType": "ExpressionStatement",
-                  "src": "168:22:3"
+                  "src": "190:12:3"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "6669727374",
+                        "id": 315,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "224:7:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        },
+                        "value": "first"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 312,
+                        "name": "graph",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 302,
+                        "src": "208:5:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                          "typeString": "struct Graph.Digraph storage ref"
+                        }
+                      },
+                      "id": 314,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "addVertex",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 97,
+                      "src": "208:15:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$13_storage_ptr_$_t_bytes32_$returns$__$bound_to$_t_struct$_Digraph_$13_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer,bytes32)"
+                      }
+                    },
+                    "id": 316,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "208:24:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 317,
+                  "nodeType": "ExpressionStatement",
+                  "src": "208:24:3"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "726f6f74",
+                        "id": 321,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "252:6:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        "value": "root"
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "6669727374",
+                        "id": 322,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "260:7:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        },
+                        "value": "first"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_d6c66cad06fe14fdb6ce9297d80d32f24d7428996d0045cbf90cc345c677ba16",
+                          "typeString": "literal_string \"root\""
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_692e3fbb06193c3a65b6ccb60c9ec6fb32af21c16d3f6ac10039258c2a5d4d2d",
+                          "typeString": "literal_string \"first\""
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 318,
+                        "name": "graph",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 302,
+                        "src": "238:5:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                          "typeString": "struct Graph.Digraph storage ref"
+                        }
+                      },
+                      "id": 320,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "addEdge",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 139,
+                      "src": "238:13:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_Digraph_$13_storage_ptr_$_t_bytes32_$_t_bytes32_$returns$__$bound_to$_t_struct$_Digraph_$13_storage_ptr_$",
+                        "typeString": "function (struct Graph.Digraph storage pointer,bytes32,bytes32)"
+                      }
+                    },
+                    "id": 323,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "238:30:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 324,
+                  "nodeType": "ExpressionStatement",
+                  "src": "238:30:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 200,
+            "id": 326,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 191,
+              "id": 305,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "152:2:3"
+              "src": "174:2:3"
             },
             "returnParameters": {
-              "id": 192,
+              "id": 306,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "162:0:3"
+              "src": "184:0:3"
             },
-            "scope": 201,
-            "src": "141:54:3",
+            "scope": 385,
+            "src": "163:110:3",
             "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 383,
+              "nodeType": "Block",
+              "src": "332:235:3",
+              "statements": [
+                {
+                  "assignments": [
+                    335
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 335,
+                      "name": "adj",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 383,
+                      "src": "338:17:3",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                        "typeString": "uint256[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 333,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "338:4:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 334,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "338:6:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                          "typeString": "uint256[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 341,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 336,
+                          "name": "graph",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 302,
+                          "src": "358:5:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                            "typeString": "struct Graph.Digraph storage ref"
+                          }
+                        },
+                        "id": 337,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "vertxs",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 8,
+                        "src": "358:12:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Vertex_$25_storage_$dyn_storage",
+                          "typeString": "struct Graph.Vertex storage ref[] storage ref"
+                        }
+                      },
+                      "id": 339,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "hexValue": "30",
+                        "id": 338,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "371:1:3",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        "value": "0"
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "358:15:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Vertex_$25_storage",
+                        "typeString": "struct Graph.Vertex storage ref"
+                      }
+                    },
+                    "id": 340,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "adj",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 18,
+                    "src": "358:19:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage",
+                      "typeString": "uint256[] storage ref"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "338:39:3"
+                },
+                {
+                  "assignments": [
+                    343
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 343,
+                      "name": "length",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 383,
+                      "src": "383:11:3",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 342,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "383:4:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 346,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 344,
+                      "name": "adj",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 335,
+                      "src": "397:3:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                        "typeString": "uint256[] memory"
+                      }
+                    },
+                    "id": 345,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "397:10:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "383:24:3"
+                },
+                {
+                  "assignments": [
+                    350
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 350,
+                      "name": "res",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 383,
+                      "src": "413:20:3",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                        "typeString": "bytes32[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 348,
+                          "name": "bytes32",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "413:7:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "id": 349,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "413:9:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                          "typeString": "bytes32[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 356,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 354,
+                        "name": "length",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 343,
+                        "src": "450:6:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 353,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "436:13:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_bytes32_$dyn_memory_$",
+                        "typeString": "function (uint256) pure returns (bytes32[] memory)"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 351,
+                          "name": "bytes32",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "440:7:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "id": 352,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "440:9:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                          "typeString": "bytes32[]"
+                        }
+                      }
+                    },
+                    "id": 355,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "436:21:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes32_$dyn_memory",
+                      "typeString": "bytes32[] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "413:44:3"
+                },
+                {
+                  "body": {
+                    "id": 379,
+                    "nodeType": "Block",
+                    "src": "497:50:3",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 377,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "baseExpression": {
+                              "argumentTypes": null,
+                              "id": 367,
+                              "name": "res",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 350,
+                              "src": "505:3:3",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                                "typeString": "bytes32[] memory"
+                              }
+                            },
+                            "id": 369,
+                            "indexExpression": {
+                              "argumentTypes": null,
+                              "id": 368,
+                              "name": "i",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 358,
+                              "src": "509:1:3",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": true,
+                            "nodeType": "IndexAccess",
+                            "src": "505:6:3",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "baseExpression": {
+                                "argumentTypes": null,
+                                "expression": {
+                                  "argumentTypes": null,
+                                  "id": 370,
+                                  "name": "graph",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 302,
+                                  "src": "514:5:3",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_Digraph_$13_storage",
+                                    "typeString": "struct Graph.Digraph storage ref"
+                                  }
+                                },
+                                "id": 371,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "vertxs",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 8,
+                                "src": "514:12:3",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_array$_t_struct$_Vertex_$25_storage_$dyn_storage",
+                                  "typeString": "struct Graph.Vertex storage ref[] storage ref"
+                                }
+                              },
+                              "id": 375,
+                              "indexExpression": {
+                                "argumentTypes": null,
+                                "baseExpression": {
+                                  "argumentTypes": null,
+                                  "id": 372,
+                                  "name": "adj",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 335,
+                                  "src": "527:3:3",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                                    "typeString": "uint256[] memory"
+                                  }
+                                },
+                                "id": 374,
+                                "indexExpression": {
+                                  "argumentTypes": null,
+                                  "id": 373,
+                                  "name": "i",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 358,
+                                  "src": "531:1:3",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                },
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "nodeType": "IndexAccess",
+                                "src": "527:6:3",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "nodeType": "IndexAccess",
+                              "src": "514:20:3",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Vertex_$25_storage",
+                                "typeString": "struct Graph.Vertex storage ref"
+                              }
+                            },
+                            "id": 376,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "title",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 15,
+                            "src": "514:26:3",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes32",
+                              "typeString": "bytes32"
+                            }
+                          },
+                          "src": "505:35:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "id": 378,
+                        "nodeType": "ExpressionStatement",
+                        "src": "505:35:3"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 363,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 361,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 358,
+                      "src": "480:1:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 362,
+                      "name": "length",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 343,
+                      "src": "484:6:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "480:10:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 380,
+                  "initializationExpression": {
+                    "assignments": [
+                      358
+                    ],
+                    "declarations": [
+                      {
+                        "constant": false,
+                        "id": 358,
+                        "name": "i",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 380,
+                        "src": "468:6:3",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "typeName": {
+                          "id": 357,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "468:4:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "value": null,
+                        "visibility": "internal"
+                      }
+                    ],
+                    "id": 360,
+                    "initialValue": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 359,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "477:1:3",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "nodeType": "VariableDeclarationStatement",
+                    "src": "468:10:3"
+                  },
+                  "loopExpression": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 365,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "UnaryOperation",
+                      "operator": "++",
+                      "prefix": false,
+                      "src": "492:3:3",
+                      "subExpression": {
+                        "argumentTypes": null,
+                        "id": 364,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 358,
+                        "src": "492:1:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 366,
+                    "nodeType": "ExpressionStatement",
+                    "src": "492:3:3"
+                  },
+                  "nodeType": "ForStatement",
+                  "src": "463:84:3"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 381,
+                    "name": "res",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 350,
+                    "src": "559:3:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                      "typeString": "bytes32[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 331,
+                  "id": 382,
+                  "nodeType": "Return",
+                  "src": "552:10:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 384,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "test",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 327,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "290:2:3"
+            },
+            "returnParameters": {
+              "id": 331,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 330,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 384,
+                  "src": "314:16:3",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                    "typeString": "bytes32[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 328,
+                      "name": "bytes32",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "314:7:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "id": 329,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "314:9:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                      "typeString": "bytes32[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "313:18:3"
+            },
+            "scope": 385,
+            "src": "277:290:3",
+            "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 202,
-        "src": "62:606:3"
+        "scope": 386,
+        "src": "61:979:3"
       }
     ],
-    "src": "0:669:3"
+    "src": "0:1041:3"
   },
   "compiler": {
     "name": "solc",
@@ -465,13 +2225,15 @@
   "networks": {
     "5777": {
       "events": {},
-      "links": {},
-      "address": "0x7aD943E8894D732a08c00b5AeAc1e3dFa955617B",
-      "transactionHash": "0xa57adea81ce00aefb75c0e4a141c0c6b21f08498354149f07678bddb80d0a5c7"
+      "links": {
+        "Graph": "0xecf5b605b8b3f1Fc075acC6Eb3ba959D0a44B75e"
+      },
+      "address": "0x71Bd6b49E047b730256475B32c1bEaF45493A1F6",
+      "transactionHash": "0x479cbc61edc9f8af425d5e57c2c35c290ee9795a1599bbd653cc24e9b3c88cb3"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-02-27T10:06:20.332Z",
+  "updatedAt": "2019-03-01T09:00:11.976Z",
   "devdoc": {
     "methods": {}
   },

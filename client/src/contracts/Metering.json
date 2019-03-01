@@ -1,24 +1,39 @@
 {
   "contractName": "Metering",
-  "abi": [],
-  "bytecode": "0x608060408190527fc5602b600000000000000000000000000000000000000000000000000000000081526000608481905260a481905273__Graph_________________________________9163c5602b609160c49160448186803b158015606557600080fd5b505af41580156078573d6000803e3d6000fd5b5050505060358060896000396000f3fe6080604052600080fdfea165627a7a72305820076f5b5d25efac683a0ccfa056fd1f8122cb313e5780d13ed8ee4527cb5ba4a50029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820076f5b5d25efac683a0ccfa056fd1f8122cb313e5780d13ed8ee4527cb5ba4a50029",
-  "sourceMap": "50:836:1:-;;;;;168:22:3;;;:5;:22;;;;;;;;:19;;;;:22;;;50:836:1;168:19:3;:22;;;5:2:-1;;;;30:1;27;20:12;5:2;168:22:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;168:22:3;;;;50:836:1;;;;;;",
-  "deployedSourceMap": "50:836:1:-;;;;;",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "test",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060408190527fb68529c50000000000000000000000000000000000000000000000000000000081526000608481905273__Graph_________________________________9163b68529c59160a49160248186803b15801561006157600080fd5b505af4158015610075573d6000803e3d6000fd5b5050604080517f9c639b4b0000000000000000000000000000000000000000000000000000000081526000600482018190527f66697273740000000000000000000000000000000000000000000000000000006024830152915173__Graph_________________________________9450639c639b4b935060448083019392829003018186803b15801561010857600080fd5b505af415801561011c573d6000803e3d6000fd5b5050604080517febf856850000000000000000000000000000000000000000000000000000000081526000600482018190527f726f6f740000000000000000000000000000000000000000000000000000000060248301527f66697273740000000000000000000000000000000000000000000000000000006044830152915173__Graph_________________________________945063ebf85685935060648083019392829003018186803b1580156101d557600080fd5b505af41580156101e9573d6000803e3d6000fd5b505050506101eb806101fc6000396000f3fe6080604052600436106100405763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663f8a8fd6d8114610045575b600080fd5b34801561005157600080fd5b5061005a6100aa565b60408051602080825283518183015283519192839290830191858101910280838360005b8381101561009657818101518382015260200161007e565b505050509050019250505060405180910390f35b60028054606091829160009081106100be57fe5b906000526020600020906004020160010180548060200260200160405190810160405280929190818152602001828054801561011957602002820191906000526020600020905b815481526020019060010190808311610105575b50505050509050600081519050606081604051908082528060200260200182016040528015610152578160200160208202803883390190505b50905060005b828110156101b757835160029085908390811061017157fe5b602090810290910101518154811061018557fe5b90600052602060002090600402016000015482828151811015156101a557fe5b60209081029091010152600101610158565b50925050509056fea165627a7a723058204eafdda6c01493baa0ede35dfc43a2e61fdf8842ef3ae544a6e360c04f2684a70029",
+  "deployedBytecode": "0x6080604052600436106100405763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663f8a8fd6d8114610045575b600080fd5b34801561005157600080fd5b5061005a6100aa565b60408051602080825283518183015283519192839290830191858101910280838360005b8381101561009657818101518382015260200161007e565b505050509050019250505060405180910390f35b60028054606091829160009081106100be57fe5b906000526020600020906004020160010180548060200260200160405190810160405280929190818152602001828054801561011957602002820191906000526020600020905b815481526020019060010190808311610105575b50505050509050600081519050606081604051908082528060200260200182016040528015610152578160200160208202803883390190505b50905060005b828110156101b757835160029085908390811061017157fe5b602090810290910101518154811061018557fe5b90600052602060002090600402016000015482828151811015156101a557fe5b60209081029091010152600101610158565b50925050509056fea165627a7a723058204eafdda6c01493baa0ede35dfc43a2e61fdf8842ef3ae544a6e360c04f2684a70029",
+  "sourceMap": "50:836:1:-;;;;;190:12:3;;;:5;:12;;;;:10;;;;:12;;;50:836:1;190:10:3;:12;;;5:2:-1;;;;30:1;27;20:12;5:2;190:12:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;;208:24:3;;;;;;:5;:24;;;;;;;;;;;;;:15;;-1:-1:-1;208:15:3;;-1:-1:-1;208:24:3;;;;;:5;:24;;;;;:15;:24;;;5:2:-1;;;;30:1;27;20:12;5:2;208:24:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;-1:-1;;238:30:3;;;;;;:5;:30;;;;;;;;;;;;;;;;;;:13;;-1:-1:-1;238:13:3;;-1:-1:-1;238:30:3;;;;;:5;:30;;;;;:13;:30;;;5:2:-1;;;;30:1;27;20:12;5:2;238:30:3;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;238:30:3;;;;50:836:1;;;;;;",
+  "deployedSourceMap": "50:836:1:-;;;;;;;;;;;;;;;;;;;;;;;277:290:3;;8:9:-1;5:2;;;30:1;27;20:12;5:2;277:290:3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;277:290:3;;;;;;;;;;;;;;;;;;358:12;:15;;314:16;;;;358:5;;:15;;;;;;;;;;;;;;;;:19;;338:39;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;383:11;397:3;:10;383:24;;413:20;450:6;436:21;;;;;;;;;;;;;;;;;;;;;;29:2:-1;21:6;17:15;117:4;105:10;97:6;88:34;136:17;;-1:-1;436:21:3;-1:-1:-1;413:44:3;-1:-1:-1;468:6:3;463:84;484:6;480:1;:10;463:84;;;527:6;;514:12;;527:3;;531:1;;527:6;;;;;;;;;;;;;;;514:20;;;;;;;;;;;;;;;;;;:26;;;505:3;509:1;505:6;;;;;;;;;;;;;;;;;;:35;492:3;;463:84;;;-1:-1:-1;559:3:3;-1:-1:-1;;;277:290:3;:::o",
   "source": "pragma solidity ^0.5.0;\n\nimport './Process.sol';\n\ncontract Metering is Process {\n\n  /* constructor() public {\n    _addData(\"Arbejdstider\");\n    _addData(\"Familieforhold\");\n    _addData(\"Arbejdsfleksibilitet\");\n    _addData(\"Vurdering af timer\");\n    _addData(\"Vurdering af sparede udgifter\");\n    _addData(\"Beregning\");\n\n    _addEdge(\"root\",\"Arbejdstider\");\n    _addEdge(\"root\",\"Familieforhold\");\n    _addEdge(\"root\",\"Arbejdsfleksibilitet\");\n\n    _addEdge(\"Arbejdstider\",\"Vurdering af timer\");\n    _addEdge(\"Arbejdstider\",\"Vurdering af sparede udgifter\");\n    _addEdge(\"Familieforhold\",\"Vurdering af timer\");\n    _addEdge(\"Familieforhold\",\"Vurdering af af sparede udgifter\");\n    _addEdge(\"Arbejdsfleksibilitet\",\"Vurdering af timer\");\n    _addEdge(\"Arbejdsfleksibilitet\",\"Vurdering af af sparede udgifter\");\n\n  } */\n\n\n  /* function possibleActions() returns (Data[] storage) {\n\n  } */\n}\n",
   "sourcePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Metering.sol",
   "ast": {
     "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Metering.sol",
     "exportedSymbols": {
       "Metering": [
-        124
+        236
       ]
     },
-    "id": 125,
+    "id": 237,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 120,
+        "id": 232,
         "literals": [
           "solidity",
           "^",
@@ -31,10 +46,10 @@
       {
         "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
         "file": "./Process.sol",
-        "id": 121,
+        "id": 233,
         "nodeType": "ImportDirective",
-        "scope": 125,
-        "sourceUnit": 202,
+        "scope": 237,
+        "sourceUnit": 386,
         "src": "25:23:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -45,36 +60,36 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 122,
+              "id": 234,
               "name": "Process",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 201,
+              "referencedDeclaration": 385,
               "src": "71:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Process_$201",
+                "typeIdentifier": "t_contract$_Process_$385",
                 "typeString": "contract Process"
               }
             },
-            "id": 123,
+            "id": 235,
             "nodeType": "InheritanceSpecifier",
             "src": "71:7:1"
           }
         ],
         "contractDependencies": [
-          201
+          385
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 124,
+        "id": 236,
         "linearizedBaseContracts": [
-          124,
-          201
+          236,
+          385
         ],
         "name": "Metering",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 125,
+        "scope": 237,
         "src": "50:836:1"
       }
     ],
@@ -84,14 +99,14 @@
     "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Metering.sol",
     "exportedSymbols": {
       "Metering": [
-        124
+        236
       ]
     },
-    "id": 125,
+    "id": 237,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 120,
+        "id": 232,
         "literals": [
           "solidity",
           "^",
@@ -104,10 +119,10 @@
       {
         "absolutePath": "/Users/livhborre/Projects/Bachelor/process42/contracts/Process.sol",
         "file": "./Process.sol",
-        "id": 121,
+        "id": 233,
         "nodeType": "ImportDirective",
-        "scope": 125,
-        "sourceUnit": 202,
+        "scope": 237,
+        "sourceUnit": 386,
         "src": "25:23:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -118,36 +133,36 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 122,
+              "id": 234,
               "name": "Process",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 201,
+              "referencedDeclaration": 385,
               "src": "71:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Process_$201",
+                "typeIdentifier": "t_contract$_Process_$385",
                 "typeString": "contract Process"
               }
             },
-            "id": 123,
+            "id": 235,
             "nodeType": "InheritanceSpecifier",
             "src": "71:7:1"
           }
         ],
         "contractDependencies": [
-          201
+          385
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 124,
+        "id": 236,
         "linearizedBaseContracts": [
-          124,
-          201
+          236,
+          385
         ],
         "name": "Metering",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 125,
+        "scope": 237,
         "src": "50:836:1"
       }
     ],
@@ -166,7 +181,7 @@
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-02-27T10:06:20.330Z",
+  "updatedAt": "2019-03-01T09:00:11.975Z",
   "devdoc": {
     "methods": {}
   },

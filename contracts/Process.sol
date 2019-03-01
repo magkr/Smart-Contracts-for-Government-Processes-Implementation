@@ -1,15 +1,39 @@
 pragma solidity ^0.5.0;
 
-import {Graph } from "./Graph.sol";
+import {Graph} from "./Graph.sol";
 
 contract Process {
   using Graph for Graph.Digraph;
 
   Graph.Digraph graph;
+  Graph.Vertex vertex;
 
   constructor() public {
-    graph.createDigraph();
+    graph.init();
+    graph.addVertex("first");
+    graph.addEdge("root", "first");
   }
+
+  /* function test() public view returns (bytes32[] memory) {
+    uint[] memory adj = graph.vertxs[0].adj;
+    uint length = adj.length;
+    bytes32[] memory res = new bytes32[](length);
+    for (uint i = 0; i < length; i++) {
+      res[i] = graph.vertxs[adj[i]].title;
+    }
+    return res;
+  } */
+
+  function test() public view returns (bool memory) {
+    uint[] memory adj = graph.vertxs[0].adj;
+    uint length = adj.length;
+    bytes32[] memory res = new bytes32[](length);
+    for (uint i = 0; i < length; i++) {
+      res[i] = graph.vertxs[adj[i]].title;
+    }
+    return res;
+  }
+
   /* struct Data {
     bytes32 title;
     bool done;
