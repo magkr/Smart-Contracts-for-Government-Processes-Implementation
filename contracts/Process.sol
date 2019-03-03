@@ -1,21 +1,17 @@
 pragma solidity ^0.5.0;
 
 import {Graph} from "./Graph.sol";
+import {ProcessFactory} from "./ProcessFactory.sol";
 
 contract Process {
   using Graph for Graph.Digraph;
 
   Graph.Digraph graph;
-  Graph.Vertex vertex;
 
   constructor() public {
     graph.init();
-    graph.addVertex("first");
-    graph.addVertex("second");
-    graph.addVertex("third");
-    graph.addEdge("root", "first");
-    graph.addEdge("root", "third");
-    graph.addEdge("third", "second");
+    ProcessFactory.metering(graph);
+    ProcessFactory.beregningsgrundlag(graph);
   }
 
   /* function test() public view returns (bytes32[] memory) {
@@ -31,7 +27,14 @@ contract Process {
   function test() public returns (bytes32[] memory) {
     uint caseID = 0;
     graph.addCase(caseID);
-    graph.setStatus("first", caseID, Graph.Status.DONE);
+
+    graph.setStatus("Arbejdstider", caseID, Graph.Status.DONE);
+    graph.setStatus("Familieforhold", caseID, Graph.Status.DONE);
+    graph.setStatus("Arbejdsfleksibilitet", caseID, Graph.Status.DONE);
+    graph.setStatus("Bevilligede timer", caseID, Graph.Status.DONE);
+    graph.setStatus("Sparede udgifter", caseID, Graph.Status.DONE);
+    graph.setStatus("Udmåling afgørelse", caseID, Graph.Status.DONE);
+
     bytes32[] memory toDo = graph.getActions(caseID);
     return toDo;
   }

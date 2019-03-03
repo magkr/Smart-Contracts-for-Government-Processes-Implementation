@@ -17,7 +17,7 @@ contract("Process", accounts => {
     // arr.forEach((r) => {console.log(web3.utils.hexToUtf8(r));});
 
 
-    assert.equal(arr.length, 1);
+    assert.equal(arr.length, 3);
   });
 
   // it("...should store root", async () => {
