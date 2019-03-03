@@ -10,7 +10,6 @@ contract Process {
 
   constructor() public {
     graph.init();
-    graph.addVertex("root");
     graph.addVertex("first");
     graph.addVertex("second");
     graph.addVertex("third");
@@ -32,7 +31,6 @@ contract Process {
   function test() public returns (bytes32[] memory) {
     uint caseID = 0;
     graph.addCase(caseID);
-    graph.setStatus("root", caseID, Graph.Status.DONE);
     graph.setStatus("first", caseID, Graph.Status.DONE);
     bytes32[] memory toDo = graph.getActions(caseID);
     return toDo;

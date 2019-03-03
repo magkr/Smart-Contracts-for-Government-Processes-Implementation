@@ -4,7 +4,6 @@ library Graph {
 
   enum Status { DONE, UNDONE, MARKED }
   struct Digraph {
-    uint V;
     Vertex[] vertxs;
     mapping (bytes32 => uint) titleToID;
   }
@@ -18,13 +17,12 @@ library Graph {
 
   function init(Digraph storage self) public
   {
-    self.V = 0;
+    addVertex(self, "root");
   }
 
   function addVertex(Digraph storage self, bytes32 title) public {
-    self.titleToID[title] = self.V;
+    self.titleToID[title] = self.vertxs.length;
     self.vertxs.push(Vertex(title, new uint[](0), new uint[](0)));
-    self.V++;
   }
 
   function getAdj(Digraph storage self, bytes32 v) public view returns (uint[] memory)
@@ -50,6 +48,7 @@ library Graph {
     for(uint i = 0; i < self.vertxs.length; i++) {
       self.vertxs[i].status[caseID] = Status.UNDONE;
     }
+    setStatus(self, "root", caseID, Status.DONE);
   }
 
   function getActions(Digraph storage self, uint caseID) public returns (bytes32[] memory) {
