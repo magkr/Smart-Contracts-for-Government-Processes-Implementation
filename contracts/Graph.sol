@@ -25,17 +25,10 @@ library Graph {
     self.vertxs.push(Vertex(title, new uint[](0), new uint[](0)));
   }
 
-  function getAdj(Digraph storage self, bytes32 v) public view returns (uint[] memory)
-  { return self.vertxs[self.titleToID[v]].adj; }
-
-  function addEdge(Digraph storage self, bytes32 v, bytes32 w) public {
-    addEdgeByID(self, self.titleToID[v], self.titleToID[w]);
-  }
-
-  function addEdgeByID(Digraph storage self, uint v, uint w) public
+  function addEdge(Digraph storage self, bytes32 v, bytes32 w) public
   {
-    self.vertxs[v].adj.push(w);
-    self.vertxs[w].req.push(v);
+    self.vertxs[self.titleToID[v]].adj.push(self.titleToID[w]);
+    self.vertxs[self.titleToID[w]].req.push(self.titleToID[v]);
   }
 
   function setStatus(Digraph storage self, bytes32 title, uint caseID, Status status) public {
