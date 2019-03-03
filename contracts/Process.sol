@@ -10,8 +10,13 @@ contract Process {
 
   constructor() public {
     graph.init();
+    graph.addVertex("root");
     graph.addVertex("first");
+    graph.addVertex("second");
+    graph.addVertex("third");
     graph.addEdge("root", "first");
+    graph.addEdge("root", "third");
+    graph.addEdge("third", "second");
   }
 
   /* function test() public view returns (bytes32[] memory) {
@@ -24,14 +29,13 @@ contract Process {
     return res;
   } */
 
-  function test() public view returns (bool memory) {
-    uint[] memory adj = graph.vertxs[0].adj;
-    uint length = adj.length;
-    bytes32[] memory res = new bytes32[](length);
-    for (uint i = 0; i < length; i++) {
-      res[i] = graph.vertxs[adj[i]].title;
-    }
-    return res;
+  function test() public returns (bytes32[] memory) {
+    uint caseID = 0;
+    graph.addCase(caseID);
+    graph.setStatus("root", caseID, Graph.Status.DONE);
+    graph.setStatus("first", caseID, Graph.Status.DONE);
+    bytes32[] memory toDo = graph.getActions(caseID);
+    return toDo;
   }
 
   /* struct Data {

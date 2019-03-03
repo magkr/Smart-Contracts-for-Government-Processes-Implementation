@@ -1,15 +1,23 @@
 const Process = artifacts.require("./Process.sol");
 
+function toBytes(s) {
+  return web3.utils.utf8ToHex(s);
+}
+
+function toString(s) {
+  return web3.utils.hexToUtf8(s);
+}
+
 contract("Process", accounts => {
   it("...should store root", async () => {
     const instance = await Process.deployed();
 
     const arr = await instance.test.call();
+    arr.forEach((r) => { console.log(toString(r)); });
     // arr.forEach((r) => {console.log(web3.utils.hexToUtf8(r));});
-    arr.forEach((r) => {console.log(web3.utils.hexToUtf8(r));});
 
 
-    assert.equal("hej", "root");
+    assert.equal(arr.length, 1);
   });
 
   // it("...should store root", async () => {
