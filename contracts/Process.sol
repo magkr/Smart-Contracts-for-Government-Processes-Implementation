@@ -12,6 +12,21 @@ contract Process {
     graph.init();
     ProcessFactory.metering(graph);
     ProcessFactory.beregningsgrundlag(graph);
+
+    uint caseID = 0;
+    graph.addCase(caseID);
+
+    graph.setStatus("Arbejdstider", caseID, Graph.Status.DONE);
+    graph.setStatus("Familieforhold", caseID, Graph.Status.DONE);
+    graph.setStatus("Arbejdsfleksibilitet", caseID, Graph.Status.DONE);
+    graph.setStatus("Bevilligede timer", caseID, Graph.Status.DONE);
+    graph.setStatus("Sparede udgifter", caseID, Graph.Status.DONE);
+    graph.setStatus("Udmåling afgørelse", caseID, Graph.Status.DONE);
+  }
+
+
+  function fill(bytes32 title, uint caseID) public {
+    graph.setStatus(title, caseID, Graph.Status.DONE);
   }
 
   /* function test() public view returns (bytes32[] memory) {
@@ -24,17 +39,7 @@ contract Process {
     return res;
   } */
 
-  function test() public returns (bytes32[] memory) {
-    uint caseID = 0;
-    graph.addCase(caseID);
-
-    graph.setStatus("Arbejdstider", caseID, Graph.Status.DONE);
-    graph.setStatus("Familieforhold", caseID, Graph.Status.DONE);
-    graph.setStatus("Arbejdsfleksibilitet", caseID, Graph.Status.DONE);
-    graph.setStatus("Bevilligede timer", caseID, Graph.Status.DONE);
-    graph.setStatus("Sparede udgifter", caseID, Graph.Status.DONE);
-    graph.setStatus("Udmåling afgørelse", caseID, Graph.Status.DONE);
-
+  function test(uint caseID) public returns (bytes32[] memory) {
     bytes32[] memory toDo = graph.getActions(caseID);
     return toDo;
   }
