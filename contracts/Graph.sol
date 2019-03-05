@@ -13,7 +13,13 @@ library Graph {
     uint[] adj;
     uint[] req;
     mapping (uint => Status) status;
+    //mapping (uint => data) datas;
   }
+
+  /* struct Data {
+    uint addr;
+    uint[] datas;
+  } */
 
   function init(Digraph storage self) public
   {
