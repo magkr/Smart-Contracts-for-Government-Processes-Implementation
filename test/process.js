@@ -9,16 +9,16 @@ function toString(s) {
 }
 
 contract("Process", accounts => {
-  it("...should store root", async () => {
-    const instance = await Process.deployed();
-
-    const arr = await instance.test.call();
-    arr.forEach((r) => { console.log(toString(r)); });
-    // arr.forEach((r) => {console.log(web3.utils.hexToUtf8(r));});
-
-
-    assert.equal(arr.length, 3);
-  });
+  // it("...should store root", async () => {
+  //   const instance = await Process.deployed();
+  //
+  //   const arr = await instance.test.call();
+  //   arr.forEach((r) => { console.log(toString(r)); });
+  //   // arr.forEach((r) => {console.log(web3.utils.hexToUtf8(r));});
+  //
+  //
+  //   assert.equal(arr.length, 3);
+  // });
 
   // it("...should store root", async () => {
   //   const instance = await Process.deployed();

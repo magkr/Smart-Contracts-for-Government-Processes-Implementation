@@ -1,5 +1,6 @@
 pragma solidity ^0.5.0;
 
+
 import {Graph} from "./Graph.sol";
 import {ProcessFactory} from "./ProcessFactory.sol";
 
@@ -8,8 +9,68 @@ contract Process {
 
   Graph.Digraph graph;
 
+  /*  IDEAS FOR MAINTAING A STORAGE OF DATA
+  mapping (bytes32 => DataTable) store;
+
+  struct DataTable { mapping (uint => CaseData) caseEntry; }
+  struct CaseData {
+    uint location;
+    uint dataHash;
+  }
+
+  mapping (bytes32 => Data) public datas;
+ */
+
+
   constructor() public {
     graph.init();
+  }
+
+  function getActions(uint caseID) public view returns (bytes32[] memory titles) {
+    return graph.getActions(caseID);
+  }
+
+  function fill(bytes32 title, uint caseID) public returns (bool success) {
+    if (!graph.ready(title, caseID)) return false;
+    graph.setStatus(title, caseID, Graph.Status.DONE);
+    return true;
+  }
+
+  function mark(bytes32 title, uint caseID) public returns (bool) {
+    if (graph.done(title, caseID) || graph.pending(title, caseID)) {
+      graph.mark(title, caseID);
+      return graph.marked(title, caseID);
+    } else return false;
+  }
+
+  function getStatus(bytes32 title, uint caseID) public view returns (Graph.Status status) {
+    return graph.getStatus(title, caseID);
+  }
+
+
+
+
+
+// TEST SETUPS:
+  function smallTestSetup() public {
+    graph.addVertex("a");
+    graph.addVertex("ba");
+    graph.addVertex("bb");
+    graph.addVertex("c");
+
+    graph.addEdge("root", "a");
+    graph.addEdge("a", "ba");
+    graph.addEdge("a", "bb");
+    graph.addEdge("ba", "c");
+    graph.addEdge("bb", "c");
+
+    uint caseID = 0;
+    graph.addCase(caseID);
+
+    graph.setStatus("a", caseID, Graph.Status.DONE);
+  }
+
+  function testSetup() public {
     ProcessFactory.metering(graph);
     ProcessFactory.beregningsgrundlag(graph);
 
@@ -24,52 +85,5 @@ contract Process {
     graph.setStatus("Udmåling afgørelse", caseID, Graph.Status.DONE);
   }
 
-
-  function fill(bytes32 title, uint caseID) public {
-    graph.setStatus(title, caseID, Graph.Status.DONE);
-  }
-
-  /* function test() public view returns (bytes32[] memory) {
-    uint[] memory adj = graph.vertxs[0].adj;
-    uint length = adj.length;
-    bytes32[] memory res = new bytes32[](length);
-    for (uint i = 0; i < length; i++) {
-      res[i] = graph.vertxs[adj[i]].title;
-    }
-    return res;
-  } */
-
-  function test(uint caseID) public returns (bytes32[] memory) {
-    bytes32[] memory toDo = graph.getActions(caseID);
-    return toDo;
-  }
-
-  /* struct Data {
-    bytes32 title;
-    bool done;
-    uint[] documents;
-  }
-
-  struct Edge {
-    bytes32 from;
-    bytes32 to;
-  }
-
-  mapping (bytes32 => Data) public datas;
-
-  Edge[] public edges;
-
-  constructor() public {
-    _addData("root");
-    datas["root"].done = true;
-  }
-
-  function _addData(bytes32 _title) {
-    datas[_title] = Data(_title, false, new uint[](0));
-  }
-
-  function _addEdge(bytes32 from, bytes32 to) {
-    edges.push(Edge(from,to));
-  } */
 
 }

@@ -5,6 +5,24 @@ import {Graph} from "./Graph.sol";
 library ProcessFactory {
   using Graph for Graph.Digraph;
 
+  /* IDEA
+  bytes32[] vs;
+  bytes32[] edges;
+
+  function ...() {
+    vs = [bytes32("a"), "ba", "bb", "c"];
+    edges = [
+      bytes32("root"), "a",
+      "a", "ba",
+      "a", "bb",
+      "ba", "c",
+      "bb", "c"];
+
+    for (uint i = 0; i < vs.length; i++) graph.addVertex(vs[i]);
+    for (uint i = 0; i < edges.length; i+=2) graph.addEdge(edges[i], edges[(i+1)]);
+  }
+  */
+
   function metering(Graph.Digraph storage graph) public {
     bytes32 root = "root";
     graph.addVertex("Arbejdstider");
@@ -26,7 +44,6 @@ library ProcessFactory {
     graph.addEdge("Arbejdsfleksibilitet","Sparede udgifter");
     graph.addEdge("Bevilligede timer", "Udmåling afgørese");
     graph.addEdge("Sparede udgifter", "Udmåling afgørese");
-
   }
 
   function beregningsgrundlag(Graph.Digraph storage graph) public {

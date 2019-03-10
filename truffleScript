@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $1 = "reset" ]
+then
+	echo migrating...
+	truffle migrate --reset
+fi
+
+echo testing...
+truffle test test/TestProcess2.sol

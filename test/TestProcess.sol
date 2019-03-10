@@ -4,7 +4,7 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/Process.sol";
 
-contract TestProcess is Process {
+contract TestProcess {
 
   /* function testItStoresAValue() public {
     Process process = Process(DeployedAddresses.Process());

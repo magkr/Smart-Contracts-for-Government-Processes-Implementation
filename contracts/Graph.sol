@@ -1,11 +1,16 @@
 pragma solidity ^0.5.0;
 
-library Graph {
+import {IterableMap} from "./IterableMap.sol";
 
-  enum Status { DONE, UNDONE, MARKED }
+library Graph {
+  using IterableMap for IterableMap.Map;
+
+  enum Status { DONE, UNDONE, MARKED, PENDING }
+  /* struct Data { bytes32 title; } */
+
   struct Digraph {
     Vertex[] vertxs;
-    mapping (bytes32 => uint) titleToID;
+    mapping (bytes32 => uint) titleToIDs;
   }
 
   struct Vertex {
@@ -13,119 +18,199 @@ library Graph {
     uint[] adj;
     uint[] req;
     mapping (uint => Status) status;
-    //mapping (uint => data) datas;
   }
 
-  /* struct Data {
-    uint addr;
-    uint[] datas;
-  } */
+  /* Vertex[] vertxs;                               // REMAKE GRAPH
+  mapping (bytes32 => uint) titleToIDs;  */         // REMAKE GRAPH
 
-  function init(Digraph storage self) public
-  {
+  function init(Digraph storage self) public {
     addVertex(self, "root");
   }
 
-  function addVertex(Digraph storage self, bytes32 title) public {
-    self.titleToID[title] = self.vertxs.length;
+  function getID(Digraph storage self, bytes32 title) private view returns (uint id) {
+    // if v doesn't exist, throw error
+    return self.titleToIDs[title];
+  }
+
+  function addVertex(Digraph storage self, bytes32 title) public returns (bool) {
+    // if title exists, throw error
+    self.titleToIDs[title] = self.vertxs.length;
     self.vertxs.push(Vertex(title, new uint[](0), new uint[](0)));
+    return true;
   }
 
-  function getAdj(Digraph storage self, bytes32 v) public view returns (uint[] memory)
-  { return self.vertxs[self.titleToID[v]].adj; }
+  function addEdge(Digraph storage self, bytes32 from, bytes32 to) public returns (bool) {
+    // if v or w doesn't exist, throw error
+    uint v = getID(self, from);
+    uint w = getID(self, to);
 
-  function addEdge(Digraph storage self, bytes32 v, bytes32 w) public {
-    addEdgeByID(self, self.titleToID[v], self.titleToID[w]);
-  }
+    if (v < 0 || v >= self.vertxs.length || w < 0 || w >= self.vertxs.length) return false;
 
-  function addEdgeByID(Digraph storage self, uint v, uint w) public
-  {
     self.vertxs[v].adj.push(w);
     self.vertxs[w].req.push(v);
+    return true;
+  }
+
+  function mark(Digraph storage self, bytes32 title, uint caseID) public returns (bool) {
+    // if title or case doesn't exist, throw error
+    setStatus(self, title, caseID, Status.MARKED);
+    _cascade(self, getID(self, title), caseID);
+  }
+
+  function _cascade(Digraph storage self, uint _v, uint caseID) private {
+    Vertex storage v = self.vertxs[_v];
+    for(uint i = 0; i < v.adj.length; i++) {
+      uint adj = v.adj[i];
+      if (_status(self, adj, caseID, Status.DONE)) {
+        self.vertxs[adj].status[caseID] = Status.PENDING;
+        _cascade(self, adj, caseID);
+      }
+    }
   }
 
   function setStatus(Digraph storage self, bytes32 title, uint caseID, Status status) public {
-    uint id = self.titleToID[title];
-    Vertex storage v = self.vertxs[id];
+    // if title or case doesn't exist, throw error
+    Vertex storage v = self.vertxs[getID(self, title)];
+    /* if (status == Status.MARKED) {
+      if (v.status[caseID] == Status.DONE) {
+        cascade(self, v, caseID);
+      }
+    }
+    else  */
     v.status[caseID] = status;
   }
 
+  /* function mark(Digraph storage self, bytes32 title, uint caseID, Status status) public {
+    self.vertxs[getID(title, caseID)];
+  } */
+
   function addCase(Digraph storage self, uint caseID) public {
+    // if case exist, throw error
     for(uint i = 0; i < self.vertxs.length; i++) {
       self.vertxs[i].status[caseID] = Status.UNDONE;
     }
     setStatus(self, "root", caseID, Status.DONE);
   }
 
-  function getActions(Digraph storage self, uint caseID) public returns (bytes32[] memory) {
-    Vertex[] storage vs = self.vertxs;
-    bytes32[] memory toDo = new bytes32[](vs.length);
+  function getActions(Digraph storage self, uint caseID) public view returns (bytes32[] memory) {
+    // if case doesnt exist, throw error
+    bytes32[] memory toDo = new bytes32[](self.vertxs.length);
     uint count = 0;
 
-    for (uint i = 0; i < vs.length; i++) {
-      if (isUndone(self, i, caseID)) {
-        bool isReady = true;
-
-        for(uint j = 0; j < vs[i].req.length; j++) {
-          if (isUndone(self, vs[i].req[j], caseID)) { isReady = false; }
-        }
-
-        if (isReady) {
-          toDo[count] = vs[i].title;
-          count++;
-        }
+    for (uint v = 0; v < self.vertxs.length; v++) {
+      if (_isReady(self, v, caseID)) {
+        toDo[count] = self.vertxs[v].title;
+        count++;
       }
     }
 
     return cut(toDo, count);
   }
 
-  function isUndone(Digraph storage self, uint v, uint caseID) public returns (bool) {
-    return (self.vertxs[v].status[caseID] == Status.UNDONE);
+  function _isReady(Digraph storage self, uint v, uint caseID) private view returns (bool) {
+    // if v doesnt exist, throw error
+    Vertex[] storage vs = self.vertxs;
+    if (_status(self, v, caseID, Status.DONE)) return false;
+
+    for(uint j = 0; j < vs[v].req.length; j++) {
+      if (!_status(self, vs[v].req[j], caseID, Status.DONE)) return false;
+    }
+
+    return true;
+  }
+  function ready(Digraph storage self, bytes32 title, uint caseID) public view returns (bool) {
+    return _isReady(self, getID(self, title), caseID);
   }
 
-  function cut(bytes32[] memory arr, uint count) public returns (bytes32[] memory) {
+  function _status(Digraph storage self, uint v, uint caseID, Status status) private view returns (bool) {
+    return (self.vertxs[v].status[caseID] == status);
+  }
+
+  function getStatus(Digraph storage self,bytes32 title, uint caseID) public view returns (Status) {
+    return self.vertxs[getID(self, title)].status[caseID];
+  }
+
+  function _statusByTitle(Digraph storage self, bytes32 title, uint caseID, Status status) private view returns (bool) {
+    if (getID(self, title) == 0 && title != "root") return false;
+    return (self.vertxs[getID(self, title)].status[caseID] == status);
+  }
+
+  function done(Digraph storage self, bytes32 title, uint caseID) public view returns (bool) {
+    return _statusByTitle(self, title, caseID, Status.DONE);
+  }
+
+  function undone(Digraph storage self, bytes32 title, uint caseID) public view returns (bool) {
+    return _statusByTitle(self, title, caseID, Status.UNDONE);
+  }
+
+  function marked(Digraph storage self, bytes32 title, uint caseID) public view returns (bool) {
+    return _statusByTitle(self, title, caseID, Status.MARKED);
+  }
+
+  function pending(Digraph storage self, bytes32 title, uint caseID) public view returns (bool) {
+    return _statusByTitle(self, title, caseID, Status.PENDING);
+  }
+
+
+  function cut(bytes32[] memory arr, uint count) public pure returns (bytes32[] memory) {
     bytes32[] memory res = new bytes32[](count);
     for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
     return res;
   }
 
-  /* function getActions(Digraph storage self, uint caseID) public returns () {
-    Vertex[] storage vs = self.vertxs;
-    Vertex[] memory toDo = self.vertxs;
-    int counter = self.vertxs.length;
-
+  /* function getActions(Digraph storage self, uint caseID) public returns (bytes32[] memory) {
+    Vertex[] memory vs = self.vertxs;
+    bool[] memory isReady = bool[](self.vertxs.length);
 
     for (uint i = 0; i < vs.length; i++) {
-      if (toDo[i] && vs[i].status[caseID] == Status.DONE) {
-        delete toDo[i];
-        counter--;
-      } else {
-        for(uint j = 0; j < vs[i].adj.length; j++) {
-          uint adj = vs[i].adj[j];
-          if (toDo[adj]) {
-            delete toDo[adj];
-            counter--;
-          }
-        }
+      isReady = true;
+    }
+
+    for (uint i = 0; i < vs.length; i++) {
+      if()
+      Vertex storage v = self.vertxs[i];
+      if (!isRemoved(vs[i]) && (v.status[caseID] == Status.UNDONE)) {
+        vs = remove(self, vs, i);
       }
     }
 
-    Vertex[] memory toDo = Vertex[](counter);
+    uint count = 0;
     for (uint i = 0; i < vs.length; i++) {
-      if (toDo[i]) {
-
-      }
+      if (!isRemoved(vs[i])) count++;
     }
-  } */
 
-  /* function isReady(Digraph storage self, bytes32 title, uint caseID) public view returns (bool){
-
+    return collect(vs, count);
   }
 
-  function isReadyByID(Digraph storage self, uint id, uint caseID) public view returns (bool){
+  function remove(Digraph storage self, Vertex[] memory vs, uint vid) private returns (Vertex[] memory) {
+    Vertex storage v = self.vertxs[vid];
+    for(uint i = 0; i < v.adj.length; i++) {
+      uint adj = v.adj[i];
+      if (!isRemoved(vs[adj])) {
+        vs[adj].title = "removed";
+        vs = remove(self, vs, adj);
+      }
+    }
+    return vs;
+  }
 
+  function isRemoved(Vertex memory v) private returns(bool) {
+    return (v.title == "removed");
+  }
+
+  function collect(Vertex[] memory vs, uint count) private returns (bytes32[] memory titles){
+    bytes32[] memory toDo = new bytes32[](count);
+    uint c = 0;
+    for (uint i = 0; i < vs.length; i++) {
+      if (!isRemoved(vs[i])) {
+        toDo[c] = vs[i].title;
+        c++;
+      }
+    }
+    return toDo;
   } */
+
+
 
 
   /* struct Data {
