@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Process from "./contracts/Process.json";
+import CaseOverview from './components/caseoverview.js';
 import getWeb3 from "./utils/getWeb3";
-
 import "./App.css";
 
 class App extends Component {
   state = { storageValue: [], web3: null, accounts: null, contract: null, caseID: 0 };
-
+/*
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -44,14 +44,17 @@ class App extends Component {
   }
 
   runExample = async () => {
-    const { accounts, contract, caseID } = this.state;
+    const { accounts, contract, caseID, web3 } = this.state;
 
     // Stores a given value, 5 by default.
     //await contract.methods.set(5).send({ from: accounts[0] });
 
     // Get the value from the contract to prove it worked.
+
     const response = await contract.methods.test(caseID).call();
-    console.log(response);
+    //web3.eth.contract(Process.abi).at(contract.address).test(caseID);
+    //await contract.methods.test(caseID).call();
+    console.log();
 
     // Update state with the result.
     this.setState({ storageValue: response });
@@ -61,17 +64,16 @@ class App extends Component {
     await this.state.contract.methods.fill(t, this.state.caseID).send({ from: this.state.accounts[0] });
     await this.runExample();
   }
-
+*/
   render() {
-    if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
-    }
+/*    if (!this.state.web3) {
+      return (
+        <div className="helvetica tc pa4">Loading Web3, accounts, and contract...</div>
+      );
+    }*/
     return (
       <div className="App">
-        <h1>Good to Go!</h1>
-        {
-          this.state.storageValue.map((title) => <button onClick={ (e) => this.finish(title) }> { this.toString(title) } </button>)
-        }
+        <CaseOverview/>
       </div>
     );
   }

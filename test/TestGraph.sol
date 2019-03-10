@@ -1,202 +1,112 @@
 pragma solidity ^0.5.0;
 
 import "truffle/Assert.sol";
-import "truffle/DeployedAddresses.sol";
-import "../contracts/Graph.sol";
-import "../contracts/Process.sol";
-
-
+import { Graph } from "../contracts/Graph.sol";
 
 contract TestGraph {
-  using Graph for Graph.Digraph;
-  using IterableMap for IterableMap.Map;
+  /* Graph.Digraph private _graph;
+  bytes32 t = "test";
+  bytes32 r = "root";
+  uint caseID = 12;
+  Graph.Status st_DONE = Graph.Status.DONE;
+  Graph.Status st_UNDONE = Graph.Status.UNDONE;
+  Graph.Status st_MARKED = Graph.Status.MARKED;
 
-  Graph.Digraph graph;
-
-  constructor() public {
-    graph.init();
-
-    graph.addVertex("a");
-    graph.addVertex("ba");
-    graph.addVertex("bb");
-    graph.addVertex("c");
-
-    graph.addEdge("root", "a");
-    graph.addEdge("a", "ba");
-    graph.addEdge("a", "bb");
-    graph.addEdge("ba", "c");
-    graph.addEdge("bb", "c");
-
-    graph.addCase(0);
+  function getVertexFromTitle(bytes32 _t) private returns (uint) {
+    return _graph.vertxs[_graph.titleToID[_t]];
   }
 
-  function testAddCase() public { // FEJLER!!!
-    bool isDone = (graph.getStatus("root", 0) == Graph.Status.DONE);
-    bool isUndone = (graph.getStatus("a", 0) == Graph.Status.UNDONE);
-    Assert.equal(isDone, true, "root has been set to DONE");
-    Assert.equal(isUndone, true, "a has been set to UNDONE");
+  function testInit() public {
+    //Arrange
+
+    //Act
+    Graph.init(_graph);
+
+    //Assert
+    Assert.equal(_graph.vertxs[0].title, r, "root is added in init");
   }
 
-  function testReady() public {
-    bool aReady = graph.ready("a", 0);
-    bool baReady = graph.ready("ba", 0);
-    Assert.equal(aReady, true, "a should be ready");
-    Assert.equal(baReady, false, "ba should not be ready");
+  function testAddVertex() public {
+    //Arrange
+
+    //Act
+    Graph.addVertex(_graph, t);
+
+    //Assert
+    Assert.equal(_graph.vertxs[1].title, t, "vertex is added correctly in array");
+    Assert.equal(_graph.titleToID[t], 1, "vertex is added correctly in mapping");
+  }
+
+  function testAddEdge() public {
+    //Arrange
+    bytes32 t1 = "test1";
+    bytes32 t2 = "test2";
+    Graph.addVertex(_graph, t1);
+    Graph.addVertex(_graph, t2);
+
+    //Act
+    Graph.addEdge(_graph, "test1", "test2");
+
+    //Assert
+    Assert.equal(getVertexFromTitle(t1).adj[0].title, "test2", "correctly added as adjacent");
+    Assert.equal(getVertexFromTitle(t2).adj[0].title, "test1", "correctly added as required");
   }
 
   function testSetStatus() public {
-    bool pre = (graph.getStatus("a", 0) == Graph.Status.UNDONE);
+    //Arrange
+    Graph.addVertex(_graph, t);
+    Graph.addCase(_graph, caseID);
 
-    graph.setStatus("a", 0, Graph.Status.DONE);
-    bool post = (graph.getStatus("a", 0) == Graph.Status.DONE);
+    //Act
+    Graph.setStatus(_graph, t, caseID, st_MARKED);
 
-    graph.setStatus("a", 0, Graph.Status.UNDONE);
-    bool setback = (graph.getStatus("a", 0) == Graph.Status.UNDONE);
-
-    Assert.equal(pre, true, "a before should be undone");
-    Assert.equal(post, true, "a after should be done");
-    Assert.equal(setback, true, "a should be set back to undone");
+    //Assert
+    Assert.isTrue(getVertexFromTitle(t).status == st_MARKED, "status is set corretly");
   }
 
-  function testUndone() public {
-    bool isUndone = graph.undone("ba", 0);
-    Assert.equal(isUndone, true, "undone ba should return true");
+  function testAddCase() public {
+    //Arrange
+    Graph.addVertex(_graph, t);
+    //Act
+    Graph.addCase(_graph, caseID);
+
+    //Assert
+    Assert.isTrue(getVertexFromTitle(t).status == st_UNDONE, "status for nonroot is set corretly");
+    Assert.isTrue(getVertexFromTitle(r).status == st_DONE, "status for root is set corretly");
   }
 
-  function testDone() public {
-    bool isDone = graph.done("root", 0);
-    Assert.equal(isDone, true, "done a should return true");
-  }
+  function testIsUndone() public {
+    //Arrange
+    Graph.addVertex(_graph, t);
+    Graph.addCase(_graph, caseID);
 
-  function testMarked() public {
-    bool pre = graph.marked("ba", 0);
-    graph.setStatus("ba", 0, Graph.Status.MARKED);
-    bool post = graph.marked("ba", 0);
-    graph.setStatus("ba", 0, Graph.Status.UNDONE);
-    bool setback = graph.undone("ba", 0);
+    //Act
+    bool res1 = Graph.undone(_graph, getVertexFromTitle(t), caseID);
+    bool res2 = Graph.undone(_graph, getVertexFromTitle(r), caseID);
 
-    Assert.equal(pre, false, "marked pre should return false");
-    Assert.equal(post, true, "marked post should return true");
-    Assert.equal(setback, true, "ba should be set back to undone");
-  }
-
-  function testPending() public {
-    bool pre = graph.pending("ba", 0);
-    graph.setStatus("ba", 0, Graph.Status.PENDING);
-    bool post = graph.pending("ba", 0);
-    graph.setStatus("ba", 0, Graph.Status.UNDONE);
-    bool setback = graph.undone("ba", 0);
-
-    Assert.equal(pre, false, "pending pre should return false");
-    Assert.equal(post, true, "pending post should return true");
-    Assert.equal(setback, true, "ba should be set back to undone");
-  }
-
-  function testOnNonExistingVertex() public {
-    bool isDone = graph.done("root", 0);
-    bool fail = graph.done("fail", 0);
-
-    Assert.equal(isDone, true, "done on root should return true");
-    Assert.equal(fail, false, "done on non-existing vertex should return false");
+    //Assert
+    Assert.isTrue(res1, "is UNDONE with for nonroot");
+    Assert.isFalse(res2, "is DONE with for root");
   }
 
 
   function testCut() public {
-    bytes32[] memory toDo = new bytes32[](3);
-    toDo[0] = "a";
-    toDo[1] = "b";
-    toDo[2] = "c";
-    bytes32[] memory res = Graph.cut(toDo, 2);
+    //Arrange
+    uint oldLength = 8;
+    bytes32[] memory arr = new bytes32[](oldLength);
+    for(uint i = 0; i < oldLength; i++) {
+      arr[i] = bytes32(i);
+    }
+    uint newLength = 6;
 
-    Assert.equal(res.length, 2, "res[0] should be a");
-    Assert.equal(res[0], "a", "res[0] should be a");
-    Assert.equal(res[1], "b", "res[1] should be a");
-  }
+    //Act
+    bytes32[] memory res = Graph.cut(arr, newLength);
 
-  /* function testProcessFillSuccessfull() public {
-    bool success = fill("ba", 0);
-    Assert.equal(success, true, "fill ba should be successful");
-
-    bool done = (graph.done("a", 0));
-    Assert.equal(done, true, "a should be DONE");
-
-    done = (graph.done("ba", 0));
-    Assert.equal(done, true, "ba should be DONE");
-
-    done = (graph.undone("bb", 0));
-    Assert.equal(done, true, "bb should be UNDONE");
-
-    done = (graph.undone("c", 0));
-    Assert.equal(done, true, "c should be UNDONE");
-  }
-
-  function testProcessFillFails() public {
-    this.fill("ba", 0);
-
-    bool success = this.fill("c", 0);
-    Assert.equal(success, false, "fill c should be unsuccessful");
-
-    bool done = (graph.done("a", 0));
-    Assert.equal(done, true, "a should be DONE");
-
-    done = (graph.done("ba", 0));
-    Assert.equal(done, true, "ba should be DONE");
-
-    done = (graph.undone("bb", 0));
-    Assert.equal(done, true, "bb should be UNDONE");
-
-    done = (graph.undone("c", 0));
-    Assert.equal(done, true, "c should be UNDONE");
-  }
-
-  function testProcessMark() public {
-
-    this.fill("ba", 0);
-    this.fill("bb", 0);
-    this.mark("a", 0);
-
-    bool success = this.fill("c", 0);
-    Assert.equal(success, false, "fill c should be unsuccessful");
-
-    bool done = (graph.done("a", 0));
-    Assert.equal(done, true, "a should be DONE");
-
-    done = (graph.done("ba", 0));
-    Assert.equal(done, true, "ba should be DONE");
-
-    done = (graph.undone("bb", 0));
-    Assert.equal(done, true, "bb should be UNDONE");
-
-    done = (graph.undone("c", 0));
-    Assert.equal(done, true, "c should be UNDONE");
+    //Assert
+    Assert.equal(res.length, newLength, "returned array has new length");
+    for(uint i = 0; i < newLength; i++) {
+      Assert.equal(arr[i], bytes32(i), "returned array has correct value at index: " + i);
+    }
   } */
-
-
-
-
-
-
-  /* function testProcessMark() public {
-    Process process = Process(DeployedAddresses.Process());
-    process.smallTestSetup();
-
-    process.mark("a", 0);
-
-    Assert.equal(graph.marked("a", 0), true, "actions.length should be 2");
-    Assert.equal(graph.pending("ba", 0), true, "actions[0] should be ba");
-    Assert.equal(titles[1], "bb", "actions[1] should be bb");
-  } */
-
-
-  /* function testMarkingCascades() public {
-    Process process = Process(DeployedAddresses.Process());
-    process.smallTestSetup();
-
-    process.fill("ba");
-
-    Assert.equal(true, true, "process.mark(a) should return true");
-
-  } */
-
 
 }
