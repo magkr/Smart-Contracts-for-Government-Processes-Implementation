@@ -59,6 +59,23 @@ contract TestProcess2 is Process {
     Assert.equal(titles2[1], "bb", "actions[1] should be bb");
   }
 
+  function testFillSuceed() public {
+    bool success = fill("a", 0);
+    uint actions = getActions(0).length;
+
+    bool a = graph.done("a", 0);
+    bool ba = graph.undone("ba", 0);
+    bool bb = graph.undone("bb", 0);
+    bool c = graph.undone("c", 0);
+
+    Assert.equal(success, true, "fill a should be successful");
+    Assert.equal(actions, 2, "actions.length should be 2 (ba and bb)");
+    Assert.equal(a, true, "a should be DONE");
+    Assert.equal(ba, true, "ba should be UNDONE");
+    Assert.equal(bb, true, "bb should be UNDONE");
+    Assert.equal(c, true, "c should be UNDONE");
+  }
+
   function testMarkSuceed() public {
     fill("a", 0);
     fill("ba", 0);
@@ -66,25 +83,21 @@ contract TestProcess2 is Process {
     fill("e", 0);
 
     bool success = mark("a", 0);
+    bool a = graph.marked("a", 0);
+    bool ba = graph.pending("ba", 0);
+    bool d = graph.pending("d", 0);
+    bool e = graph.pending("e", 0);
+    bool bb = graph.undone("bb", 0);
+    bool c = graph.undone("c", 0);
+
     Assert.equal(success, true, "mark a should be successful");
+    Assert.equal(a, true, "a should be MARKED");
+    Assert.equal(ba, true, "ba should be PENDING");
+    Assert.equal(d, true, "d should be PENDING");
+    Assert.equal(e, true, "e should be PENDING");
+    Assert.equal(bb, true, "vv should be UNDONE");
+    Assert.equal(c, true, "c should be UNDONE");
 
-    bool status = graph.marked("a", 0);
-    Assert.equal(status, true, "a should be MARKED");
-
-    status = graph.pending("ba", 0);
-    Assert.equal(status, true, "ba should be PENDING");
-
-    status = graph.pending("d", 0);
-    Assert.equal(status, true, "bb should be PENDING");
-
-    status = graph.pending("e", 0);
-    Assert.equal(status, true, "c should be PENDING");
-
-    status = graph.undone("bb", 0);
-    Assert.equal(status, true, "ba should be UNDONE");
-
-    status = graph.undone("c", 0);
-    Assert.equal(status, true, "ba should be UNDONE");
   }
 
   //TESTING METHOD 2:
@@ -94,19 +107,17 @@ contract TestProcess2 is Process {
     process.smallTestSetup();
 
     bool success = process.fill("ba", 0);
+    bool a = (process.getStatus("a", 0) == Graph.Status.DONE);
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.DONE);
+    bool bb = (process.getStatus("bb", 0) == Graph.Status.UNDONE);
+    bool c = (process.getStatus("c", 0) == Graph.Status.UNDONE);
+
     Assert.equal(success, true, "fill ba should be successful");
+    Assert.equal(a, true, "a should be DONE");
+    Assert.equal(ba, true, "ba should be DONE");
+    Assert.equal(bb, true, "bb should be UNDONE");
+    Assert.equal(c, true, "c should be UNDONE");
 
-    bool done = (process.getStatus("a", 0) == Graph.Status.DONE);
-    Assert.equal(done, true, "a should be DONE");
-
-    done = (process.getStatus("ba", 0) == Graph.Status.DONE);
-    Assert.equal(done, true, "ba should be DONE");
-
-    done = (process.getStatus("bb", 0) == Graph.Status.UNDONE);
-    Assert.equal(done, true, "bb should be UNDONE");
-
-    done = (process.getStatus("c", 0) == Graph.Status.UNDONE);
-    Assert.equal(done, true, "c should be UNDONE");
   }
 
   function testFillFails() public {
@@ -115,19 +126,17 @@ contract TestProcess2 is Process {
     process.fill("ba", 0);
 
     bool success = process.fill("c", 0);
+    bool a = (process.getStatus("a", 0) == Graph.Status.DONE);
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.DONE);
+    bool bb = (process.getStatus("bb", 0) == Graph.Status.UNDONE);
+    bool c = (process.getStatus("c", 0) == Graph.Status.UNDONE);
+
     Assert.equal(success, false, "fill c should be unsuccessful");
+    Assert.equal(a, true, "a should be DONE");
+    Assert.equal(ba, true, "ba should be DONE");
+    Assert.equal(bb, true, "bb should be UNDONE");
+    Assert.equal(c, true, "c should be UNDONE");
 
-    bool done = (process.getStatus("a", 0) == Graph.Status.DONE);
-    Assert.equal(done, true, "a should be DONE");
-
-    done = (process.getStatus("ba", 0) == Graph.Status.DONE);
-    Assert.equal(done, true, "ba should be DONE");
-
-    done = (process.getStatus("bb", 0) == Graph.Status.UNDONE);
-    Assert.equal(done, true, "bb should be UNDONE");
-
-    done = (process.getStatus("c", 0) == Graph.Status.UNDONE);
-    Assert.equal(done, true, "c should be UNDONE");
   }
 
   function testMarkingSucceed() public {
@@ -138,19 +147,16 @@ contract TestProcess2 is Process {
     process.fill("c", 0);
 
     bool success = process.mark("a", 0);
+    bool a = (process.getStatus("a", 0) == Graph.Status.MARKED);
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.PENDING);
+    bool bb = (process.getStatus("bb", 0) == Graph.Status.PENDING);
+    bool c = (process.getStatus("c", 0) == Graph.Status.PENDING);
+
     Assert.equal(success, true, "mark a should be successful");
-
-    bool status = (process.getStatus("a", 0) == Graph.Status.MARKED);
-    Assert.equal(status, true, "a should be MARKED");
-
-    status = (process.getStatus("ba", 0) == Graph.Status.PENDING);
-    Assert.equal(status, true, "ba should be PENDING");
-
-    status = (process.getStatus("bb", 0) == Graph.Status.PENDING);
-    Assert.equal(status, true, "bb should be PENDING");
-
-    status = (process.getStatus("c", 0) == Graph.Status.PENDING);
-    Assert.equal(status, true, "c should be PENDING");
+    Assert.equal(a, true, "a should be MARKED");
+    Assert.equal(ba, true, "ba should be PENDING");
+    Assert.equal(bb, true, "bb should be PENDING");
+    Assert.equal(c, true, "c should be PENDING");
   }
 
   function testMarkingFails() public {
@@ -158,20 +164,73 @@ contract TestProcess2 is Process {
     process.smallTestSetup();
 
     bool success = process.mark("ba", 0);
+    bool a = (process.getStatus("a", 0) == Graph.Status.DONE);
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.UNDONE);
+    bool bb = (process.getStatus("bb", 0) == Graph.Status.UNDONE);
+    bool c = (process.getStatus("c", 0) == Graph.Status.UNDONE);
+
     Assert.equal(success, false, "mark ba should be unsuccessful");
-
-    bool status = (process.getStatus("a", 0) == Graph.Status.DONE);
-    Assert.equal(status, true, "a should be DONE");
-
-    status = (process.getStatus("ba", 0) == Graph.Status.UNDONE);
-    Assert.equal(status, true, "ba should be UNDONE");
-
-    status = (process.getStatus("bb", 0) == Graph.Status.UNDONE);
-    Assert.equal(status, true, "bb should be UNDONE");
-
-    status = (process.getStatus("c", 0) == Graph.Status.UNDONE);
-    Assert.equal(status, true, "c should be UNDONE");
+    Assert.equal(a, true, "a should be DONE");
+    Assert.equal(ba, true, "ba should be UNDONE");
+    Assert.equal(bb, true, "bb should be UNDONE");
+    Assert.equal(c, true, "c should be UNDONE");
   }
 
+  function testFillFailsOnMarked() public {
+    Process process = Process(DeployedAddresses.Process());
+    process.smallTestSetup();
+    process.fill("a", 0);
+    process.mark("a", 0);
 
+    bool a = (process.getStatus("a", 0) == Graph.Status.MARKED);
+    bool asuccess = process.fill("a", 0);
+    bool aafter = (process.getStatus("a", 0) == Graph.Status.MARKED);
+
+    Assert.equal(a, true, "a should be MARKED");
+    Assert.equal(asuccess, false, "fill marked a should not succeed");
+    Assert.equal(aafter, true, "a should still be MARKED");
+  }
+
+  function testFillFailsOnPending() public {
+    Process process = Process(DeployedAddresses.Process());
+    process.smallTestSetup();
+    process.fill("a", 0);
+    process.fill("ba", 0);
+    process.mark("a", 0);
+
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.PENDING);
+    bool bsuccess = process.fill("b", 0);
+    bool baafter = (process.getStatus("ba", 0) == Graph.Status.PENDING);
+
+    Assert.equal(ba, true, "ba should be PENDING");
+    Assert.equal(bsuccess, false, "fill pending b should not succeed");
+    Assert.equal(baafter, true, "ba should still be PENDING");
+  }
+
+  function testUnmarkSucceedOnMarked() public {
+    Process process = Process(DeployedAddresses.Process());
+    process.smallTestSetup();
+    process.fill("a", 0);
+    process.fill("ba", 0);
+    process.mark("a", 0);
+
+    bool success = process.unmark("a", 0);
+    bool a = (process.getStatus("a", 0) == Graph.Status.DONE);
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.DONE);
+
+    Assert.equal(success, true, "unmark a should succeed");
+    Assert.equal(a, true, "a should be back to DONE");
+    Assert.equal(ba, true, "ba should be back to DONE");
+  }
+
+  function testUnmarkFailsOnUndone() public {
+    Process process = Process(DeployedAddresses.Process());
+    process.smallTestSetup();
+
+    bool success = process.unmark("ba", 0);
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.UNDONE);
+
+    Assert.equal(success, false, "unmark undone ba should not succeed");
+    Assert.equal(ba, true, "ba should still be UNDONE");
+  }
 }

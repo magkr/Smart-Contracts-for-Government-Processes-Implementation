@@ -54,16 +54,33 @@ library Graph {
   function mark(Digraph storage self, bytes32 title, uint caseID) public returns (bool) {
     // if title or case doesn't exist, throw error
     setStatus(self, title, caseID, Status.MARKED);
-    _cascade(self, getID(self, title), caseID);
+    _cascadeMark(self, getID(self, title), caseID);
   }
 
-  function _cascade(Digraph storage self, uint _v, uint caseID) private {
+  function _cascadeMark(Digraph storage self, uint _v, uint caseID) private {
     Vertex storage v = self.vertxs[_v];
     for(uint i = 0; i < v.adj.length; i++) {
       uint adj = v.adj[i];
       if (_status(self, adj, caseID, Status.DONE)) {
         self.vertxs[adj].status[caseID] = Status.PENDING;
-        _cascade(self, adj, caseID);
+        _cascadeMark(self, adj, caseID);
+      }
+    }
+  }
+
+  function unmark(Digraph storage self, bytes32 title, uint caseID) public returns (bool) {
+    // if title or case doesn't exist, throw error
+    setStatus(self, title, caseID, Status.DONE);
+    _cascadeUnmark(self, getID(self, title), caseID);
+  }
+
+  function _cascadeUnmark(Digraph storage self, uint _v, uint caseID) private {
+    Vertex storage v = self.vertxs[_v];
+    for(uint i = 0; i < v.adj.length; i++) {
+      uint adj = v.adj[i];
+      if (_status(self, adj, caseID, Status.PENDING)) {
+        self.vertxs[adj].status[caseID] = Status.DONE;
+        _cascadeUnmark(self, adj, caseID);
       }
     }
   }

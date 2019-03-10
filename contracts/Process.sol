@@ -31,6 +31,7 @@ contract Process {
   }
 
   function fill(bytes32 title, uint caseID) public returns (bool success) {
+    if (!(graph.done(title, caseID) || graph.undone(title, caseID))) return false; //vertex either marked or pending
     if (!graph.ready(title, caseID)) return false;
     graph.setStatus(title, caseID, Graph.Status.DONE);
     return true;
@@ -40,7 +41,13 @@ contract Process {
     if (graph.done(title, caseID) || graph.pending(title, caseID)) {
       graph.mark(title, caseID);
       return graph.marked(title, caseID);
-    } else return false;
+    } else return false; // cannot mark undone or marked vertex
+  }
+
+  function unmark(bytes32 title, uint caseID) public returns (bool) {
+    if (!graph.marked(title, caseID)) return false; // cannot unmarked a non-marked vertex
+    graph.unmark(title, caseID);
+    return graph.done(title, caseID);
   }
 
   function getStatus(bytes32 title, uint caseID) public view returns (Graph.Status status) {
