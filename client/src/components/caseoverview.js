@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import CaseList from './caselist.js';
 import Case from './case.js';
 import "./caseoverview.css";
+import { ContractConsumer, ContractContext } from '../utils/contractcontext.js';
 
 class CaseOverview extends Component {
   state = {
     selected: null,
-    cases: [{id: 1, name: "Magnus"}, {id: 2, name: "Liv"}, {id: 3, name: "Søren"}],
+    actionslist: [],
+    cases: [{id: 0, name: "Magnus"}, {id: 2, name: "Liv"}, {id: 3, name: "Søren"}],
   };
 
   constructor(props){
@@ -14,9 +16,10 @@ class CaseOverview extends Component {
     this.setSelected = this.setSelected.bind(this);
   }
 
-  setSelected(c) {
+  async setSelected(c) {
     this.setState({
-      selected: c
+      selected: c,
+      actionslist: await this.context.getActions(c.id)
     })
   }
 
@@ -33,11 +36,19 @@ class CaseOverview extends Component {
             }
           </div>
           <div className="fl w-80">
+
             {
               this.state.selected !== null
-              ? <Case selected={this.state.selected}/>
+              ? (
+                <ContractConsumer>
+                  { value =>
+                    <Case selected={this.state.selected} actionslist={this.state.actionslist} web3={value.web3}/>
+                  }
+                </ContractConsumer>
+              )
               : <h1 className="helvetica f4 pa5 tc pt3 w-100">Choose a case to show</h1>
             }
+
           </div>
         </div>
         {/*
@@ -48,5 +59,7 @@ class CaseOverview extends Component {
   }
 
 }
+
+CaseOverview.contextType = ContractContext;
 
 export default CaseOverview;

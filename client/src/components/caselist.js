@@ -3,7 +3,6 @@ import "./caselist.css";
 
 class CaseList extends Component {
   render() {
-    console.log(this.props.cases);
     return (
       <ul className="w-100">
         {this.props.cases.map((c) =>
