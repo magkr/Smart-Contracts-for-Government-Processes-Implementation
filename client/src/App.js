@@ -69,7 +69,7 @@ class App extends Component {
 
     // Update state with the result.
     //this.setState({ storageValue: response });
-    return response['titles'];
+    return response;
   };
 
   finish = async (t) => {
