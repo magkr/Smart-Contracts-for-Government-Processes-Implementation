@@ -14,10 +14,6 @@ class CaseOverview extends Component {
     this.setSelected = this.setSelected.bind(this);
   }
 
-  componentDidMount(){
-
-  }
-
   setSelected(c) {
     this.setState({
       selected: c
@@ -32,7 +28,7 @@ class CaseOverview extends Component {
           <div className="fl w-20">
             {
               this.state.cases.length !== 0
-              ? <CaseList cases={this.state.cases} setSelected={this.setSelected}/>
+              ? <CaseList cases={this.state.cases} selected={this.state.selected} setSelected={this.setSelected}/>
               : <h1 className="helvetica f4 b tc pt3 w-100">No cases to show</h1>
             }
           </div>

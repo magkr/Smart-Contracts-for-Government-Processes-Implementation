@@ -13,12 +13,10 @@ class CaseList extends Component {
               <h2 className="f6 fw4 mt0 mb0 black-60 helvetica">Case ID: {c.id}</h2>
             </div>
             <div className="w-third dtc v-mid">
-              <form className="w-100 tr">
-                <button className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
-                 onClick={(e) => this.props.setSelected(c)}>
-                  Show case
-                </button>
-              </form>
+              <button className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
+               onClick={(e) => (this.props.setSelected(c))}>
+                Show case
+              </button>
             </div>
           </li>
         )}

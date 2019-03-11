@@ -6,7 +6,7 @@ import "./App.css";
 
 class App extends Component {
   state = { storageValue: [], web3: null, accounts: null, contract: null, caseID: 0 };
-/*
+
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -51,10 +51,10 @@ class App extends Component {
 
     // Get the value from the contract to prove it worked.
 
-    const response = await contract.methods.test(caseID).call();
-    //web3.eth.contract(Process.abi).at(contract.address).test(caseID);
+    //const response = await contract.methods.getActions(caseID).call();
+    web3.eth.contract(Process.abi).at(contract.address).test(caseID);
     //await contract.methods.test(caseID).call();
-    console.log();
+    console.log(response);
 
     // Update state with the result.
     this.setState({ storageValue: response });
@@ -64,7 +64,7 @@ class App extends Component {
     await this.state.contract.methods.fill(t, this.state.caseID).send({ from: this.state.accounts[0] });
     await this.runExample();
   }
-*/
+
   render() {
 /*    if (!this.state.web3) {
       return (

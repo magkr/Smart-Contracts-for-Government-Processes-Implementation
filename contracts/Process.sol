@@ -24,6 +24,7 @@ contract Process {
 
   constructor() public {
     graph.init();
+    testSetup();
   }
 
   function getActions(uint caseID) public view returns (bytes32[] memory titles) {
