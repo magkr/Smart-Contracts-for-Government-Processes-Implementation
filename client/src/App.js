@@ -10,13 +10,14 @@ class App extends Component {
     web3: null,
     accounts: null,
     contract: null,
-    v: null
   };
 
   constructor(){
     super();
     this.getActions = this.getActions.bind(this);
     this.setToDone = this.setToDone.bind(this);
+    this.getCases = this.getCases.bind(this);
+    this.addCase = this.addCase.bind(this);
   }
 
   componentDidMount = async () => {
@@ -74,9 +75,20 @@ class App extends Component {
     return response;
   };
 
+  getCases = async () => {
+    const { accounts, contract, caseID, web3 } = this.state;
+
+    const response = await contract.methods.getCases().call();
+    console.log(response);
+    return response;
+  };
+
   setToDone = async (t, caseID) => {
     await this.state.contract.methods.fill(t, caseID).send({ from: this.state.accounts[0] });
-    this.setState({ v: 0})
+  }
+
+  addCase = async () => {
+    await this.state.contract.methods.addCase().send({ from: this.state.accounts[0] });
   }
 
   render() {
@@ -92,8 +104,10 @@ class App extends Component {
           accounts: this.state.accounts,
           contract: this.state.contract,
           getActions: this.getActions,
-          setToDone: this.setToDone
-        }} v={this.state.v}>
+          setToDone: this.setToDone,
+          addCase: this.addCase,
+          getCases: this.getCases
+        }}>
           <CaseOverview/>
         </ContractProvider>
       </div>

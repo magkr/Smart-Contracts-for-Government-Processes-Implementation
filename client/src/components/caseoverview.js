@@ -7,8 +7,6 @@ import { ContractConsumer, ContractContext } from '../utils/contractcontext.js';
 class CaseOverview extends Component {
   state = {
     selected: null,
-    actionslist: [],
-    cases: [{id: 0, name: "Magnus"}, {id: 2, name: "Liv"}, {id: 3, name: "Søren"}],
   };
 
   constructor(props){
@@ -18,10 +16,10 @@ class CaseOverview extends Component {
 
   async setSelected(c) {
     this.setState({
-      selected: c,
-      actionslist: await this.context.getActions(c.id)
+      selected: c
     })
   }
+
 
   render() {
     return (
@@ -29,11 +27,13 @@ class CaseOverview extends Component {
         <h1 className="helvetica b tc ma0 pa4">Good to Go!</h1>
         <div className="w-100">
           <div className="fl w-20">
-            {
-              this.state.cases.length !== 0
-              ? <CaseList cases={this.state.cases} selected={this.state.selected} setSelected={this.setSelected}/>
-              : <h1 className="helvetica f4 b tc pt3 w-100">No cases to show</h1>
-            }
+            <ContractConsumer>
+              { value =>
+                <CaseList selected={this.state.selected}
+                  setSelected={this.setSelected} addCase={value.addCase}
+                  getCases={value.getCases}/>
+              }
+            </ContractConsumer>
           </div>
           <div className="fl w-80">
 
@@ -42,7 +42,7 @@ class CaseOverview extends Component {
               ? (
                 <ContractConsumer>
                   { value =>
-                    <Case selected={this.state.selected} actionslist={this.state.actionslist} setToDone={value.setToDone} web3={value.web3}/>
+                    <Case selected={this.state.selected} getActions={value.getActions} setToDone={value.setToDone} web3={value.web3}/>
                   }
                 </ContractConsumer>
               )
