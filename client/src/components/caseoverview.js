@@ -42,7 +42,7 @@ class CaseOverview extends Component {
               ? (
                 <ContractConsumer>
                   { value =>
-                    <Case selected={this.state.selected} actionslist={this.state.actionslist} web3={value.web3}/>
+                    <Case selected={this.state.selected} actionslist={this.state.actionslist} setToDone={value.setToDone} web3={value.web3}/>
                   }
                 </ContractConsumer>
               )

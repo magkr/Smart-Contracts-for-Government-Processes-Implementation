@@ -9,12 +9,14 @@ class App extends Component {
   state = {
     web3: null,
     accounts: null,
-    contract: null
+    contract: null,
+    v: null
   };
 
   constructor(){
     super();
     this.getActions = this.getActions.bind(this);
+    this.setToDone = this.setToDone.bind(this);
   }
 
   componentDidMount = async () => {
@@ -72,9 +74,9 @@ class App extends Component {
     return response;
   };
 
-  finish = async (t) => {
-    await this.state.contract.methods.fill(t, this.state.caseID).send({ from: this.state.accounts[0] });
-    await this.runExample();
+  setToDone = async (t, caseID) => {
+    await this.state.contract.methods.fill(t, caseID).send({ from: this.state.accounts[0] });
+    this.setState({ v: 0})
   }
 
   render() {
@@ -89,8 +91,9 @@ class App extends Component {
           web3: this.state.web3,
           accounts: this.state.accounts,
           contract: this.state.contract,
-          getActions: this.getActions
-        }}>
+          getActions: this.getActions,
+          setToDone: this.setToDone
+        }} v={this.state.v}>
           <CaseOverview/>
         </ContractProvider>
       </div>
