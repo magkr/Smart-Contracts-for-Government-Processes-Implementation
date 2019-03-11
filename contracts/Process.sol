@@ -64,12 +64,14 @@ contract Process {
     graph.addVertex("ba");
     graph.addVertex("bb");
     graph.addVertex("c");
+    graph.addVertex("d");
 
     graph.addEdge("root", "a");
     graph.addEdge("a", "ba");
     graph.addEdge("a", "bb");
     graph.addEdge("ba", "c");
     graph.addEdge("bb", "c");
+    graph.addEdge("c", "d");
 
     uint caseID = 0;
     graph.addCase(caseID);

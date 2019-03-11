@@ -233,4 +233,24 @@ contract TestProcess2 is Process {
     Assert.equal(success, false, "unmark undone ba should not succeed");
     Assert.equal(ba, true, "ba should still be UNDONE");
   }
+
+  function testUnmarkWithSeveralMarks() public {
+    Process process = Process(DeployedAddresses.Process());
+    process.smallTestSetup(); // a -> (ba,bb) -> c -> d
+    process.fill("a", 0);
+    process.fill("ba", 0);
+    process.fill("bb", 0);
+    process.fill("c", 0);   // done - > (done,done) -> done -> undone
+    /* process.mark("a", 0);   // marked - > (pending,pending) -> pending -> undone */
+    /* process.mark("ba", 0);  // marked -> (marked,pending) -> pending */
+
+    /* bool success = process.unmark("ba", 0); */
+    bool ba = (process.getStatus("ba", 0) == Graph.Status.PENDING);
+    bool c = (process.getStatus("c", 0) == Graph.Status.PENDING);
+
+    /* Assert.equal(success, false, "unmark undone ba should not succeed"); */
+    Assert.equal(ba, true, "ba should be set back to PENDING");
+    Assert.equal(c, true, "c should still be PENDING");
+
+  }
 }
