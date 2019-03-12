@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.5.0;
 
 
 import {Graph} from "./Graph.sol";
@@ -8,6 +8,8 @@ contract Process {
   using Graph for Graph.Digraph;
 
   Graph.Digraph graph;
+
+  uint[] cases;
 
   /*  IDEAS FOR MAINTAING A STORAGE OF DATA
   mapping (bytes32 => DataTable) store;
@@ -23,7 +25,19 @@ contract Process {
 
 
   constructor() public {
-    graph.init();
+    graph.init();  
+    ProcessFactory.metering(graph);
+    ProcessFactory.beregningsgrundlag(graph);
+  }
+
+  function addCase() public {
+    uint id = cases.length+1;
+    cases.push(id);
+    graph.addCase(id);
+  }
+
+  function getCases() public view returns (uint[] memory){
+    return cases;
   }
 
   function getActions(uint caseID) public view returns (bytes32[] memory titles) {

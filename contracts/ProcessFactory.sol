@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.5.0;
 
 import {Graph} from "./Graph.sol";
 
@@ -42,12 +42,12 @@ library ProcessFactory {
     graph.addEdge("Familieforhold","Sparede udgifter");
     graph.addEdge("Arbejdsfleksibilitet","Bevilligede timer");
     graph.addEdge("Arbejdsfleksibilitet","Sparede udgifter");
-    graph.addEdge("Bevilligede timer", "Udmåling afgørese");
-    graph.addEdge("Sparede udgifter", "Udmåling afgørese");
+    graph.addEdge("Bevilligede timer", "Udmåling afgørelse");
+    graph.addEdge("Sparede udgifter", "Udmåling afgørelse");
   }
 
   function beregningsgrundlag(Graph.Digraph storage graph) public {
-    bytes32 root = "Udmåling afgørese";
+    bytes32 root = "Udmåling afgørelse";
     graph.addVertex("Indkomstoplysninger");
     graph.addVertex("Skatteoplysninger");
     graph.addVertex("Pensionsoplysninger");

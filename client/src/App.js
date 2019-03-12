@@ -2,11 +2,24 @@ import React, { Component } from "react";
 import Process from "./contracts/Process.json";
 import CaseOverview from './components/caseoverview.js';
 import getWeb3 from "./utils/getWeb3";
+import { ContractProvider } from './utils/contractcontext.js';
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: [], web3: null, accounts: null, contract: null, caseID: 0 };
-/*
+  state = {
+    web3: null,
+    accounts: null,
+    contract: null,
+  };
+
+  constructor(){
+    super();
+    this.getActions = this.getActions.bind(this);
+    this.setToDone = this.setToDone.bind(this);
+    this.getCases = this.getCases.bind(this);
+    this.addCase = this.addCase.bind(this);
+  }
+
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -25,7 +38,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({ web3, accounts, contract: instance });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -35,6 +48,7 @@ class App extends Component {
     }
   };
 
+
   toBytes(s) {
     return this.state.web3.utils.utf8ToHex(s);
   }
@@ -43,7 +57,8 @@ class App extends Component {
     return this.state.web3.utils.hexToUtf8(s);
   }
 
-  runExample = async () => {
+
+  getActions = async (id) => {
     const { accounts, contract, caseID, web3 } = this.state;
 
     // Stores a given value, 5 by default.
@@ -51,29 +66,50 @@ class App extends Component {
 
     // Get the value from the contract to prove it worked.
 
-    const response = await contract.methods.test(caseID).call();
+    const response = await contract.methods.getActions(id).call();
     //web3.eth.contract(Process.abi).at(contract.address).test(caseID);
     //await contract.methods.test(caseID).call();
-    console.log();
 
     // Update state with the result.
-    this.setState({ storageValue: response });
+    //this.setState({ storageValue: response });
+    return response;
   };
 
-  finish = async (t) => {
-    await this.state.contract.methods.fill(t, this.state.caseID).send({ from: this.state.accounts[0] });
-    await this.runExample();
+  getCases = async () => {
+    const { accounts, contract, caseID, web3 } = this.state;
+
+    const response = await contract.methods.getCases().call();
+    console.log(response);
+    return response;
+  };
+
+  setToDone = async (t, caseID) => {
+    await this.state.contract.methods.fill(t, caseID).send({ from: this.state.accounts[0] });
   }
-*/
+
+  addCase = async () => {
+    await this.state.contract.methods.addCase().send({ from: this.state.accounts[0] });
+  }
+
   render() {
-/*    if (!this.state.web3) {
+    if (!this.state.web3) {
       return (
         <div className="helvetica tc pa4">Loading Web3, accounts, and contract...</div>
       );
-    }*/
+    }
     return (
       <div className="App">
-        <CaseOverview/>
+        <ContractProvider value={{
+          web3: this.state.web3,
+          accounts: this.state.accounts,
+          contract: this.state.contract,
+          getActions: this.getActions,
+          setToDone: this.setToDone,
+          addCase: this.addCase,
+          getCases: this.getCases
+        }}>
+          <CaseOverview/>
+        </ContractProvider>
       </div>
     );
   }

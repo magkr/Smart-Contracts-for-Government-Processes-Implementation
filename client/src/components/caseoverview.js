@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import CaseList from './caselist.js';
 import Case from './case.js';
 import "./caseoverview.css";
+import { ContractConsumer, ContractContext } from '../utils/contractcontext.js';
 
 class CaseOverview extends Component {
   state = {
     selected: null,
-    cases: [{id: 1, name: "Magnus"}, {id: 2, name: "Liv"}, {id: 3, name: "Søren"}],
   };
 
   constructor(props){
@@ -14,15 +14,12 @@ class CaseOverview extends Component {
     this.setSelected = this.setSelected.bind(this);
   }
 
-  componentDidMount(){
-
-  }
-
-  setSelected(c) {
+  async setSelected(c) {
     this.setState({
       selected: c
     })
   }
+
 
   render() {
     return (
@@ -30,18 +27,28 @@ class CaseOverview extends Component {
         <h1 className="helvetica b tc ma0 pa4">Good to Go!</h1>
         <div className="w-100">
           <div className="fl w-20">
-            {
-              this.state.cases.length !== 0
-              ? <CaseList cases={this.state.cases} setSelected={this.setSelected}/>
-              : <h1 className="helvetica f4 b tc pt3 w-100">No cases to show</h1>
-            }
+            <ContractConsumer>
+              { value =>
+                <CaseList selected={this.state.selected}
+                  setSelected={this.setSelected} addCase={value.addCase}
+                  getCases={value.getCases}/>
+              }
+            </ContractConsumer>
           </div>
           <div className="fl w-80">
+
             {
               this.state.selected !== null
-              ? <Case selected={this.state.selected}/>
+              ? (
+                <ContractConsumer>
+                  { value =>
+                    <Case selected={this.state.selected} getActions={value.getActions} setToDone={value.setToDone} web3={value.web3}/>
+                  }
+                </ContractConsumer>
+              )
               : <h1 className="helvetica f4 pa5 tc pt3 w-100">Choose a case to show</h1>
             }
+
           </div>
         </div>
         {/*
@@ -52,5 +59,7 @@ class CaseOverview extends Component {
   }
 
 }
+
+CaseOverview.contextType = ContractContext;
 
 export default CaseOverview;
