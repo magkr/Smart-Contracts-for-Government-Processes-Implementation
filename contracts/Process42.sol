@@ -3,17 +3,30 @@ pragma solidity 0.5.0;
 contract DataHandler {
   enum DataType { INT, TEXT, FILE, BOOL }
   enum Status { DONE, UNDONE, MARKED, PENDING }
+}
 
-  struct DataNode {
-    bytes32 title;
-    DataType dataType;
+contract DataNode is DataHandler {
+  bytes32 title;
+  DataType dataType;
+
+  constructor(bytes32 _title, DataType _dataType) public {
+    title = _title;
+    dataType = _dataType;
+  }
+
+  function createData(uint _caseID) public returns (Data) {
+    return new Data(title, dataType, _caseID);
+  }
+
+  function getTitle() public view returns (bytes32) {
+    return title;
   }
 }
 
 contract Data is DataHandler {
   bytes32 instanceOf;
   DataType dataType;
-  Status status;
+  Status public status;
   uint dataHash;
   uint caseID;
 
@@ -63,16 +76,14 @@ contract DataSpecial is Data {
   }
 
   function setStatus(Status _status) public {
-    if (_status == Status.DONE) {
-      // to be implemented
-    }
+    // to be implemented
+    status = _status;
   }
 }
 
 contract Process42 is DataHandler {
   struct Case {
-  	uint id;
-  	mapping (bytes32 => Data) data;
+  	Data[] dataList;
   }
 
   DataNode[] vxs;
@@ -82,4 +93,78 @@ contract Process42 is DataHandler {
 
   Case[] cases;
 
+  function _getIdx(bytes32 title) private view returns (uint id) {
+    // if v doesn't exist, throw error
+    return titleToID[title]-1;
+  }
+
+  function _addVertex(bytes32 _title, DataType _dataType) private {
+    // if title exists, throw error
+    vxs.push(new DataNode(_title, _dataType));
+    titleToID[_title] = vxs.length;
+  }
+
+  function _addEdge(bytes32 from, bytes32 to) private {
+    // if v or w doesn't exist, throw error
+    uint v = _getIdx(from);
+    uint w = _getIdx(to);
+
+    if (v < 0 || v >= vxs.length || w < 0 || w >= vxs.length) return;
+
+    adj[v].push(w);
+    req[w].push(v);
+  }
+
+  function markAsDone(bytes32 title, uint caseID) public {
+    cases[caseID].dataList[_getIdx(title)].setStatus(Status.DONE);
+  }
+
+  function addCase() public {
+    // if case exist, throw error
+    uint idx = cases.length;
+    cases.push(Case(new Data[](0)));
+    for(uint i = 0; i < vxs.length; i++){
+      Data d = vxs[i].createData(idx);
+      cases[idx].dataList.push(d);
+    }
+  }
+
+  function getCases() public view returns (uint[] memory){
+    uint[] memory caseIDs = new uint[](cases.length);
+    for(uint i = 0; i < cases.length; i++){
+      caseIDs[i] = i;
+    }
+    return caseIDs;
+  }
+
+  function getActions(uint caseID) public view returns (bytes32[] memory) {
+    // if case doesnt exist, throw error
+    bytes32[] memory toDo = new bytes32[](vxs.length);
+    uint count = 0;
+
+    for (uint v = 0; v < vxs.length; v++) {
+      if(_isReady(v, caseID)) {
+        toDo[count] = vxs[v].getTitle();
+        count++;
+      }
+    }
+
+    return cut(toDo, count);
+  }
+
+  function _isReady(uint v, uint caseID) private view returns (bool) {
+    // if v doesnt exist, throw error
+    for(uint j = 0; j < req[v].length; j++) {
+      uint reqIdx = req[v][j];
+      if (cases[caseID].dataList[reqIdx].status() != Status.DONE) return false;
+    }
+
+    return true;
+  }
+
+  function cut(bytes32[] memory arr, uint count) public pure returns (bytes32[] memory) {
+    bytes32[] memory res = new bytes32[](count);
+    for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
+    return res;
+  }
 }
