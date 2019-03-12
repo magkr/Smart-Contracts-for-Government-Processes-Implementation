@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Process from "./contracts/Process.json";
 import Process42 from "./contracts/Process42.json";
+import ProcessFactory from './contracts/ProcessFactory.json';
 import CaseOverview from './components/caseoverview.js';
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from './utils/contractcontext.js';
@@ -15,10 +16,6 @@ class App extends Component {
 
   constructor(){
     super();
-    this.getActions = this.getActions.bind(this);
-    this.setToDone = this.setToDone.bind(this);
-    this.getCases = this.getCases.bind(this);
-    this.addCase = this.addCase.bind(this);
   }
 
   componentDidMount = async () => {
@@ -44,9 +41,15 @@ class App extends Component {
         deployedNetworkP42 && deployedNetworkP42.address,
       );
 
+      const deployedNetworkPF = ProcessFactory.networks[networkId];
+      const pf = new web3.eth.Contract(
+        ProcessFactory.abi,
+        deployedNetworkPF && deployedNetworkPF.address,
+      );
+
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      await this.setState({ web3, accounts, contract: null, process42: p42 });
+      await this.setState({ web3, accounts, contract: pf, process42: p42 });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -66,43 +69,49 @@ class App extends Component {
   }
 
 
-  getActions = async (id) => {
-    const { accounts, contract, caseID, web3 } = this.state;
+  // getActions = async (id) => {
+  //   const { accounts, contract, caseID, web3 } = this.state;
+  //
+  //   // Stores a given value, 5 by default.
+  //   //await contract.methods.set(5).send({ from: accounts[0] });
+  //
+  //   // Get the value from the contract to prove it worked.
+  //
+  //   const response = await contract.methods.getActions(id).call();
+  //   //web3.eth.contract(Process.abi).at(contract.address).test(caseID);
+  //   //await contract.methods.test(caseID).call();
+  //
+  //   // Update state with the result.
+  //   //this.setState({ storageValue: response });
+  //   console.log(response);
+  //   return response;
+  // };
 
-    // Stores a given value, 5 by default.
-    //await contract.methods.set(5).send({ from: accounts[0] });
+  // getCases = async () => {
+  //   const { accounts, contract, caseID, web3, process42 } = this.state;
+  //
+  //   const response = await contract.methods.getCases().call();
+  //   console.log(response);
+  //   return response;
+  // };
 
-    // Get the value from the contract to prove it worked.
+  // setToDone = async (t, caseID) => {
+  //   await this.state.contract.methods.fill(t, caseID).send({ from: this.state.accounts[0] });
+  // }
 
-    const response = await contract.methods.getActions(id).call();
-    //web3.eth.contract(Process.abi).at(contract.address).test(caseID);
-    //await contract.methods.test(caseID).call();
-
-    // Update state with the result.
-    //this.setState({ storageValue: response });
-    return response;
-  };
-
-  getCases = async () => {
-    const { accounts, contract, caseID, web3, process42 } = this.state;
-
-    const response = await process42.methods.getCases().call();
-    console.log(response);
-    return response;
-  };
-
-  setToDone = async (t, caseID) => {
-    await this.state.contract.methods.fill(t, caseID).send({ from: this.state.accounts[0] });
-  }
-
-  addCase = async () => {
-    await this.state.process42.methods.addCase().send({ from: this.state.accounts[0] });
-  }
+  // addCase = async () => {
+  //   await this.state.contract.methods.addCase().send({ from: this.state.accounts[0] });
+  // }
 
   render() {
     if (!this.state.web3) {
       return (
         <div className="helvetica tc pa4">Loading Web3, accounts, and contract...</div>
+      );
+    }
+    if (!this.state.contract) {
+      return (
+        <div className="helvetica tc pa4">Loading contract...</div>
       );
     }
     return (

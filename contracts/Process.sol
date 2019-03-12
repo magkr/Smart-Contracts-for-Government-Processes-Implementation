@@ -5,11 +5,11 @@ import {Graph} from "./Graph.sol";
 import {ProcessFactory} from "./ProcessFactory.sol";
 
 contract Process {
-  using Graph for Graph.Digraph;
+  /* using Graph for Graph.Digraph;
 
   Graph.Digraph graph;
 
-  uint[] cases;
+  uint[] cases; */
 
   /*  IDEAS FOR MAINTAING A STORAGE OF DATA
   mapping (bytes32 => DataTable) store;
@@ -23,9 +23,9 @@ contract Process {
   mapping (bytes32 => Data) public datas;
  */
 
-
+/*
   constructor() public {
-    graph.init();  
+    graph.init();
     ProcessFactory.metering(graph);
     ProcessFactory.beregningsgrundlag(graph);
   }
@@ -106,7 +106,7 @@ contract Process {
     graph.setStatus("Bevilligede timer", caseID, Graph.Status.DONE);
     graph.setStatus("Sparede udgifter", caseID, Graph.Status.DONE);
     graph.setStatus("Udmåling afgørelse", caseID, Graph.Status.DONE);
-  }
+  } */
 
 
 }

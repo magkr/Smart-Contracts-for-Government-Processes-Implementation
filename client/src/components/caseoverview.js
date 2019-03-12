@@ -30,8 +30,7 @@ class CaseOverview extends Component {
             <ContractConsumer>
               { value =>
                 <CaseList selected={this.state.selected}
-                  setSelected={this.setSelected} addCase={value.addCase}
-                  getCases={value.getCases}/>
+                  setSelected={this.setSelected} contractContext={value}/>
               }
             </ContractConsumer>
           </div>
@@ -42,7 +41,7 @@ class CaseOverview extends Component {
               ? (
                 <ContractConsumer>
                   { value =>
-                    <Case selected={this.state.selected} getActions={value.getActions} setToDone={value.setToDone} web3={value.web3}/>
+                    <Case selected={this.state.selected} contractContext={value}/>
                   }
                 </ContractConsumer>
               )

@@ -1,85 +1,6 @@
 pragma solidity 0.5.0;
 
-contract DataHandler {
-  enum DataType { INT, TEXT, FILE, BOOL }
-  enum Status { DONE, UNDONE, MARKED, PENDING }
-}
-
-contract DataNode is DataHandler {
-  bytes32 title;
-  DataType dataType;
-
-  constructor(bytes32 _title, DataType _dataType) public {
-    title = _title;
-    dataType = _dataType;
-  }
-
-  function createData(uint _caseID) public returns (Data) {
-    return new Data(title, dataType, _caseID);
-  }
-
-  function getTitle() public view returns (bytes32) {
-    return title;
-  }
-}
-
-contract Data is DataHandler {
-  bytes32 instanceOf;
-  DataType dataType;
-  Status public status;
-  uint dataHash;
-  uint caseID;
-
-  constructor(bytes32 _instanceOf, DataType _dataType, uint _caseID) public {
-    instanceOf = _instanceOf;
-    dataType = _dataType;
-    caseID = _caseID;
-    status = Status.UNDONE;
-  }
-
-  function fill(uint _dataHash) public {
-    dataHash = _dataHash;
-  }
-
-  function setStatus(Status _status) public {
-    status = _status;
-  }
-}
-
-contract DataSpecial is Data {
-  Data[] extraData;
-  mapping (bytes32 => uint) dataID;
-
-  constructor(bytes32 _instanceOf, uint _caseID) Data(_instanceOf, DataType.BOOL, _caseID) public {
-    extraData = new Data[](0);
-  }
-
-  function add(bytes32 title, DataType dataType) public {
-    Data d = new Data(title, dataType, caseID);
-    extraData.push(d);
-    dataID[title] = extraData.length;
-  }
-
-  function fill(uint _isExtraNeeded) public {
-    require(_isExtraNeeded == 0 || _isExtraNeeded == 1);
-    if (_isExtraNeeded == 0) setStatus(Status.DONE);
-    if (_isExtraNeeded == 1) setStatus(Status.UNDONE);
-    else {} // throw error
-    dataHash = _isExtraNeeded;
-  }
-
-  function fillExtra(bytes32 title, uint _dataHash) public returns (bool){
-    if (dataID[title] == 0) { return false; }
-    uint index = dataID[title] - 1;
-    extraData[index].fill(_dataHash);
-    return true;
-  }
-
-  function setStatus(Status _status) public {
-    // to be implemented
-    status = _status;
-  }
-}
+import { Data, DataNode, DataHandler } from './Data.sol';
 
 contract Process42 is DataHandler {
   struct Case {
@@ -98,13 +19,13 @@ contract Process42 is DataHandler {
     return titleToID[title]-1;
   }
 
-  function _addVertex(bytes32 _title, DataType _dataType) private {
+  function _addVertex(bytes32 _title, DataType _dataType) internal {
     // if title exists, throw error
     vxs.push(new DataNode(_title, _dataType));
     titleToID[_title] = vxs.length;
   }
 
-  function _addEdge(bytes32 from, bytes32 to) private {
+  function _addEdge(bytes32 from, bytes32 to) internal {
     // if v or w doesn't exist, throw error
     uint v = _getIdx(from);
     uint w = _getIdx(to);
@@ -149,7 +70,7 @@ contract Process42 is DataHandler {
       }
     }
 
-    return cut(toDo, count);
+    return _cut(toDo, count);
   }
 
   function _isReady(uint v, uint caseID) private view returns (bool) {
@@ -162,7 +83,13 @@ contract Process42 is DataHandler {
     return true;
   }
 
-  function cut(bytes32[] memory arr, uint count) public pure returns (bytes32[] memory) {
+  function fillData(bytes32 _title, uint _caseID, uint _dataHash) public {
+    
+    cases[_caseID].dataList[_getIdx(_title)].fill(_dataHash);
+    cases[_caseID].dataList[_getIdx(_title)].setStatus(Status.DONE);
+  }
+
+  function _cut(bytes32[] memory arr, uint count) private pure returns (bytes32[] memory) {
     bytes32[] memory res = new bytes32[](count);
     for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
     return res;

@@ -1,9 +1,8 @@
 pragma solidity 0.5.0;
 
-import {Graph} from "./Graph.sol";
+import {Process42} from "./Process42.sol";
 
-library ProcessFactory {
-  using Graph for Graph.Digraph;
+contract ProcessFactory is Process42 {
 
   /* IDEA
   bytes32[] vs;
@@ -18,56 +17,61 @@ library ProcessFactory {
       "ba", "c",
       "bb", "c"];
 
-    for (uint i = 0; i < vs.length; i++) graph.addVertex(vs[i]);
-    for (uint i = 0; i < edges.length; i+=2) graph.addEdge(edges[i], edges[(i+1)]);
+    for (uint i = 0; i < vs.length; i++) _addVertex(vs[i]);
+    for (uint i = 0; i < edges.length; i+=2) _addEdge(edges[i], edges[(i+1)]);
   }
   */
 
-  function metering(Graph.Digraph storage graph) public {
-    bytes32 root = "root";
-    graph.addVertex("Arbejdstider");
-    graph.addVertex("Familieforhold");
-    graph.addVertex("Arbejdsfleksibilitet");
-    graph.addVertex("Bevilligede timer");
-    graph.addVertex("Sparede udgifter");
-    graph.addVertex("Udmåling afgørelse");
-
-    graph.addEdge(root,"Arbejdstider");
-    graph.addEdge(root,"Familieforhold");
-    graph.addEdge(root,"Arbejdsfleksibilitet");
-
-    graph.addEdge("Arbejdstider","Bevilligede timer");
-    graph.addEdge("Arbejdstider","Sparede udgifter");
-    graph.addEdge("Familieforhold","Bevilligede timer");
-    graph.addEdge("Familieforhold","Sparede udgifter");
-    graph.addEdge("Arbejdsfleksibilitet","Bevilligede timer");
-    graph.addEdge("Arbejdsfleksibilitet","Sparede udgifter");
-    graph.addEdge("Bevilligede timer", "Udmåling afgørelse");
-    graph.addEdge("Sparede udgifter", "Udmåling afgørelse");
+  constructor() public {
+    metering();
+    beregningsgrundlag();
   }
 
-  function beregningsgrundlag(Graph.Digraph storage graph) public {
+  function metering() public {
+    bytes32 root = "root";
+    _addVertex("Arbejdstider", DataType.INT);
+    _addVertex("Familieforhold", DataType.INT);
+    _addVertex("Arbejdsfleksibilitet", DataType.INT);
+    _addVertex("Bevilligede timer", DataType.INT);
+    _addVertex("Sparede udgifter", DataType.INT);
+    _addVertex("Udmåling afgørelse", DataType.INT);
+
+    _addEdge(root,"Arbejdstider");
+    _addEdge(root,"Familieforhold");
+    _addEdge(root,"Arbejdsfleksibilitet");
+
+    _addEdge("Arbejdstider","Bevilligede timer");
+    _addEdge("Arbejdstider","Sparede udgifter");
+    _addEdge("Familieforhold","Bevilligede timer");
+    _addEdge("Familieforhold","Sparede udgifter");
+    _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
+    _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
+    _addEdge("Bevilligede timer", "Udmåling afgørelse");
+    _addEdge("Sparede udgifter", "Udmåling afgørelse");
+  }
+
+  function beregningsgrundlag() public {
     bytes32 root = "Udmåling afgørelse";
-    graph.addVertex("Indkomstoplysninger");
-    graph.addVertex("Skatteoplysninger");
-    graph.addVertex("Pensionsoplysninger");
+    _addVertex("Indkomstoplysninger", DataType.INT);
+    _addVertex("Skatteoplysninger", DataType.INT);
+    _addVertex("Pensionsoplysninger", DataType.INT);
 
-    graph.addVertex("Beregning af ydelse");
-    graph.addVertex("Pensionsselskabs info");
+    _addVertex("Beregning af ydelse", DataType.INT);
+    _addVertex("Pensionsselskabs info", DataType.INT);
 
-    graph.addVertex("Beregningsgrundlag afgørelse");
+    _addVertex("Beregningsgrundlag afgørelse", DataType.INT);
 
-    graph.addEdge(root,"Indkomstoplysninger");
-    graph.addEdge(root,"Skatteoplysninger");
-    graph.addEdge(root,"Pensionsoplysninger");
+    _addEdge(root,"Indkomstoplysninger");
+    _addEdge(root,"Skatteoplysninger");
+    _addEdge(root,"Pensionsoplysninger");
 
-    graph.addEdge("Indkomstoplysninger", "Beregning af ydelse");
-    graph.addEdge("Skatteoplysninger", "Beregning af ydelse");
-    graph.addEdge("Pensionsoplysninger", "Beregning af ydelse");
-    graph.addEdge("Pensionsoplysninger", "Pensionsselskabs info");
+    _addEdge("Indkomstoplysninger", "Beregning af ydelse");
+    _addEdge("Skatteoplysninger", "Beregning af ydelse");
+    _addEdge("Pensionsoplysninger", "Beregning af ydelse");
+    _addEdge("Pensionsoplysninger", "Pensionsselskabs info");
 
-    graph.addEdge("Beregning af ydelse", "Beregningsgrundlag afgørelse");
-    graph.addEdge("Pensionsselskabs info", "Beregningsgrundlag afgørelse");
+    _addEdge("Beregning af ydelse", "Beregningsgrundlag afgørelse");
+    _addEdge("Pensionsselskabs info", "Beregningsgrundlag afgørelse");
   }
 
 }

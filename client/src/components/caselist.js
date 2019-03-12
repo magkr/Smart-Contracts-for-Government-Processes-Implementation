@@ -12,17 +12,20 @@ class CaseList extends Component {
     this.refreshCases();
   }
 
+
+
   componentDidMount(){
     this.refreshCases();
   }
 
   async newCase(){
-    await this.props.addCase();
+    await this.props.contractContext.contract.methods.addCase().send({ from: this.props.contractContext.accounts[0] });
     await this.refreshCases();
   }
 
   async refreshCases(){
-    const list = await this.props.getCases();
+    const list = await this.props.contractContext.contract.methods.getCases().call();
+    if(!list) return;
     console.log(list);
     this.setState({
       cases: list
