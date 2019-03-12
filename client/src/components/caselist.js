@@ -9,6 +9,7 @@ class CaseList extends Component {
       cases: []
     }
     this.newCase = this.newCase.bind(this);
+    this.mark = this.mark.bind(this);
     this.refreshCases();
   }
 
@@ -20,6 +21,12 @@ class CaseList extends Component {
 
   async newCase(){
     await this.props.contractContext.contract.methods.addCase().send({ from: this.props.contractContext.accounts[0] });
+    await this.refreshCases();
+  }
+
+  async mark(){
+    var title = this.props.contractContext.web3.utils.asciiToHex("Arbejdsfleksibilitet");
+    await this.props.contractContext.contract.methods.markData(title, 0).send({ from: this.props.contractContext.accounts[0] });
     await this.refreshCases();
   }
 
@@ -52,6 +59,12 @@ class CaseList extends Component {
           <button className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
            onClick={this.newCase}>
             Add case
+          </button>
+        </li>
+        <li className="dt w-100 bb b--black-05 pb2 mt2 flex justify-center">
+          <button className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
+           onClick={this.mark}>
+            Mark case
           </button>
         </li>
       </ul>

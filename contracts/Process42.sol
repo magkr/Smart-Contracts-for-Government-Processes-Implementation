@@ -75,6 +75,7 @@ contract Process42 is DataHandler {
 
   function _isReady(uint v, uint caseID) private view returns (bool) {
     // if v doesnt exist, throw error
+    if (cases[caseID].dataList[v].status() == Status.DONE) return false;
     for(uint j = 0; j < req[v].length; j++) {
       uint reqIdx = req[v][j];
       if (cases[caseID].dataList[reqIdx].status() != Status.DONE) return false;
@@ -84,9 +85,26 @@ contract Process42 is DataHandler {
   }
 
   function fillData(bytes32 _title, uint _caseID, uint _dataHash) public {
-    
+    /* TODO TJEK OM DATAHASH ER TOM */
     cases[_caseID].dataList[_getIdx(_title)].fill(_dataHash);
     cases[_caseID].dataList[_getIdx(_title)].setStatus(Status.DONE);
+  }
+
+  function markData(bytes32 _title, uint _caseID) public {
+    /* TODO EXPLANATION AS PARAMETER */
+    uint v = _getIdx(_title);
+    cases[_caseID].dataList[v].setStatus(Status.MARKED);
+    _cascade(v, _caseID);
+  }
+
+  function _cascade(uint v, uint caseID) private {
+    for (uint i = 0; i < adj[v].length; i++) {
+      uint adjIdx = adj[v][i];
+      if (cases[caseID].dataList[adjIdx].status() == Status.DONE) {
+        cases[caseID].dataList[adjIdx].setStatus(Status.PENDING);
+        _cascade(adjIdx, caseID);
+      }
+    }
   }
 
   function _cut(bytes32[] memory arr, uint count) private pure returns (bytes32[] memory) {

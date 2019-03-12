@@ -50,9 +50,6 @@ class CaseOverview extends Component {
 
           </div>
         </div>
-        {/*
-          this.state.storageValue.map((title) => <button onClick={ (e) => this.finish(title) }> { this.toString(title) } </button>)
-        */}
       </div>
     )
   }
