@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Process from "./contracts/Process.json";
+import Process42 from "./contracts/Process42.json";
 import CaseOverview from './components/caseoverview.js';
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from './utils/contractcontext.js';
@@ -30,15 +31,22 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Process.networks[networkId];
-      const instance = new web3.eth.Contract(
-        Process.abi,
-        deployedNetwork && deployedNetwork.address,
+
+      // const deployedNetwork = Process.networks[networkId];
+      // const instance = new web3.eth.Contract(
+      //   Process.abi,
+      //   deployedNetwork && deployedNetwork.address,
+      // );
+
+      const deployedNetworkP42 = Process42.networks[networkId];
+      const p42 = new web3.eth.Contract(
+        Process42.abi,
+        deployedNetworkP42 && deployedNetworkP42.address,
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance });
+      await this.setState({ web3, accounts, contract: null, process42: p42 });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -76,9 +84,9 @@ class App extends Component {
   };
 
   getCases = async () => {
-    const { accounts, contract, caseID, web3 } = this.state;
+    const { accounts, contract, caseID, web3, process42 } = this.state;
 
-    const response = await contract.methods.getCases().call();
+    const response = await process42.methods.getCases().call();
     console.log(response);
     return response;
   };
@@ -88,7 +96,7 @@ class App extends Component {
   }
 
   addCase = async () => {
-    await this.state.contract.methods.addCase().send({ from: this.state.accounts[0] });
+    await this.state.process42.methods.addCase().send({ from: this.state.accounts[0] });
   }
 
   render() {

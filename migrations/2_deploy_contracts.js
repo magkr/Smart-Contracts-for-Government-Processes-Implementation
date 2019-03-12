@@ -4,6 +4,9 @@ var Graph = artifacts.require("./Graph.sol");
 var ProcessFactory = artifacts.require("./ProcessFactory.sol");
 var AppealsBoard = artifacts.require("./AppealsBoard.sol");
 
+var Process42 = artifacts.require("./Process42.sol");
+
+
 module.exports = function(deployer) {
   deployer.deploy(IterableMap);
   deployer.link(IterableMap, Graph);
@@ -14,4 +17,5 @@ module.exports = function(deployer) {
   deployer.link(ProcessFactory, Process);
   deployer.deploy(Process);
   deployer.deploy(AppealsBoard);
+  deployer.deploy(Process42);
 };
