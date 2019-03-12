@@ -52,14 +52,34 @@ contract Process42 is DataHandler {
 
   function getCases() public view returns (uint[] memory){
     uint[] memory caseIDs = new uint[](cases.length);
+
     for(uint i = 0; i < cases.length; i++){
       caseIDs[i] = i;
     }
     return caseIDs;
   }
 
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss) {
+    titles = new bytes32[](vxs.length);
+    statuss = new bytes32[](vxs.length);
+
+    Data[] memory data = cases[caseID].dataList;
+    for(uint i = 0; i < vxs.length; i++){
+      titles[i] = vxs[i].getTitle();
+      statuss[i] = _getStatusString(data[i].status());
+    }
+  }
+
+  function _getStatusString(Status status) private pure returns(bytes32) {
+    if (status == Status.DONE) return "done";
+    if (status == Status.UNDONE) return "undone";
+    if (status == Status.PENDING) return "pending";
+    if (status == Status.MARKED) return "marked";
+    else return "";  /* TODO THROW ERROR !!! */
+  }
+
   function getActions(uint caseID) public view returns (bytes32[] memory) {
-    // if case doesnt exist, throw error
+    /* TODO if case doesnt exist, throw error */
     bytes32[] memory toDo = new bytes32[](vxs.length);
     uint count = 0;
 
