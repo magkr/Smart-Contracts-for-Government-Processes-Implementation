@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.5.0;
 
 import {IterableMap} from "./IterableMap.sol";
 
@@ -53,19 +53,57 @@ library Graph {
 
   function mark(Digraph storage self, bytes32 title, uint caseID) public returns (bool) {
     // if title or case doesn't exist, throw error
+
+    /*
     setStatus(self, title, caseID, Status.MARKED);
-    _cascadeMark(self, getID(self, title), caseID);
+    _cascadeMark(self, getID(self, title), caseID); */
+
+    uint[] memory pendingvs = new uint[](self.vertxs.length);
+    uint counter = 0;
+
+    setStatus(self, title, caseID, Status.MARKED);
+
+    pendingvs[counter] = getID(self, title);
+    counter++;
+
+    uint pending;
+    while(counter > 0) {
+      pending = pendingvs[counter];
+      counter--;
+
+      for (uint i = 0; i < self.vertxs[pending].adj.length; i++ ) {
+        uint adj = self.vertxs[pending].adj[i];
+        if (_status(self, adj, caseID, Status.DONE)) {
+          self.vertxs[adj].status[caseID] = Status.PENDING;
+          pendingvs[counter] = adj;
+          counter++;
+        }
+      }
+    }
+    return true;
+
+    /*
+    vs[]
+    v;
+    while (vs.length > 0 || )
+      foreach( adj in v.adj )
+          if adj == done then
+            adj = pending
+            vs.push(adj)
+      v = vs.pop();
+    */
   }
 
   function _cascadeMark(Digraph storage self, uint _v, uint caseID) private {
-    Vertex storage v = self.vertxs[_v];
+    /* Vertex storage v = self.vertxs[_v];
     for(uint i = 0; i < v.adj.length; i++) {
       uint adj = v.adj[i];
       if (_status(self, adj, caseID, Status.DONE)) {
         self.vertxs[adj].status[caseID] = Status.PENDING;
         _cascadeMark(self, adj, caseID);
       }
-    }
+    } */
+
   }
 
   function unmark(Digraph storage self, bytes32 title, uint caseID) public returns (bool) {
