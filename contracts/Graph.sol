@@ -94,17 +94,17 @@ library Graph {
     */
   }
 
-  function _cascadeMark(Digraph storage self, uint _v, uint caseID) private {
-    /* Vertex storage v = self.vertxs[_v];
+  /* function _cascadeMark(Digraph storage self, uint _v, uint caseID) private {
+    Vertex storage v = self.vertxs[_v];
     for(uint i = 0; i < v.adj.length; i++) {
       uint adj = v.adj[i];
       if (_status(self, adj, caseID, Status.DONE)) {
         self.vertxs[adj].status[caseID] = Status.PENDING;
         _cascadeMark(self, adj, caseID);
       }
-    } */
+    }
 
-  }
+  } */
 
   function unmark(Digraph storage self, bytes32 title, uint caseID) public returns (bool) {
     // if title or case doesn't exist, throw error
