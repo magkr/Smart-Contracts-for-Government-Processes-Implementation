@@ -14,7 +14,7 @@ export default class Action extends Component {
   fillData = async () => {
     console.log(this.props.action);
     await this.props.contractContext.contract.methods.fillData(this.props.action, this.props.caseID, this.state.hash).send({ from: this.props.contractContext.accounts[0] });
-    await this.props.getActions();
+    await this.props.update();
   }
 
   render(){
