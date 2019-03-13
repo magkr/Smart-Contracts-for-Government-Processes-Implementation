@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import CaseList from './caselist.js';
 import Case from './case.js';
-import "./caseoverview.css";
+import '../css/reset.css';
+import '../css/tachyons.min.css';
+
 import { ContractConsumer, ContractContext } from '../utils/contractcontext.js';
 
 class CaseOverview extends Component {
@@ -24,7 +26,7 @@ class CaseOverview extends Component {
   render() {
     return (
       <div className="caseoverview w-100 h-100">
-        <h1 className="helvetica b tc ma0 pa4">Good to Go!</h1>
+        <h1 className="helvetica b tc mv0 mt0 mb2 pa4 bg-near-white">Good to Go!</h1>
         <div className="w-100">
           <div className="fl w-20">
             <ContractConsumer>

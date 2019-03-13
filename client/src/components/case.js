@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import Data from './data.js';
 import DataList from './datalist.js';
-import "./case.css";
+import ActionsList from './actionslist.js';
+import '../css/reset.css';
+import '../css/tachyons.min.css';
+
 
 class Case extends Component {
 
@@ -14,7 +16,7 @@ class Case extends Component {
 
   state = {
     data: [],
-    actionslist: [],
+    actions: [],
     isLoading: false,
   }
 
@@ -29,7 +31,7 @@ class Case extends Component {
   async update() {
     await this.setState({isLoading: true});
     await this.setState({
-      actionslist: await this.props.contractContext.contract.methods.getActions(this.props.selected).call(),
+      actions: await this.props.contractContext.contract.methods.getActions(this.props.selected).call(),
       data: await this.getCase(),
       isLoading: false
     });
@@ -47,15 +49,11 @@ class Case extends Component {
   render() {
     return (
       <div className="w-100 flex flex-column items-left justify-around ph5">
-        <h2 className="f5 helvetica" ><span className="b">Case ID: </span>{this.props.selected}</h2>
+        <h2 className="f4 helvetica tc pa2 mt2 mr2"><span className="b">Case ID: </span>{this.props.selected}</h2>
         {this.state.isLoading
           ? <h2 className="ma3 f4 helvetica">Loading...</h2> :
             <div className="w-100 flex justify-center">
-              <div className="w-50">
-                {this.state.actionslist.map((a) =>
-                      <Data key={a} action={a} caseID={this.props.selected} getActions={this.update} contractContext={this.props.contractContext}/>
-                  )}
-              </div>
+                <ActionsList contractContext={this.props.contractContext} actions={this.state.actions}/>
                 <DataList contractContext={this.props.contractContext} data={this.state.data}/>
             </div>
         }

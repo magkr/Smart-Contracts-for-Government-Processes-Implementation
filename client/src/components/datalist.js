@@ -14,9 +14,9 @@ export default class DataList extends Component {
     const toHex = this.utils.asciiToHex;
     switch (status) {
       case toHex("done"):
-        return "bg-green";
+        return "bg-light-green";
       case toHex("undone"):
-        return "bg-lightest-blue";
+        return "bg-near-white";
       case toHex("pending"):
         return "bg-gold";
       case toHex("marked"):
@@ -29,8 +29,9 @@ export default class DataList extends Component {
   render(){
     return (
       <div className="w-50">
+      <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">Status:</h2>
         { this.props.data.map((d) => {
-            return <div key={d.title} className={"flex justify-center items-center h2 helvetica pa1 ma2 f5 b " + this.getColor(d.status)}>{this.utils.hexToAscii(d.title)}</div>
+            return <div key={d.title} className={"flex justify-center items-center h2 helvetica pa1 ma2 f5 " + this.getColor(d.status)}>{this.utils.hexToAscii(d.title)}</div>
           }
         )}
       </div>

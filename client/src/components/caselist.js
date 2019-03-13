@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "./caselist.css";
+import '../css/reset.css';
+import '../css/tachyons.min.css';
 
 class CaseList extends Component {
 
