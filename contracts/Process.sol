@@ -1,112 +1,135 @@
 pragma solidity 0.5.0;
 
+import { Data, DataNode, DataHandler } from './Data.sol';
 
-import {Graph} from "./Graph.sol";
-import {ProcessFactory} from "./ProcessFactory.sol";
-
-contract Process {
-  /* using Graph for Graph.Digraph;
-
-  Graph.Digraph graph;
-
-  uint[] cases; */
-
-  /*  IDEAS FOR MAINTAING A STORAGE OF DATA
-  mapping (bytes32 => DataTable) store;
-
-  struct DataTable { mapping (uint => CaseData) caseEntry; }
-  struct CaseData {
-    uint location;
-    uint dataHash;
+contract Process is DataHandler {
+  struct Case {
+  	Data[] dataList;
   }
 
-  mapping (bytes32 => Data) public datas;
- */
+  DataNode[] vxs;
+  mapping (uint => uint[]) adj;
+  mapping (uint => uint[]) req;
+  mapping (bytes32 => uint) titleToID;
 
-/*
-  constructor() public {
-    graph.init();
-    ProcessFactory.metering(graph);
-    ProcessFactory.beregningsgrundlag(graph);
+  Case[] cases;
+
+  function _getIdx(bytes32 title) private view returns (uint id) {
+    // if v doesn't exist, throw error
+    return titleToID[title]-1;
+  }
+
+  function _addVertex(bytes32 _title, DataType _dataType) internal {
+    // if title exists, throw error
+    vxs.push(new DataNode(_title, _dataType));
+    titleToID[_title] = vxs.length;
+  }
+
+  function _addEdge(bytes32 from, bytes32 to) internal {
+    // if v or w doesn't exist, throw error
+    uint v = _getIdx(from);
+    uint w = _getIdx(to);
+
+    if (v < 0 || v >= vxs.length || w < 0 || w >= vxs.length) return;
+
+    adj[v].push(w);
+    req[w].push(v);
+  }
+
+  function markAsDone(bytes32 title, uint caseID) public {
+    cases[caseID].dataList[_getIdx(title)].setStatus(Status.DONE);
   }
 
   function addCase() public {
-    uint id = cases.length+1;
-    cases.push(id);
-    graph.addCase(id);
+    // if case exist, throw error
+    uint idx = cases.length;
+    cases.push(Case(new Data[](0)));
+    for(uint i = 0; i < vxs.length; i++){
+      Data d = vxs[i].createData(idx);
+      cases[idx].dataList.push(d);
+    }
   }
 
   function getCases() public view returns (uint[] memory){
-    return cases;
+    uint[] memory caseIDs = new uint[](cases.length);
+
+    for(uint i = 0; i < cases.length; i++){
+      caseIDs[i] = i;
+    }
+    return caseIDs;
   }
 
-  function getActions(uint caseID) public view returns (bytes32[] memory titles) {
-    return graph.getActions(caseID);
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss) {
+    titles = new bytes32[](vxs.length);
+    statuss = new bytes32[](vxs.length);
+
+    Data[] memory data = cases[caseID].dataList;
+    for(uint i = 0; i < vxs.length; i++){
+      titles[i] = vxs[i].getTitle();
+      statuss[i] = _getStatusString(data[i].status());
+    }
   }
 
-  function fill(bytes32 title, uint caseID) public returns (bool success) {
-    if (!(graph.done(title, caseID) || graph.undone(title, caseID))) return false; //vertex either marked or pending
-    if (!graph.ready(title, caseID)) return false;
-    graph.setStatus(title, caseID, Graph.Status.DONE);
+  function _getStatusString(Status status) private pure returns(bytes32) {
+    if (status == Status.DONE) return "done";
+    if (status == Status.UNDONE) return "undone";
+    if (status == Status.PENDING) return "pending";
+    if (status == Status.MARKED) return "marked";
+    else return "";  /* TODO THROW ERROR !!! */
+  }
+
+  function getActions(uint caseID) public view returns (bytes32[] memory) {
+    /* TODO if case doesnt exist, throw error */
+    bytes32[] memory toDo = new bytes32[](vxs.length);
+    uint count = 0;
+
+    for (uint v = 0; v < vxs.length; v++) {
+      if(_isReady(v, caseID)) {
+        toDo[count] = vxs[v].getTitle();
+        count++;
+      }
+    }
+
+    return _cut(toDo, count);
+  }
+
+  function _isReady(uint v, uint caseID) private view returns (bool) {
+    // if v doesnt exist, throw error
+    if (cases[caseID].dataList[v].status() == Status.DONE) return false;
+    for(uint j = 0; j < req[v].length; j++) {
+      uint reqIdx = req[v][j];
+      if (cases[caseID].dataList[reqIdx].status() != Status.DONE) return false;
+    }
+
     return true;
   }
 
-  function mark(bytes32 title, uint caseID) public returns (bool) {
-    if (graph.done(title, caseID) || graph.pending(title, caseID)) {
-      graph.mark(title, caseID);
-      return graph.marked(title, caseID);
-    } else return false; // cannot mark undone or marked vertex
+  function fillData(bytes32 _title, uint _caseID, uint _dataHash) public {
+    /* TODO TJEK OM DATAHASH ER TOM */
+    cases[_caseID].dataList[_getIdx(_title)].fill(0, _dataHash); /* Database location TODO  */
+    cases[_caseID].dataList[_getIdx(_title)].setStatus(Status.DONE);
   }
 
-  function unmark(bytes32 title, uint caseID) public returns (bool) {
-    if (!graph.marked(title, caseID)) return false; // cannot unmarked a non-marked vertex
-    graph.unmark(title, caseID);
-    return graph.done(title, caseID);
+  function markData(bytes32 _title, uint _caseID) public {
+    /* TODO EXPLANATION AS PARAMETER */
+    uint v = _getIdx(_title);
+    cases[_caseID].dataList[v].setStatus(Status.MARKED);
+    _cascade(v, _caseID);
   }
 
-  function getStatus(bytes32 title, uint caseID) public view returns (Graph.Status status) {
-    return graph.getStatus(title, caseID);
+  function _cascade(uint v, uint caseID) private {
+    for (uint i = 0; i < adj[v].length; i++) {
+      uint adjIdx = adj[v][i];
+      if (cases[caseID].dataList[adjIdx].status() == Status.DONE) {
+        cases[caseID].dataList[adjIdx].setStatus(Status.PENDING);
+        _cascade(adjIdx, caseID);
+      }
+    }
   }
 
-
-
-
-
-// TEST SETUPS:
-  function smallTestSetup() public {
-    graph.addVertex("a");
-    graph.addVertex("ba");
-    graph.addVertex("bb");
-    graph.addVertex("c");
-    graph.addVertex("d");
-
-    graph.addEdge("root", "a");
-    graph.addEdge("a", "ba");
-    graph.addEdge("a", "bb");
-    graph.addEdge("ba", "c");
-    graph.addEdge("bb", "c");
-    graph.addEdge("c", "d");
-
-    uint caseID = 0;
-    graph.addCase(caseID);
-
-    graph.setStatus("a", caseID, Graph.Status.DONE);
+  function _cut(bytes32[] memory arr, uint count) private pure returns (bytes32[] memory) {
+    bytes32[] memory res = new bytes32[](count);
+    for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
+    return res;
   }
-
-  function testSetup() public {
-    ProcessFactory.metering(graph);
-    ProcessFactory.beregningsgrundlag(graph);
-
-    uint caseID = 0;
-    graph.addCase(caseID);
-
-    graph.setStatus("Arbejdstider", caseID, Graph.Status.DONE);
-    graph.setStatus("Familieforhold", caseID, Graph.Status.DONE);
-    graph.setStatus("Arbejdsfleksibilitet", caseID, Graph.Status.DONE);
-    graph.setStatus("Bevilligede timer", caseID, Graph.Status.DONE);
-    graph.setStatus("Sparede udgifter", caseID, Graph.Status.DONE);
-    graph.setStatus("Udmåling afgørelse", caseID, Graph.Status.DONE);
-  } */
-
-
 }
