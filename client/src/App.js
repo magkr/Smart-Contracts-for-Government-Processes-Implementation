@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import Process from "./contracts/Process.json";
 import Process42 from "./contracts/Process42.json";
-import ProcessFactory from './contracts/ProcessFactory.json';
 import CaseOverview from './components/caseoverview.js';
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from './utils/contractcontext.js';
@@ -35,21 +33,15 @@ class App extends Component {
       //   deployedNetwork && deployedNetwork.address,
       // );
 
-      const deployedNetworkP42 = Process42.networks[networkId];
-      const p42 = new web3.eth.Contract(
+      const deployedNetwork = Process42.networks[networkId];
+      const p = new web3.eth.Contract(
         Process42.abi,
-        deployedNetworkP42 && deployedNetworkP42.address,
-      );
-
-      const deployedNetworkPF = ProcessFactory.networks[networkId];
-      const pf = new web3.eth.Contract(
-        ProcessFactory.abi,
-        deployedNetworkPF && deployedNetworkPF.address,
+        deployedNetwork && deployedNetwork.address,
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      await this.setState({ web3, accounts, contract: pf, process42: p42 });
+      await this.setState({ web3, accounts, contract: p });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(

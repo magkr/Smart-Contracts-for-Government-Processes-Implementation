@@ -24,17 +24,17 @@ contract Process42 is Process {
 
   constructor() public {
     metering();
-    beregningsgrundlag();
+    /* beregningsgrundlag(); */
   }
 
   function metering() public {
     bytes32 root = "root";
-    _addVertex("Arbejdstider", DataType.INT);
-    _addVertex("Familieforhold", DataType.INT);
-    _addVertex("Arbejdsfleksibilitet", DataType.INT);
-    _addVertex("Bevilligede timer", DataType.INT);
-    _addVertex("Sparede udgifter", DataType.INT);
-    _addVertex("Udmåling afgørelse", DataType.INT);
+    _addVertex("Arbejdstider", DataType.INT, NodeType.NORMAL);
+    _addVertex("Familieforhold", DataType.INT, NodeType.NORMAL);
+    _addVertex("Arbejdsfleksibilitet", DataType.INT, NodeType.NORMAL);
+    _addVertex("Bevilligede timer", DataType.INT, NodeType.NORMAL);
+    _addVertex("Sparede udgifter", DataType.INT, NodeType.NORMAL);
+    _addVertex("Udmåling afgørelse", DataType.INT, NodeType.NORMAL);
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
@@ -52,14 +52,14 @@ contract Process42 is Process {
 
   function beregningsgrundlag() public {
     bytes32 root = "Udmåling afgørelse";
-    _addVertex("Indkomstoplysninger", DataType.INT);
-    _addVertex("Skatteoplysninger", DataType.INT);
-    _addVertex("Pensionsoplysninger", DataType.INT);
+    _addVertex("Indkomstoplysninger", DataType.INT, NodeType.NORMAL);
+    _addVertex("Skatteoplysninger", DataType.INT, NodeType.NORMAL);
+    _addVertex("Pensionsoplysninger", DataType.INT, NodeType.NORMAL);
 
-    _addVertex("Beregning af ydelse", DataType.INT);
-    _addVertex("Pensionsselskabs info", DataType.INT);
+    _addVertex("Beregning af ydelse", DataType.INT, NodeType.NORMAL);
+    _addVertex("Pensionsselskabs info", DataType.INT, NodeType.NORMAL);
 
-    _addVertex("Beregningsgrundlag afgørelse", DataType.INT);
+    _addVertex("Beregningsgrundlag afgørelse", DataType.INT, NodeType.NORMAL);
 
     _addEdge(root,"Indkomstoplysninger");
     _addEdge(root,"Skatteoplysninger");

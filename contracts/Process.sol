@@ -1,6 +1,6 @@
 pragma solidity 0.5.0;
 
-import { Data, DataNode, DataHandler } from './Data.sol';
+import { Data, ExtraData, ResolutionData, DataNode, DataHandler } from './Data.sol';
 
 contract Process is DataHandler {
   struct Case {
@@ -19,9 +19,9 @@ contract Process is DataHandler {
     return titleToID[title]-1;
   }
 
-  function _addVertex(bytes32 _title, DataType _dataType) internal {
+  function _addVertex(bytes32 _title, DataType _dataType, NodeType _nodeType) internal {
     // if title exists, throw error
-    vxs.push(new DataNode(_title, _dataType));
+    vxs.push(new DataNode(_title, _dataType, _nodeType));
     titleToID[_title] = vxs.length;
   }
 
