@@ -1,10 +1,10 @@
 pragma solidity 0.5.0;
 
-import {Graph} from "./Graph.sol";
+import { Data, DataNode, DataHandler } from './Data.sol';
 
 contract ProcessInterface {
   function mark(bytes32 title, uint caseID) public;
-  function getStatus(bytes32 title, uint caseID) public returns (Graph.Status status);
+  function getStatus(bytes32 title, uint caseID) public returns (DataHandler.Status status);
 }
 
 contract AppealsBoard {
@@ -21,7 +21,7 @@ contract AppealsBoard {
     processContract = ProcessInterface(processadr);
   }
 
-  function getStatus(bytes32 title, uint caseID) public returns (Graph.Status status) {
+  function getStatus(bytes32 title, uint caseID) public returns (DataHandler.Status status) {
     return processContract.getStatus(title, caseID);
   }
 
