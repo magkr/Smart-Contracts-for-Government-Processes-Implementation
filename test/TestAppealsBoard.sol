@@ -4,13 +4,11 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/Process.sol";
 import "../contracts/AppealsBoard.sol";
-import "../contracts/Graph.sol";
 import "../contracts/IterableMap.sol";
 
 
 
 contract TestAppealsBoard {
-  using Graph for Graph.Digraph;
   using IterableMap for IterableMap.Map;
 
 
