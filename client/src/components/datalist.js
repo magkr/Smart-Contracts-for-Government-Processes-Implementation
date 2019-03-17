@@ -14,7 +14,7 @@ export default class DataList extends Component {
     const toHex = this.utils.asciiToHex;
     switch (status) {
       case toHex("done"):
-        return "bg-light-green";
+        return "bg-green";
       case toHex("undone"):
         return "bg-near-white";
       case toHex("pending"):

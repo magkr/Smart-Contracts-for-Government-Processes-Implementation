@@ -106,7 +106,7 @@ contract Process42 is DataHandler {
 
   function fillData(bytes32 _title, uint _caseID, uint _dataHash) public {
     /* TODO TJEK OM DATAHASH ER TOM */
-    cases[_caseID].dataList[_getIdx(_title)].fill(_dataHash);
+    cases[_caseID].dataList[_getIdx(_title)].fill(0, _dataHash); /* Database location TODO  */
     cases[_caseID].dataList[_getIdx(_title)].setStatus(Status.DONE);
   }
 

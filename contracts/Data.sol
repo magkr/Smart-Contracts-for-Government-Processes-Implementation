@@ -27,6 +27,7 @@ contract Data is DataHandler {
   bytes32 instanceOf;
   DataType dataType;
   Status public status;
+  uint dbLocation;
   uint dataHash;
   uint caseID;
 
@@ -37,7 +38,8 @@ contract Data is DataHandler {
     status = Status.UNDONE;
   }
 
-  function fill(uint _dataHash) public {
+  function fill(uint _dbLocation, uint _dataHash) public {
+    dbLocation = _dbLocation;
     dataHash = _dataHash;
   }
 
@@ -71,7 +73,7 @@ contract DataSpecial is Data {
   function fillExtra(bytes32 title, uint _dataHash) public returns (bool){
     if (dataID[title] == 0) { return false; }
     uint index = dataID[title] - 1;
-    extraData[index].fill(_dataHash);
+    extraData[index].fill(0, _dataHash); /* Database location TODO  */
     return true;
   }
 
