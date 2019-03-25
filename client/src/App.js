@@ -10,6 +10,7 @@ class App extends Component {
     web3: null,
     accounts: null,
     contract: null,
+    store: []
   };
 
   constructor(){
@@ -115,7 +116,8 @@ class App extends Component {
           getActions: this.getActions,
           setToDone: this.setToDone,
           addCase: this.addCase,
-          getCases: this.getCases
+          getCases: this.getCases,
+          store: this.state.store
         }}>
           <CaseOverview/>
         </ContractProvider>

@@ -59,14 +59,16 @@ contract Process is DataHandler {
     return caseIDs;
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss) {
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint[] memory locations) {
     titles = new bytes32[](vxs.length);
     statuss = new bytes32[](vxs.length);
+    locations = new uint[](vxs.length);
 
     Data[] memory data = cases[caseID].dataList;
     for(uint i = 0; i < vxs.length; i++){
       titles[i] = vxs[i].getTitle();
       statuss[i] = _getStatusString(data[i].status());
+      locations[i] = data[i].dbLocation();
     }
   }
 
@@ -104,10 +106,11 @@ contract Process is DataHandler {
     return true;
   }
 
-  function fillData(bytes32 _title, uint _caseID, uint _dataHash) public {
+  function fillData(bytes32 _title, uint _caseID, bytes32 _dataHash, uint _dbLocation) public {
     /* TODO TJEK OM DATAHASH ER TOM */
-    cases[_caseID].dataList[_getIdx(_title)].fill(0, _dataHash); /* Database location TODO  */
+    cases[_caseID].dataList[_getIdx(_title)].fill(_dbLocation, _dataHash); /* Database location TODO  */
     cases[_caseID].dataList[_getIdx(_title)].setStatus(Status.DONE);
+
   }
 
   function markData(bytes32 _title, uint _caseID) public {

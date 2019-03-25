@@ -33,8 +33,8 @@ contract Data is DataHandler {
   bytes32 instanceOf;
   DataType dataType;
   Status public status;
-  uint dbLocation;
-  uint dataHash;
+  uint public dbLocation;
+  bytes32 public dataHash;
   uint caseID;
 
   constructor(bytes32 _instanceOf, DataType _dataType, uint _caseID) public {
@@ -44,7 +44,7 @@ contract Data is DataHandler {
     status = Status.UNDONE;
   }
 
-  function fill(uint _dbLocation, uint _dataHash) public {
+  function fill(uint _dbLocation, bytes32 _dataHash) public {
     dbLocation = _dbLocation;
     dataHash = _dataHash;
   }
@@ -73,13 +73,13 @@ contract ExtraData is Data {
     if (_isExtraNeeded == 0) setStatus(Status.DONE);
     if (_isExtraNeeded == 1) setStatus(Status.UNDONE);
     else {} // throw error
-    dataHash = _isExtraNeeded;
+    //dataHash = _isExtraNeeded;
   }
 
   function fillExtra(bytes32 title, uint _dataHash) public returns (bool){
     if (dataID[title] == 0) { return false; }
     uint index = dataID[title] - 1;
-    extras[index].fill(0, _dataHash); /* Database location TODO  */
+    //extras[index].fill(0, _dataHash); /* Database location TODO  */
     return true;
   }
 
@@ -97,7 +97,7 @@ contract ResolutionData is Data {
 
   function fill(uint _dbLocation, uint _dataHash) public {
     dbLocation = _dbLocation;
-    dataHash = _dataHash;
+    //dataHash = _dataHash;
     /* emit Resolution(this); */
   }
 }

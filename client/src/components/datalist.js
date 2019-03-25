@@ -6,6 +6,9 @@ export default class DataList extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      selected: {}
+    }
     this.utils = this.props.contractContext.web3.utils;
     this.getColor = this.getColor.bind(this);
   }
@@ -26,12 +29,42 @@ export default class DataList extends Component {
     }
   }
 
+  setSelected(d) {
+    if(this.state.selected === d) {
+      this.setState({
+        selected: {}
+      })
+      this.props.update();
+    }
+    else {
+      this.setState({
+        selected: d
+      })
+      this.props.editData(d);
+    }
+
+  }
+
   render(){
     return (
       <div className="w-50">
       <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">Status:</h2>
         { this.props.data.map((d) => {
-            return <div key={d.title} className={"flex justify-center items-center h2 helvetica pa1 ma2 f5 " + this.getColor(d.status)}>{this.utils.hexToAscii(d.title)}</div>
+            return (
+              <div key={d.title} className={"flex justify-around items-center helvetica pa1 ma2 f5 " + this.getColor(d.status)}>
+                {this.utils.hexToAscii(d.title)}
+                {d.status !== this.utils.asciiToHex("undone")
+                  ?
+                  <button  className="helvetica -20 f6 br1 ba bg-white" onClick={(e) => this.setSelected(d)}>
+                    {this.state.selected === d ? "Don't edit" : "Edit"}
+                  </button>
+                  : null
+                }
+                <b>
+                  {window.sessionStorage[d.location]}
+                </b>
+              </div>
+            )
           }
         )}
       </div>

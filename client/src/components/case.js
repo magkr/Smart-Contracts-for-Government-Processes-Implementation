@@ -11,7 +11,7 @@ class Case extends Component {
     super(props);
     this.update = this.update.bind(this);
     this.getCase = this.getCase.bind(this);
-
+    this.editData = this.editData.bind(this);
   }
 
   state = {
@@ -41,9 +41,18 @@ class Case extends Component {
     const dataLists = await this.props.contractContext.contract.methods.getCase(this.props.selected).call();
     const titles = dataLists['titles'];
     const statuss = dataLists['statuss'];
+    const locations = dataLists['locations'];
     const data = titles.map((t,i) => {
-      return { 'title': t, 'status': statuss[i] } });
+      return { 'title': t, 'status': statuss[i], 'location': locations[i] }
+    });
     return data;
+  }
+
+  async editData(d){
+    this.state.actions.push(d.title)
+    this.setState({
+      actions: this.state.actions
+    })
   }
 
   render() {
@@ -54,7 +63,7 @@ class Case extends Component {
           ? <h2 className="ma3 f4 helvetica">Loading...</h2> :
             <div className="w-100 flex justify-center">
                 <ActionsList contractContext={this.props.contractContext} actions={this.state.actions} selected={this.props.selected} update={this.update}/>
-                <DataList contractContext={this.props.contractContext} data={this.state.data}/>
+                <DataList contractContext={this.props.contractContext} data={this.state.data} editData={this.editData} update={this.update}/>
             </div>
         }
       </div>
