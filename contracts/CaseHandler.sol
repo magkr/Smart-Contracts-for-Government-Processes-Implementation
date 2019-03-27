@@ -1,13 +1,15 @@
 pragma solidity 0.5.0;
 
-import  {DataHandler} from './DataHandler.sol';
+import {DataHandler} from './DataHandler.sol';
 
 contract CaseHandler is DataHandler {
   enum CaseStatus { ACTIVE, COMPLAINT, OLD }
 
   struct Case {
-  	Data[] dataList;
+  	bytes32[] dataKeyList;
+    mapping (bytes32 => Data) dataMapping;
     CaseStatus status;
+    //mapping (uint => Data[]) extraDatas;
   }
 
   Case[] cases;
@@ -17,19 +19,20 @@ contract CaseHandler is DataHandler {
     return Data(_dataNode.title, 0, 0, _caseId, _dataNode.dataType, Status.UNDONE);
   }
 
-/*
-  function markAsDone(bytes32 title, uint caseID) public {
-    cases[caseID].dataList[_getIdx(title)].setStatus(Status.DONE);
+
+  function markAsDone(bytes32 title, uint32 caseID) public {
+    cases[caseID].dataMapping[title].status = Status.DONE;
   }
 
   function addCase(address addr) public {
     // if case exist, throw error
-    uint idx = cases.length;
+    uint32 idx = uint32(cases.length);
     addressToCase[addr] = idx;
-    cases.push(Case(new Data[](0), CaseStatus.ACTIVE));
+    bytes32[] memory datas;
+    cases.push(Case(datas, CaseStatus.ACTIVE));
     for(uint i = 0; i < vxs.length; i++){
-      Data memory d = createData(vxs[i], idx);
-      cases[idx].dataList.push(d);
+      cases[idx].dataMapping[vxs[i].title] = createData(vxs[i], idx);
+      cases[idx].dataKeyList.push(vxs[i].title);
     }
   }
 
@@ -42,36 +45,28 @@ contract CaseHandler is DataHandler {
     return caseIDs;
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint[] memory locations) {
-    /* TODO sikr det kun er SBH der kan spørge
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations) {
+    /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
     statuss = new bytes32[](vxs.length);
-    locations = new uint[](vxs.length);
+    locations = new uint32[](vxs.length);
 
-    Data[] memory data = cases[caseID].dataList;
+    bytes32[] memory data = cases[caseID].dataKeyList;
     for(uint i = 0; i < vxs.length; i++){
-      titles[i] = vxs[i].getTitle();
-      statuss[i] = _getStatusString(data[i].status());
-      locations[i] = data[i].dbLocation();
+      titles[i] = data[i];
+      statuss[i] = _getStatusString(cases[caseID].dataMapping[data[i]].status);
+      locations[i] = cases[caseID].dataMapping[data[i]].dbLocation;
     }
   }
 
-  function _getStatusString(Status status) private pure returns(bytes32) {
-    if (status == Status.DONE) return "done";
-    if (status == Status.UNDONE) return "undone";
-    if (status == Status.PENDING) return "pending";
-    if (status == Status.MARKED) return "marked";
-    else return "";  /* TODO THROW ERROR !!!
-  }
-
   function getActions(uint caseID) public view returns (bytes32[] memory) {
-    /* TODO if case doesnt exist, throw error
+    /* TODO if case doesnt exist, throw error */
     bytes32[] memory toDo = new bytes32[](vxs.length);
     uint count = 0;
 
     for (uint v = 0; v < vxs.length; v++) {
       if(_isReady(v, caseID)) {
-        toDo[count] = vxs[v].getTitle();
+        toDo[count] = vxs[v].title;
         count++;
       }
     }
@@ -81,38 +76,39 @@ contract CaseHandler is DataHandler {
 
   function _isReady(uint v, uint caseID) private view returns (bool) {
     // if v doesnt exist, throw error
-    if (cases[caseID].dataList[v].status() == Status.DONE) return false;
+    if (cases[caseID].dataMapping[vxs[v].title].status == Status.DONE) return false;
     for(uint j = 0; j < req[v].length; j++) {
       uint reqIdx = req[v][j];
-      if (cases[caseID].dataList[reqIdx].status() != Status.DONE) return false;
+      if (cases[caseID].dataMapping[cases[caseID].dataKeyList[reqIdx]].status != Status.DONE) return false;
     }
 
     return true;
   }
 
-  function fillData(bytes32 _title, uint _caseID, bytes32 _dataHash, uint _dbLocation) public {
-    /* TODO TJEK OM DATAHASH ER TOM
-    cases[_caseID].dataList[_getIdx(_title)].fill(_dbLocation, _dataHash); /* Database location TODO
-    cases[_caseID].dataList[_getIdx(_title)].setStatus(Status.DONE);
+  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public {
+    /* TODO TJEK OM DATAHASH ER TOM */
+    cases[_caseID].dataMapping[_title].dbLocation = _dbLocation;
+    cases[_caseID].dataMapping[_title].dataHash = _dataHash;
+    cases[_caseID].dataMapping[_title].status = Status.DONE;
 
   }
 
   function markData(bytes32 _title, uint _caseID) public {
-    /* TODO EXPLANATION AS PARAMETER
-    uint v = _getIdx(_title);
-    cases[_caseID].dataList[v].setStatus(Status.MARKED);
-    _cascade(v, _caseID);
+    /* TODO EXPLANATION AS PARAMETER */
+
+    cases[_caseID].dataMapping[_title].status = Status.MARKED;
+    _cascade(_title, _caseID);
   }
 
-  function _cascade(uint v, uint caseID) private {
-    for (uint i = 0; i < adj[v].length; i++) {
-      uint adjIdx = adj[v][i];
-      if (cases[caseID].dataList[adjIdx].status() == Status.DONE) {
-        cases[caseID].dataList[adjIdx].setStatus(Status.PENDING);
-        _cascade(adjIdx, caseID);
+  function _cascade(bytes32 _title, uint caseID) private {
+    for (uint i = 0; i < adj[_getIdx(_title)].length; i++) {
+      uint adjIdx = adj[_getIdx(_title)][i];
+      if (cases[caseID].dataMapping[vxs[adjIdx].title].status == Status.DONE) {
+        cases[caseID].dataMapping[vxs[adjIdx].title].status = Status.PENDING;
+        _cascade(vxs[adjIdx].title, caseID);
       }
     }
-  } */
+  }
 
 
 }
