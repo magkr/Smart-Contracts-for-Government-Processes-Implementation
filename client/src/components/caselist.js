@@ -19,7 +19,7 @@ class CaseList extends Component {
 
   async newCase() {
     await this.props.contractContext.contract.methods
-      .addCase()
+      .addCase("0x93f23b1f79d5b4d40699397ed9286d1734c10af8")
       .send({ from: this.props.contractContext.accounts[0] });
     await this.refreshCases();
   }
