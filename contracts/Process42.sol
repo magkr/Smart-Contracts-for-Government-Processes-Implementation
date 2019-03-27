@@ -29,12 +29,12 @@ contract Process42 is Process {
 
   function metering() public {
     bytes32 root = "root";
-    _addVertex("Arbejdstider", DataType.INT, NodeType.NORMAL);
-    _addVertex("Familieforhold", DataType.INT, NodeType.NORMAL);
-    _addVertex("Arbejdsfleksibilitet", DataType.INT, NodeType.NORMAL);
-    _addVertex("Bevilligede timer", DataType.INT, NodeType.NORMAL);
-    _addVertex("Sparede udgifter", DataType.INT, NodeType.NORMAL);
-    _addVertex("Udmåling afgørelse", DataType.INT, NodeType.NORMAL);
+    _addVertex("Arbejdstider", DataType.INT, NodeType.NORMAL, false);
+    _addVertex("Familieforhold", DataType.INT, NodeType.NORMAL, false);
+    _addVertex("Arbejdsfleksibilitet", DataType.INT, NodeType.NORMAL, false);
+    _addVertex("Bevilligede timer", DataType.INT, NodeType.NORMAL, false);
+    _addVertex("Sparede udgifter", DataType.INT, NodeType.NORMAL, false);
+    _addVertex("Udmåling afgørelse", DataType.INT, NodeType.NORMAL, true);
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
@@ -50,7 +50,7 @@ contract Process42 is Process {
     _addEdge("Sparede udgifter", "Udmåling afgørelse");
   }
 
-  function beregningsgrundlag() public {
+  /* function beregningsgrundlag() public {
     bytes32 root = "Udmåling afgørelse";
     _addVertex("Indkomstoplysninger", DataType.INT, NodeType.NORMAL);
     _addVertex("Skatteoplysninger", DataType.INT, NodeType.NORMAL);
@@ -72,6 +72,6 @@ contract Process42 is Process {
 
     _addEdge("Beregning af ydelse", "Beregningsgrundlag afgørelse");
     _addEdge("Pensionsselskabs info", "Beregningsgrundlag afgørelse");
-  }
+  } */
 
 }

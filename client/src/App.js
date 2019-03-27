@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Process42 from "./contracts/Process42.json";
-import CaseOverview from './components/caseoverview.js';
+import CaseOverview from "./components/caseoverview.js";
+import UserOverview from "./components/useroverview.js";
 import getWeb3 from "./utils/getWeb3";
-import { ContractProvider } from './utils/contractcontext.js';
+import { ContractProvider } from "./utils/contractcontext.js";
 import "./App.css";
 
 class App extends Component {
@@ -10,11 +11,13 @@ class App extends Component {
     web3: null,
     accounts: null,
     contract: null,
-    store: []
+    store: [],
+    user: false
   };
 
-  constructor(){
+  constructor() {
     super();
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount = async () => {
@@ -37,7 +40,7 @@ class App extends Component {
       const deployedNetwork = Process42.networks[networkId];
       const p = new web3.eth.Contract(
         Process42.abi,
-        deployedNetwork && deployedNetwork.address,
+        deployedNetwork && deployedNetwork.address
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -46,12 +49,17 @@ class App extends Component {
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load web3, accounts, or contract. Check console for details.`
       );
       console.error(error);
     }
   };
 
+  async toggle() {
+    await this.setState({
+      user: !this.state.user
+    });
+  }
 
   toBytes(s) {
     return this.state.web3.utils.utf8ToHex(s);
@@ -60,7 +68,6 @@ class App extends Component {
   toString(s) {
     return this.state.web3.utils.hexToUtf8(s);
   }
-
 
   // getActions = async (id) => {
   //   const { accounts, contract, caseID, web3 } = this.state;
@@ -99,27 +106,32 @@ class App extends Component {
   render() {
     if (!this.state.web3) {
       return (
-        <div className="helvetica tc pa4">Loading Web3, accounts, and contract...</div>
+        <div className="helvetica tc pa4">
+          Loading Web3, accounts, and contract...
+        </div>
       );
     }
     if (!this.state.contract) {
-      return (
-        <div className="helvetica tc pa4">Loading contract...</div>
-      );
+      return <div className="helvetica tc pa4">Loading contract...</div>;
     }
     return (
       <div className="App">
-        <ContractProvider value={{
-          web3: this.state.web3,
-          accounts: this.state.accounts,
-          contract: this.state.contract,
-          getActions: this.getActions,
-          setToDone: this.setToDone,
-          addCase: this.addCase,
-          getCases: this.getCases,
-          store: this.state.store
-        }}>
-          <CaseOverview/>
+        <ContractProvider
+          value={{
+            web3: this.state.web3,
+            accounts: this.state.accounts,
+            contract: this.state.contract,
+            getActions: this.getActions,
+            setToDone: this.setToDone,
+            addCase: this.addCase,
+            getCases: this.getCases,
+            store: this.state.store
+          }}
+        >
+          {this.state.user ? <UserOverview /> : <CaseOverview />}
+          <button className="absolute bottom-2 left-2" onClick={this.toggle}>
+            SWITCH
+          </button>
         </ContractProvider>
       </div>
     );

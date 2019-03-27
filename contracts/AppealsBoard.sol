@@ -1,6 +1,6 @@
 pragma solidity 0.5.0;
 
-import { Data, DataNode, DataHandler } from './Data.sol';
+import { DataHandler } from './DataHandler.sol';
 
 contract ProcessInterface {
   function mark(bytes32 title, uint caseID) public;
