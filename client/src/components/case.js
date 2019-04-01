@@ -28,12 +28,11 @@ class Case extends Component {
   }
 
   async update() {
-    console.log(this.props.selected);
     await this.setState({ isLoading: true });
     const c = await this.props.contractContext.contract.methods
       .cases(this.props.selected)
       .call();
-    console.log(c);
+
     await this.setState({
       actions: await this.props.contractContext.contract.methods
         .getActions(c.id)
@@ -42,8 +41,29 @@ class Case extends Component {
       addr: await this.props.contractContext.contract.methods
         .addressFromCase(c.id)
         .call(),
+      data: await this.readData(c.id),
+      status: c.status,
       isLoading: false
     });
+  }
+
+  async readData(id) {
+    const response = await this.props.contractContext.contract.methods
+      .getCase(id)
+      .call();
+    console.log(response);
+    var statuss = response["statuss"];
+    var locations = response["locations"];
+    var titles = response["titles"];
+    const data = [];
+    statuss.forEach((item, idx) => {
+      data.push({
+        location: locations[idx],
+        title: titles[idx],
+        status: statuss[idx]
+      });
+    });
+    return data;
   }
 
   async editData(d) {
@@ -63,6 +83,10 @@ class Case extends Component {
         <h2 className="f4 helvetica tl pa2 mt2 mr2">
           <span className="b">Address: </span>
           {this.state.addr}
+        </h2>
+        <h2 className="f4 helvetica tl pa2 mt2 mr2">
+          <span className="b">Status: </span>
+          {this.state.status}
         </h2>
         {this.state.isLoading ? (
           <h2 className="ma3 f4 helvetica">Loading...</h2>
