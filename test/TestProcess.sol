@@ -6,7 +6,7 @@ import "../contracts/Process.sol";
 
 
 contract TestProcess {
-
+/*
   function testFillSucceeds() public {
     Process process = Process(DeployedAddresses.Process());
     process.smallTestSetup();
@@ -149,13 +149,13 @@ contract TestProcess {
     /* process.mark("a", 0);   // marked - > (pending,pending) -> pending -> undone */
     /* process.mark("ba", 0);  // marked -> (marked,pending) -> pending */
 
-    /* bool success = process.unmark("ba", 0); */
+    /* bool success = process.unmark("ba", 0); */ /*
     bool ba = (process.getStatus("ba", 0) == Graph.Status.PENDING);
     bool c = (process.getStatus("c", 0) == Graph.Status.PENDING);
-
-    /* Assert.equal(success, false, "unmark undone ba should not succeed"); */
+*/
+    /* Assert.equal(success, false, "unmark undone ba should not succeed"); *//*
     Assert.equal(ba, true, "ba should be set back to PENDING");
     Assert.equal(c, true, "c should still be PENDING");
 
-  }
+  }*/
 }

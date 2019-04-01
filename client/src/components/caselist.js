@@ -6,7 +6,8 @@ class CaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cases: []
+      cases: [],
+      newAddr: ""
     };
     this.newCase = this.newCase.bind(this);
     this.mark = this.mark.bind(this);

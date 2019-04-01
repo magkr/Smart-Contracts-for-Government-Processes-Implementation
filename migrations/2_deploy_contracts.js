@@ -1,6 +1,4 @@
-var AppealsBoard = artifacts.require("./AppealsBoard.sol");
-var Process42 = artifacts.require("./Process42.sol");
-
+var Process = artifacts.require("./Process.sol");
 module.exports = function(deployer) {
   deployer.deploy(Process42);
 };
