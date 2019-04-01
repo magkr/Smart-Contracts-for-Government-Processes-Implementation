@@ -5,14 +5,13 @@ import {Ownable} from './Ownable.sol';
 
 contract CaseHandler is Ownable, Graph {
   Case[] public cases;
-  Data[] public data;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
 
   struct Case {
-    uint id;
+    uint32 id;
     CaseStatus status;
-    mapping (bytes32 => uint32) dataMapping;
+    mapping (bytes32 => Data) dataMapping;
     //mapping (uint => Data[]) extraDatas;
   }
 
@@ -69,13 +68,20 @@ contract CaseHandler is Ownable, Graph {
   function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
      /* TODO require at dataHash ikke er tom? */
     require(_caseID >= 0 && _caseID <= cases.length);
-    uint idx = data.push(Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE));
-    cases[_caseID].dataMapping[_title] = uint32(idx);
+    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
   }
 
-  function update(uint32 dataID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwnerOf(data[dataID].caseID) {
-    data[dataID].dbLocation = _dbLocation;
-    data[dataID].dataHash = _dataHash;
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations) {
+    /* TODO sikr det kun er SBH der kan spørge */
+    titles = new bytes32[](vxs.length);
+    statuss = new bytes32[](vxs.length);
+    locations = new uint32[](vxs.length);
+
+    for(uint i = 0; i < vxs.length; i++){
+      titles[i] = vxs[i].title;
+      statuss[i] = _getStatusString(cases[caseID].dataMapping[vxs[i].title].status);
+      locations[i] = cases[caseID].dataMapping[vxs[i].title].dbLocation;
+    }
   }
 
 
@@ -96,10 +102,10 @@ contract CaseHandler is Ownable, Graph {
 
   function _isReady(uint v, Case storage c) private view returns (bool) {
     // if v doesnt exist, throw error
-    if (data[c.dataMapping[vxs[v].title]].status == Status.DONE) return false;
+    if (c.dataMapping[vxs[v].title].status == Status.DONE) return false;
     for(uint j = 0; j < req[v].length; j++) {
       uint reqIdx = req[v][j];
-      if (data[c.dataMapping[vxs[reqIdx].title]].status != Status.DONE) return false;
+      if (c.dataMapping[vxs[reqIdx].title].status != Status.DONE) return false;
     }
 
     return true;
@@ -108,15 +114,15 @@ contract CaseHandler is Ownable, Graph {
   function markData(bytes32 _title, uint _caseID) public {
     /* TODO EXPLANATION AS PARAMETER */
 
-    data[cases[_caseID].dataMapping[_title]].status = Status.MARKED;
+    cases[_caseID].dataMapping[_title].status = Status.MARKED;
     _cascade(_title, _caseID);
   }
 
   function _cascade(bytes32 _title, uint caseID) private {
     for (uint i = 0; i < adj[_getIdx(_title)].length; i++) {
       uint adjIdx = adj[_getIdx(_title)][i];
-      if (data[cases[caseID].dataMapping[vxs[adjIdx].title]].status == Status.DONE) {
-        data[cases[caseID].dataMapping[vxs[adjIdx].title]].status = Status.PENDING;
+      if (cases[caseID].dataMapping[vxs[adjIdx].title].status == Status.DONE) {
+        cases[caseID].dataMapping[vxs[adjIdx].title].status = Status.PENDING;
         _cascade(vxs[adjIdx].title, caseID);
       }
     }
