@@ -42,10 +42,6 @@ contract CaseHandler is Ownable, Graph {
     caseCount[user]++;
   }
 
-  function casesLength() public view onlyOwner returns (uint) {
-    return cases.length;
-  }
-
   function getCases(address user) public view returns (uint32[] memory) {
     require(isOwner() || msg.sender == user);
     if (user == owner()) return _allCases();
