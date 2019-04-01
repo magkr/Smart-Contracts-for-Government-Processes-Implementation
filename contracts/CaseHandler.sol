@@ -11,6 +11,7 @@ contract CaseHandler is Ownable {
   struct Case {
     CaseStatus status;
     mapping(bytes32 => Data) dataMapping;
+    uint32 id;
     //mapping (uint => Data[]) extraDatas;
   }
 
@@ -36,7 +37,8 @@ contract CaseHandler is Ownable {
 
   function addCase(address user) external onlyOwner {
     // if case exist, throw error
-    uint32 idx = uint32(cases.push(Case(CaseStatus.ACTIVE))-1);
+    uint32 idx = uint32(cases.length);
+    cases.push(Case(CaseStatus.ACTIVE, idx));
     caseToAddress[idx] = user;
     caseCount[user]++;
   }
@@ -59,6 +61,9 @@ contract CaseHandler is Ownable {
     return res;
   }
 
+  function addressFromCase(uint32 caseID) public view onlyOwnerOf(caseID) returns(address) {
+    return caseToAddress[caseID];
+  }
 
   function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
     bytes32[] memory res = new bytes32[](count);

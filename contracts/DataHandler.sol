@@ -81,12 +81,12 @@ contract Graph is CaseHandler {
     cases[_caseID].dataMapping[_title].status = Status.DONE;
   }
 
-  function markData(bytes32 _title, uint _caseID) public {
-    /* TODO EXPLANATION AS PARAMETER */
+  /* function markData(bytes32 _title, uint _caseID) public {
+    /* TODO EXPLANATION AS PARAMETER 
 
     cases[_caseID].dataMapping[_title].status = Status.MARKED;
     _cascade(_title, _caseID);
-  }
+  } */
 
   /* function markAsDone(bytes32 title, uint32 caseID) public {
     cases[caseID].dataMapping[title].status = Status.DONE;

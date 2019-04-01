@@ -8,12 +8,13 @@ class Case extends Component {
   constructor(props) {
     super(props);
     this.update = this.update.bind(this);
-    this.getCase = this.getCase.bind(this);
     this.editData = this.editData.bind(this);
   }
 
   state = {
     data: [],
+    id: null,
+    addr: "",
     actions: [],
     isLoading: false
   };
@@ -28,27 +29,19 @@ class Case extends Component {
 
   async update() {
     await this.setState({ isLoading: true });
+    const c = await this.props.contractContext.contract.methods
+      .cases(this.props.selected)
+      .call();
     await this.setState({
       actions: await this.props.contractContext.contract.methods
         .getActions(this.props.selected)
         .call(),
-      data: await this.getCase(),
+      id: c.id,
+      addr: await this.props.contractContext.contract.methods
+        .addressFromCase(c.id)
+        .call(),
       isLoading: false
     });
-  }
-
-  async getCase() {
-    const c = await this.props.contractContext.contract.methods
-      .cases(this.props.selected)
-      .call();
-    console.log(c);
-    // const titles = dataLists["titles"];
-    // const statuss = dataLists["statuss"];
-    // const locations = dataLists["locations"];
-    // const data = titles.map((t, i) => {
-    //   return { title: t, status: statuss[i], location: locations[i] };
-    // });
-    return [];
   }
 
   async editData(d) {
@@ -61,9 +54,13 @@ class Case extends Component {
   render() {
     return (
       <div className="w-100 flex flex-column items-left justify-around ph5">
-        <h2 className="f4 helvetica tc pa2 mt2 mr2">
+        <h2 className="f4 helvetica tl pa2 mt2 mr2">
           <span className="b">Case ID: </span>
-          {this.props.selected}
+          {this.state.id}
+        </h2>
+        <h2 className="f4 helvetica tl pa2 mt2 mr2">
+          <span className="b">Address: </span>
+          {this.state.addr}
         </h2>
         {this.state.isLoading ? (
           <h2 className="ma3 f4 helvetica">Loading...</h2>
