@@ -61,6 +61,7 @@ class CaseList extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <ul className="w-100">
         {this.state.cases.map(c => (
