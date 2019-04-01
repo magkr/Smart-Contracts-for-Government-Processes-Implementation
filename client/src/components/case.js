@@ -28,13 +28,15 @@ class Case extends Component {
   }
 
   async update() {
+    console.log(this.props.selected);
     await this.setState({ isLoading: true });
     const c = await this.props.contractContext.contract.methods
       .cases(this.props.selected)
       .call();
+    console.log(c);
     await this.setState({
       actions: await this.props.contractContext.contract.methods
-        .getActions(this.props.selected)
+        .getActions(c.id)
         .call(),
       id: c.id,
       addr: await this.props.contractContext.contract.methods

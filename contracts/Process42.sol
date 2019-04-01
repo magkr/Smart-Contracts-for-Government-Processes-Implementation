@@ -1,8 +1,8 @@
 pragma solidity 0.5.0;
 
-import {Graph} from "./DataHandler.sol";
+import {CaseHandler} from "./CaseHandler.sol";
 
-contract Process42 is Graph {
+contract Process42 is CaseHandler {
 
   /* IDEA
   bytes32[] vs;

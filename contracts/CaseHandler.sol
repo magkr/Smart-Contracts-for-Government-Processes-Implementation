@@ -10,6 +10,7 @@ contract CaseHandler is Ownable, Graph {
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
 
   struct Case {
+    uint id;
     CaseStatus status;
     mapping (bytes32 => uint32) dataMapping;
     //mapping (uint => Data[]) extraDatas;
@@ -37,7 +38,8 @@ contract CaseHandler is Ownable, Graph {
 
   function addCase(address user) external onlyOwner {
     // if case exist, throw error
-    uint32 idx = uint32(cases.push(Case(CaseStatus.ACTIVE))-1);
+    uint32 idx = uint32(cases.length);
+    cases.push(Case(idx, CaseStatus.ACTIVE));
     caseToAddress[idx] = user;
     caseCount[user]++;
   }
