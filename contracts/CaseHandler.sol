@@ -10,7 +10,8 @@ contract CaseHandler is Ownable {
 
   struct Case {
     CaseStatus status;
-    mapping(bytes32 => Data) dataMapping;
+    uint32[] datas;
+    mapping (bytes32 => uint32) titleToID;
     //mapping (uint => Data[]) extraDatas;
   }
 
@@ -19,6 +20,7 @@ contract CaseHandler is Ownable {
     bytes32 dataHash;
     uint32 dbLocation;
     uint32 caseID;
+    uint32 id;
     /* DataType dataType; */
     Status status;
   }
@@ -36,7 +38,7 @@ contract CaseHandler is Ownable {
 
   function addCase(address user) external onlyOwner {
     // if case exist, throw error
-    uint32 idx = uint32(cases.push(Case(CaseStatus.ACTIVE))-1);
+    uint32 idx = uint32(cases.push(Case(CaseStatus.ACTIVE, new uint32[](0)))-1);
     caseToAddress[idx] = user;
     caseCount[user]++;
   }
@@ -45,18 +47,34 @@ contract CaseHandler is Ownable {
     return cases.length;
   }
 
-  function getCases(address _owner) public view returns (uint32[] memory) {
-    require(isOwner() || msg.sender == _owner);
-    uint32[] memory res = new uint32[](caseCount[_owner]);
+  function getCases(address user) public view returns (uint32[] memory) {
+    require(isOwner() || msg.sender == user);
+    uint32[] memory res = new uint32[](caseCount[user]);
     uint32 counter = 0;
 
-    for(uint32 i = 0; i < caseCount[_owner]; i++){
-      if (caseToAddress[i] == _owner){
+    for(uint32 i = 0; i < caseCount[user]; i++){
+      if (caseToAddress[i] == user){
         res[counter] = i;
         counter++;
       }
     }
     return res;
+  }
+
+
+  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
+     /* TODO require at dataHash ikke er tom? */
+    require(_caseID >= 0 && _caseID <= cases.length);
+    uint32 idx = uint32(data.length);
+    data.push(Data(_title, _dataHash, _dbLocation, _caseID, idx, Status.DONE));
+    cases[_caseID].datas.push(idx);
+    cases[_caseID].titleToID[_title] = idx;
+  }
+
+  function update(uint32 dataID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwnerOf(data[dataID].caseID) {
+    /* TODO require at dataHash ikke er tom? */
+    data[dataID].dbLocation = _dbLocation;
+    data[dataID].dataHash = _dataHash;
   }
 
 
