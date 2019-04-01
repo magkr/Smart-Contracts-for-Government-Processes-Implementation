@@ -1,8 +1,9 @@
 pragma solidity 0.5.0;
 
+import {Graph} from './DataHandler.sol';
 import {Ownable} from './Ownable.sol';
 
-contract CaseHandler is Ownable {
+contract CaseHandler is Ownable, Graph {
   Case[] public cases;
   Data[] public data;
   mapping (uint32 => address) caseToAddress;
@@ -10,8 +11,7 @@ contract CaseHandler is Ownable {
 
   struct Case {
     CaseStatus status;
-    uint32[] datas;
-    mapping (bytes32 => uint32) titleToID;
+    mapping (bytes32 => Data) dataMapping;
     //mapping (uint => Data[]) extraDatas;
   }
 
@@ -20,7 +20,6 @@ contract CaseHandler is Ownable {
     bytes32 dataHash;
     uint32 dbLocation;
     uint32 caseID;
-    uint32 id;
     /* DataType dataType; */
     Status status;
   }
@@ -38,7 +37,7 @@ contract CaseHandler is Ownable {
 
   function addCase(address user) external onlyOwner {
     // if case exist, throw error
-    uint32 idx = uint32(cases.push(Case(CaseStatus.ACTIVE, new uint32[](0)))-1);
+    uint32 idx = uint32(cases.push(Case(CaseStatus.ACTIVE))-1);
     caseToAddress[idx] = user;
     caseCount[user]++;
   }
@@ -68,18 +67,57 @@ contract CaseHandler is Ownable {
   function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
      /* TODO require at dataHash ikke er tom? */
     require(_caseID >= 0 && _caseID <= cases.length);
-    uint32 idx = uint32(data.length);
-    data.push(Data(_title, _dataHash, _dbLocation, _caseID, idx, Status.DONE));
-    cases[_caseID].datas.push(idx);
-    cases[_caseID].titleToID[_title] = idx;
+    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
   }
 
-  function update(uint32 dataID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwnerOf(data[dataID].caseID) {
-    /* TODO require at dataHash ikke er tom? */
+  /* function update(uint32 dataID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwnerOf(data[dataID].caseID) {
     data[dataID].dbLocation = _dbLocation;
     data[dataID].dataHash = _dataHash;
+  } */
+
+
+  function getActions(uint caseID) public view returns (bytes32[] memory) {
+    /* TODO if case doesnt exist, throw error */
+    bytes32[] memory toDo = new bytes32[](vxs.length);
+    uint count = 0;
+
+    for (uint v = 0; v < vxs.length; v++) {
+      if(_isReady(v, cases[caseID])) {
+        toDo[count] = vxs[v].title;
+        count++;
+      }
+    }
+
+    return _cut(toDo, count);
   }
 
+  function _isReady(uint v, Case storage c) private view returns (bool) {
+    // if v doesnt exist, throw error
+    if (c.dataMapping[vxs[v].title].status == Status.DONE) return false;
+    for(uint j = 0; j < req[v].length; j++) {
+      uint reqIdx = req[v][j];
+      if (c.dataMapping[vxs[reqIdx].title].status != Status.DONE) return false;
+    }
+
+    return true;
+  }
+
+  function markData(bytes32 _title, uint _caseID) public {
+    /* TODO EXPLANATION AS PARAMETER */
+
+    cases[_caseID].dataMapping[_title].status = Status.MARKED;
+    _cascade(_title, _caseID);
+  }
+
+  function _cascade(bytes32 _title, uint caseID) private {
+    for (uint i = 0; i < adj[_getIdx(_title)].length; i++) {
+      uint adjIdx = adj[_getIdx(_title)][i];
+      if (cases[caseID].dataMapping[vxs[adjIdx].title].status == Status.DONE) {
+        cases[caseID].dataMapping[vxs[adjIdx].title].status = Status.PENDING;
+        _cascade(vxs[adjIdx].title, caseID);
+      }
+    }
+  }
 
   function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
     bytes32[] memory res = new bytes32[](count);
