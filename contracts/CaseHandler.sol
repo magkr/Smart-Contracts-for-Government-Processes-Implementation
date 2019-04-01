@@ -11,7 +11,7 @@ contract CaseHandler is Ownable, Graph {
 
   struct Case {
     CaseStatus status;
-    mapping (bytes32 => Data) dataMapping;
+    mapping (bytes32 => uint32) dataMapping;
     //mapping (uint => Data[]) extraDatas;
   }
 
@@ -67,13 +67,14 @@ contract CaseHandler is Ownable, Graph {
   function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
      /* TODO require at dataHash ikke er tom? */
     require(_caseID >= 0 && _caseID <= cases.length);
-    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
+    uint idx = data.push(Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE));
+    cases[_caseID].dataMapping[_title] = uint32(idx);
   }
 
-  /* function update(uint32 dataID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwnerOf(data[dataID].caseID) {
+  function update(uint32 dataID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwnerOf(data[dataID].caseID) {
     data[dataID].dbLocation = _dbLocation;
     data[dataID].dataHash = _dataHash;
-  } */
+  }
 
 
   function getActions(uint caseID) public view returns (bytes32[] memory) {
@@ -93,10 +94,10 @@ contract CaseHandler is Ownable, Graph {
 
   function _isReady(uint v, Case storage c) private view returns (bool) {
     // if v doesnt exist, throw error
-    if (c.dataMapping[vxs[v].title].status == Status.DONE) return false;
+    if (data[c.dataMapping[vxs[v].title]].status == Status.DONE) return false;
     for(uint j = 0; j < req[v].length; j++) {
       uint reqIdx = req[v][j];
-      if (c.dataMapping[vxs[reqIdx].title].status != Status.DONE) return false;
+      if (data[c.dataMapping[vxs[reqIdx].title]].status != Status.DONE) return false;
     }
 
     return true;
@@ -105,15 +106,15 @@ contract CaseHandler is Ownable, Graph {
   function markData(bytes32 _title, uint _caseID) public {
     /* TODO EXPLANATION AS PARAMETER */
 
-    cases[_caseID].dataMapping[_title].status = Status.MARKED;
+    data[cases[_caseID].dataMapping[_title]].status = Status.MARKED;
     _cascade(_title, _caseID);
   }
 
   function _cascade(bytes32 _title, uint caseID) private {
     for (uint i = 0; i < adj[_getIdx(_title)].length; i++) {
       uint adjIdx = adj[_getIdx(_title)][i];
-      if (cases[caseID].dataMapping[vxs[adjIdx].title].status == Status.DONE) {
-        cases[caseID].dataMapping[vxs[adjIdx].title].status = Status.PENDING;
+      if (data[cases[caseID].dataMapping[vxs[adjIdx].title]].status == Status.DONE) {
+        data[cases[caseID].dataMapping[vxs[adjIdx].title]].status = Status.PENDING;
         _cascade(vxs[adjIdx].title, caseID);
       }
     }
