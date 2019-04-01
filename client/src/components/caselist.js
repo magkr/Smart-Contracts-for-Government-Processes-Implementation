@@ -6,16 +6,10 @@ class CaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cases: [],
       newAddr: ""
     };
     this.newCase = this.newCase.bind(this);
     this.mark = this.mark.bind(this);
-    this.refreshCases();
-  }
-
-  componentDidMount() {
-    this.refreshCases();
   }
 
   updateAddr = e => {
@@ -23,13 +17,18 @@ class CaseList extends Component {
   };
 
   async newCase() {
-    await this.props.contractContext.contract.methods
-      .addCase(this.state.newAddr)
-      .send({ from: this.props.contractContext.accounts[0] });
-    this.setState({
-      newAddr: ""
-    });
-    await this.refreshCases();
+    try {
+      await this.props.contractContext.contract.methods
+        .addCase(this.state.newAddr)
+        .send({ from: this.props.contractContext.accounts[0] });
+      this.setState({
+        newAddr: ""
+      });
+      await this.refreshCases();
+    }
+    catch (err) {
+
+    }
   }
 
   async mark() {
@@ -42,29 +41,10 @@ class CaseList extends Component {
     await this.refreshCases();
   }
 
-  async refreshCases() {
-    var listLength = await this.props.contractContext.contract.methods
-      .casesLength()
-      .call();
-    const list = [];
-    for (var i = 0; i < listLength; i++) {
-      await this.props.contractContext.contract.methods
-        .cases(i)
-        .call()
-        .then(result => {
-          list.push(result["id"]);
-        });
-    }
-    this.setState({
-      cases: list
-    });
-  }
-
   render() {
-    console.log(this.state);
     return (
       <ul className="w-100">
-        {this.state.cases.map(c => (
+        {this.props.contractContext.cases.map(c => (
           <li
             key={c}
             className="dt w-100 bb b--black-05 pb2 mt2 flex justify-between items-center"

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Process42 from "./contracts/Process42.json";
 import CaseOverview from "./components/caseoverview.js";
-import UserOverview from "./components/useroverview.js";
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from "./utils/contractcontext.js";
 import "./App.css";
@@ -9,15 +8,30 @@ import "./App.css";
 class App extends Component {
   state = {
     web3: null,
-    accounts: null,
+    accounts: [],
     contract: null,
     store: [],
-    user: false
+    cases: []
   };
 
   constructor() {
     super();
-    this.toggle = this.toggle.bind(this);
+    this.update = this.update.bind(this);
+  }
+
+  update(acc) {
+    this.state.web3.eth.getAccounts().then((acc) => {
+      // Check if account has changed
+      if (this.state.accounts[0] !== acc[0]) {
+        this.state.contract.methods.getCases(acc[0]).call().then(list => {
+          console.log("list" + list);
+          this.setState({
+            cases: list,
+            accounts: acc,
+          });
+        });
+      }
+    });
   }
 
   componentDidMount = async () => {
@@ -43,9 +57,19 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address
       );
 
+      await this.setState({ web3, contract: p});
+      this.update();
+
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      await this.setState({ web3, accounts, contract: p });
+
+      this.accountInterval = setInterval( () => {
+        this.update();
+          // Call a function to update the UI with the new account
+          // getZombiesByOwner(userAccount)
+          // .then(displayZombies);
+      }, 100);
+
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -54,12 +78,6 @@ class App extends Component {
       console.error(error);
     }
   };
-
-  async toggle() {
-    await this.setState({
-      user: !this.state.user
-    });
-  }
 
   toBytes(s) {
     return this.state.web3.utils.utf8ToHex(s);
@@ -111,7 +129,7 @@ class App extends Component {
         </div>
       );
     }
-    if (!this.state.contract) {
+    if (!this.state.contract || !this.state.accounts) {
       return <div className="helvetica tc pa4">Loading contract...</div>;
     }
     return (
@@ -121,17 +139,11 @@ class App extends Component {
             web3: this.state.web3,
             accounts: this.state.accounts,
             contract: this.state.contract,
-            getActions: this.getActions,
-            setToDone: this.setToDone,
-            addCase: this.addCase,
-            getCases: this.getCases,
-            store: this.state.store
+            store: this.state.store,
+            cases: this.state.cases
           }}
         >
-          {this.state.user ? <UserOverview /> : <CaseOverview />}
-          <button className="absolute bottom-2 left-2" onClick={this.toggle}>
-            SWITCH
-          </button>
+          <CaseOverview/>
         </ContractProvider>
       </div>
     );

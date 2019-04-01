@@ -26,14 +26,13 @@ contract CaseHandler is Ownable, Graph {
 
   /* event Resolution(Data data); */
   enum CaseStatus { ACTIVE, COMPLAINT, OLD }
-  enum Status { UNDONE, DONE, MARKED, PENDING }
+  enum Status { UNDONE, DONE, MARKED, UNSTABLE }
 
 
   modifier onlyOwnerOf(uint32 _caseID) {
     require(isOwner() || caseToAddress[_caseID] == msg.sender);
     _;
   }
-
 
   function addCase(address user) external onlyOwner {
     // if case exist, throw error
@@ -49,6 +48,7 @@ contract CaseHandler is Ownable, Graph {
 
   function getCases(address user) public view returns (uint32[] memory) {
     require(isOwner() || msg.sender == user);
+    if (user == owner()) return _allCases();
     uint32[] memory res = new uint32[](caseCount[user]);
     uint32 counter = 0;
 
@@ -57,6 +57,14 @@ contract CaseHandler is Ownable, Graph {
         res[counter] = i;
         counter++;
       }
+    }
+    return res;
+  }
+
+  function _allCases() private view onlyOwner returns (uint32[] memory) {
+    uint32[] memory res = new uint32[](cases.length);
+    for(uint32 i = 0; i < cases.length; i++){
+        res[i] = i;
     }
     return res;
   }
@@ -112,7 +120,7 @@ contract CaseHandler is Ownable, Graph {
   }
 
   function markData(bytes32 _title, uint _caseID) public {
-    /* TODO EXPLANATION AS PARAMETER */
+    /* TODO EXPLANATION AS PARAMETER AND ONLY APPEALSBOARD*/
 
     cases[_caseID].dataMapping[_title].status = Status.MARKED;
     _cascade(_title, _caseID);
@@ -122,7 +130,7 @@ contract CaseHandler is Ownable, Graph {
     for (uint i = 0; i < adj[_getIdx(_title)].length; i++) {
       uint adjIdx = adj[_getIdx(_title)][i];
       if (cases[caseID].dataMapping[vxs[adjIdx].title].status == Status.DONE) {
-        cases[caseID].dataMapping[vxs[adjIdx].title].status = Status.PENDING;
+        cases[caseID].dataMapping[vxs[adjIdx].title].status = Status.UNSTABLE;
         _cascade(vxs[adjIdx].title, caseID);
       }
     }
@@ -137,7 +145,7 @@ contract CaseHandler is Ownable, Graph {
   function _getStatusString(Status status) internal pure returns(bytes32) {
     if (status == Status.DONE) return "done";
     if (status == Status.UNDONE) return "undone";
-    if (status == Status.PENDING) return "pending";
+    if (status == Status.UNSTABLE) return "unstable";
     if (status == Status.MARKED) return "marked";
     else return "";  /* TODO THROW ERROR !!! */
   }
