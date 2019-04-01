@@ -1,15 +1,15 @@
 pragma solidity 0.5.0;
 
-import { DataHandler } from './DataHandler.sol';
+import { Graph } from './DataHandler.sol';
 
 contract ProcessInterface {
-  function mark(bytes32 title, uint caseID) public;
-  function getStatus(bytes32 title, uint caseID) public returns (DataHandler.Status status);
+  /* function mark(bytes32 title, uint caseID) public; */
+  /* function getStatus(bytes32 title, uint caseID) public returns (DataHandler.Status status); */
 }
 
 contract AppealsBoard {
 
-  address public processadr;
+  /* address public processadr;
   ProcessInterface processContract = ProcessInterface(processadr);
 
   function markData(bytes32 data, uint caseID) public {
@@ -23,7 +23,7 @@ contract AppealsBoard {
 
   function getStatus(bytes32 title, uint caseID) public returns (DataHandler.Status status) {
     return processContract.getStatus(title, caseID);
-  }
+  } */
 
 
 }

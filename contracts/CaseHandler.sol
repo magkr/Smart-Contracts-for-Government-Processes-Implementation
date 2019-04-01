@@ -1,63 +1,70 @@
 pragma solidity 0.5.0;
 
-import {DataHandler} from './DataHandler.sol';
+import {Graph} from './DataHandler.sol';
+import {Ownable} from './Ownable.sol';
 
-contract CaseHandler is DataHandler {
-  enum CaseStatus { ACTIVE, COMPLAINT, OLD }
+contract CaseHandler is Ownable, Graph {
+  Case[] public cases;
+  Data[] public data;
+  mapping (uint32 => address) caseToAddress;
+  mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
 
   struct Case {
-  	bytes32[] dataKeyList;
-    mapping (bytes32 => Data) dataMapping;
     CaseStatus status;
+    mapping(bytes32 => Data) dataMapping;
     //mapping (uint => Data[]) extraDatas;
   }
 
-  Case[] cases;
-  mapping (address => uint32) addressToCase;
+  struct Data {
+    bytes32 name;
+    bytes32 dataHash;
+    uint32 dbLocation;
+    uint32 caseID;
+    /* DataType dataType; */
+    Status status;
+  }
 
-  function createData(DataNode storage _dataNode, uint32 _caseId) private returns (Data memory) {
-    return Data(_dataNode.title, 0, 0, _caseId, _dataNode.dataType, Status.UNDONE);
+  /* event Resolution(Data data); */
+  enum CaseStatus { ACTIVE, COMPLAINT, OLD }
+  enum Status { UNDONE, DONE, MARKED, PENDING }
+
+
+  modifier onlyOwnerOf(uint32 _caseID) {
+    require(isOwner() || caseToAddress[_caseID] == msg.sender);
+    _;
   }
 
 
-  function markAsDone(bytes32 title, uint32 caseID) public {
-    cases[caseID].dataMapping[title].status = Status.DONE;
-  }
-
-  function addCase(address addr) public {
+  function addCase(address user) external onlyOwner {
     // if case exist, throw error
     uint32 idx = uint32(cases.length);
-    addressToCase[addr] = idx;
-    bytes32[] memory datas;
-    cases.push(Case(datas, CaseStatus.ACTIVE));
-    for(uint i = 0; i < vxs.length; i++){
-      cases[idx].dataMapping[vxs[i].title] = createData(vxs[i], idx);
-      cases[idx].dataKeyList.push(vxs[i].title);
-    }
+    caseToAddress[idx] = user;
+    cases.push(Case(CaseStatus.ACTIVE));
+    caseCount[user]++;
   }
 
-  function getCases() public view returns (uint[] memory){
-    uint[] memory caseIDs = new uint[](cases.length);
+  function getCases(address _owner) public view returns (uint32[] memory) {
+    require(isOwner() || msg.sender == _owner);
+    uint32[] memory res = new uint32[](caseCount[_owner]);
+    uint32 counter = 0;
 
-    for(uint i = 0; i < cases.length; i++){
-      caseIDs[i] = i;
+    for(uint32 i = 0; i < caseCount[_owner]; i++){
+      if (caseToAddress[i] == _owner){
+        res[counter] = i;
+        counter++;
+      }
     }
-    return caseIDs;
+    return res;
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations) {
-    /* TODO sikr det kun er SBH der kan spørge */
-    titles = new bytes32[](vxs.length);
-    statuss = new bytes32[](vxs.length);
-    locations = new uint32[](vxs.length);
 
-    bytes32[] memory data = cases[caseID].dataKeyList;
-    for(uint i = 0; i < vxs.length; i++){
-      titles[i] = data[i];
-      statuss[i] = _getStatusString(cases[caseID].dataMapping[data[i]].status);
-      locations[i] = cases[caseID].dataMapping[data[i]].dbLocation;
-    }
-  }
+
+
+
+
+
+
+
 
   function getActions(uint caseID) public view returns (bytes32[] memory) {
     /* TODO if case doesnt exist, throw error */
@@ -79,10 +86,14 @@ contract CaseHandler is DataHandler {
     if (cases[caseID].dataMapping[vxs[v].title].status == Status.DONE) return false;
     for(uint j = 0; j < req[v].length; j++) {
       uint reqIdx = req[v][j];
-      if (cases[caseID].dataMapping[cases[caseID].dataKeyList[reqIdx]].status != Status.DONE) return false;
+      if (cases[caseID].dataMapping[vxs[reqIdx].title].status != Status.DONE) return false;
     }
 
     return true;
+  }
+
+  function createData(DataNode storage _dataNode, uint32 _caseId) private view returns (Data memory) {
+    return Data(_dataNode.title, 0, 0, _caseId, Status.UNDONE);
   }
 
   function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public {
@@ -90,7 +101,6 @@ contract CaseHandler is DataHandler {
     cases[_caseID].dataMapping[_title].dbLocation = _dbLocation;
     cases[_caseID].dataMapping[_title].dataHash = _dataHash;
     cases[_caseID].dataMapping[_title].status = Status.DONE;
-
   }
 
   function markData(bytes32 _title, uint _caseID) public {
@@ -98,6 +108,10 @@ contract CaseHandler is DataHandler {
 
     cases[_caseID].dataMapping[_title].status = Status.MARKED;
     _cascade(_title, _caseID);
+  }
+
+  function markAsDone(bytes32 title, uint32 caseID) public {
+    cases[caseID].dataMapping[title].status = Status.DONE;
   }
 
   function _cascade(bytes32 _title, uint caseID) private {
@@ -108,6 +122,21 @@ contract CaseHandler is DataHandler {
         _cascade(vxs[adjIdx].title, caseID);
       }
     }
+  }
+
+
+  function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
+    bytes32[] memory res = new bytes32[](count);
+    for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
+    return res;
+  }
+
+  function _getStatusString(Status status) internal pure returns(bytes32) {
+    if (status == Status.DONE) return "done";
+    if (status == Status.UNDONE) return "undone";
+    if (status == Status.PENDING) return "pending";
+    if (status == Status.MARKED) return "marked";
+    else return "";  /* TODO THROW ERROR !!! */
   }
 
 

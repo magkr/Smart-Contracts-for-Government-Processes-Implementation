@@ -29,6 +29,29 @@ contract Process42 is CaseHandler {
 
   function metering() public {
     bytes32 root = "root";
+    _addVertex("Arbejdstider", false);
+    _addVertex("Familieforhold", false);
+    _addVertex("Arbejdsfleksibilitet", false);
+    _addVertex("Bevilligede timer", false);
+    _addVertex("Sparede udgifter", false);
+    _addVertex("Udmåling afgørelse", true);
+
+    _addEdge(root,"Arbejdstider");
+    _addEdge(root,"Familieforhold");
+    _addEdge(root,"Arbejdsfleksibilitet");
+
+    _addEdge("Arbejdstider","Bevilligede timer");
+    _addEdge("Arbejdstider","Sparede udgifter");
+    _addEdge("Familieforhold","Bevilligede timer");
+    _addEdge("Familieforhold","Sparede udgifter");
+    _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
+    _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
+    _addEdge("Bevilligede timer", "Udmåling afgørelse");
+    _addEdge("Sparede udgifter", "Udmåling afgørelse");
+  }
+
+  /* function metering() public {
+    bytes32 root = "root";
     _addVertex("Arbejdstider", DataType.INT, NodeType.NORMAL, false);
     _addVertex("Familieforhold", DataType.INT, NodeType.NORMAL, false);
     _addVertex("Arbejdsfleksibilitet", DataType.INT, NodeType.NORMAL, false);
@@ -48,7 +71,7 @@ contract Process42 is CaseHandler {
     _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
     _addEdge("Bevilligede timer", "Udmåling afgørelse");
     _addEdge("Sparede udgifter", "Udmåling afgørelse");
-  }
+  } */
 
   /* function beregningsgrundlag() public {
     bytes32 root = "Udmåling afgørelse";
