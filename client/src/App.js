@@ -33,6 +33,7 @@ class App extends Component {
               cases: list
             });
           });
+        console.log(this.state.cases);
       });
   }
 

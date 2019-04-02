@@ -36,7 +36,7 @@ class CaseList extends Component {
   }
 
   makeCaseList() {
-    this.props.contractContext.cases.map(c => (
+    return this.props.contractContext.cases.map(c => (
       <li
         key={c}
         className="dt w-100 bb b--black-05 pb2 mt2 flex justify-between items-center"
