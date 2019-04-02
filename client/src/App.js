@@ -41,21 +41,13 @@ class App extends Component {
     this.state.web3.eth.getAccounts().then(acc => {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
-        this.state.contract.methods
-          .getCases(acc[0])
-          .call()
-          .then(list => {
-            this.setState({
-              cases: list,
-              accounts: acc
-            });
-          });
-        this.state.contract.methods
-          .isOwner()
-          .call({ from: acc[0] })
-          .then(v => {
-            this.setState({
-              isOwner: v
+        this.state.contract.methods.getCases(acc[0]).call().then(list => {
+            this.state.contract.methods.isOwner().call({ from: acc[0] }).then(b => {
+              this.setState({
+                cases: list,
+                accounts: acc,
+                isOwner: b
+              });
             });
           });
       }
