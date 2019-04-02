@@ -50,8 +50,8 @@ class Case extends Component {
   }
 
   async readData(id) {
-    const data = [];
     const actions = [];
+    const phaseStruct = {};
     this.props.contractContext.contract.methods
       .getCase(id)
       .call()
@@ -62,20 +62,22 @@ class Case extends Component {
         var isReady = response["isReady"];
         var phases = response["phases"];
         statuss.forEach((item, idx) => {
-          if (isReady[idx]) {
-            actions.push(titles[idx]);
-          }
-          data.push({
+          if (!phaseStruct[phases[idx]]) phaseStruct[phases[idx]] = [];
+          phaseStruct[phases[idx]].push({
             location: locations[idx],
             title: titles[idx],
             status: statuss[idx],
             ready: isReady[idx],
             phase: phases[idx]
           });
+          if (isReady[idx]) {
+            actions.push(titles[idx]);
+          }
         });
       });
-    // console.log(actions);
-    return { data: data, actions: actions };
+    console.log(phaseStruct);
+
+    return { data: phaseStruct, actions: actions };
   }
 
   async editData(d) {
