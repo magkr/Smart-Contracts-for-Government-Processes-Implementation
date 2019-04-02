@@ -91,18 +91,20 @@ class Case extends Component {
           <h2 className="ma3 f4 helvetica">Loading...</h2>
         ) : (
           <div className="w-100 flex justify-center">
-            <ActionsList
-              contractContext={this.props.contractContext}
-              actions={this.state.actions}
-              selected={this.props.selected}
-              update={this.update}
-            />
             <DataList
               contractContext={this.props.contractContext}
               data={this.state.data}
               editData={this.editData}
               update={this.update}
             />
+          {this.state.isOwner ? (
+            <ActionsList
+              contractContext={this.props.contractContext}
+              actions={this.state.actions}
+              selected={this.props.selected}
+              update={this.update}
+            />
+        ) : null }
           </div>
         )}
       </div>
