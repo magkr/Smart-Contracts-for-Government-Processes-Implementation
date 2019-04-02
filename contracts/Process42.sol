@@ -29,12 +29,12 @@ contract Process42 is CaseHandler {
 
   function metering() public {
     bytes32 root = "root";
-    _addVertex("Arbejdstider", true);
-    _addVertex("Familieforhold", false);
-    _addVertex("Arbejdsfleksibilitet", true);
-    _addVertex("Bevilligede timer", false);
-    _addVertex("Sparede udgifter", false);
-    _addVertex("Udmaaling afgoerelse", true);
+    _addVertex("Arbejdstider","Udmaaling", false);
+    _addVertex("Familieforhold", "Udmaaling", false);
+    _addVertex("Arbejdsfleksibilitet", "Udmaaling", false);
+    _addVertex("Bevilligede timer", "Udmaaling", false);
+    _addVertex("Sparede udgifter", "Udmaaling", false);
+    _addVertex("Udmaaling", "Udmaaling", true);
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
@@ -46,8 +46,8 @@ contract Process42 is CaseHandler {
     _addEdge("Familieforhold","Sparede udgifter");
     _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
     _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
-    _addEdge("Bevilligede timer", "Udmaaling afgoerelse");
-    _addEdge("Sparede udgifter", "Udmaaling afgoerelse");
+    _addEdge("Bevilligede timer", "Udmaaling");
+    _addEdge("Sparede udgifter", "Udmaaling");
   }
 
   /* function metering() public {
@@ -74,15 +74,15 @@ contract Process42 is CaseHandler {
   } */
 
   function beregningsgrundlag() public {
-    bytes32 root = "Udmaaling afgoerelse";
-    _addVertex("Indkomstoplysninger", false);
-    _addVertex("Skatteoplysninger", false);
-    _addVertex("Pensionsoplysninger", false);
+    bytes32 root = "Udmaaling";
+    _addVertex("Indkomstoplysninger", "Beregningsgrundlag", false);
+    _addVertex("Skatteoplysninger", "Beregningsgrundlag", false);
+    _addVertex("Pensionsoplysninger", "Beregningsgrundlag", false);
 
-    _addVertex("Beregning af ydelse", false);
-    _addVertex("Pensionsselskabs info", false);
+    _addVertex("Beregning af ydelse", "Beregningsgrundlag", false);
+    _addVertex("Pensionsselskabs info", "Beregningsgrundlag", false);
 
-    _addVertex("Beregningsgrundlag afgoerelse", true);
+    _addVertex("Beregningsgrundlag", "Beregningsgrundlag", true);
 
     _addEdge(root,"Indkomstoplysninger");
     _addEdge(root,"Skatteoplysninger");
@@ -93,7 +93,7 @@ contract Process42 is CaseHandler {
     _addEdge("Pensionsoplysninger", "Beregning af ydelse");
     _addEdge("Pensionsoplysninger", "Pensionsselskabs info");
 
-    _addEdge("Beregning af ydelse", "Beregningsgrundlag afgoerelse");
-    _addEdge("Pensionsselskabs info", "Beregningsgrundlag afgoerelse");
+    _addEdge("Beregning af ydelse", "Beregningsgrundlag");
+    _addEdge("Pensionsselskabs info", "Beregningsgrundlag");
   }
 }

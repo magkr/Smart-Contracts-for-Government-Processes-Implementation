@@ -5,11 +5,12 @@ contract Graph {
   /* enum DataType { INT, TEXT, FILE, BOOL } */
   enum NodeType { EXTRA, RESOLUTION, NORMAL }
 
-  
+
   struct DataNode {
     /* DataType dataType; */
     /* NodeType nodeType; */
     bytes32 title;
+    bytes32 phase;
     bool resolution;
   }
 
@@ -17,6 +18,7 @@ contract Graph {
   mapping (uint => uint[]) adj;
   mapping (uint => uint[]) req;
   mapping (bytes32 => uint) titleToID;
+  mapping (bytes32 => uint) phaseCount;
 
 
   function _getIdx(bytes32 title) internal view returns (uint id) {
@@ -24,10 +26,11 @@ contract Graph {
     return titleToID[title]-1;
   }
 
-  function _addVertex(bytes32 _title, bool _resolution) internal {
+  function _addVertex(bytes32 _title, bytes32 _phase, bool _resolution) internal {
     // if title exists, throw error
-    vxs.push(DataNode(_title, _resolution));
+    vxs.push(DataNode(_title, _phase, _resolution));
     titleToID[_title] = vxs.length;
+    phaseCount[_phase]++;
   }
 
   function _addEdge(bytes32 from, bytes32 to) public {
@@ -39,6 +42,10 @@ contract Graph {
 
     adj[v].push(w);
     req[w].push(v);
+  }
+
+  function getPhase(bytes32 title) public view returns (bytes32) {
+    return vxs[_getIdx(title)].phase;
   }
 
 }

@@ -85,8 +85,6 @@ contract CaseHandler is Ownable, Graph {
 
 
 
-
-
   function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
      /* TODO require at dataHash ikke er tom? */
     require(_caseID >= 0 && _caseID <= cases.length);
