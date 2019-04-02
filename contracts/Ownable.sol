@@ -41,6 +41,12 @@ contract Ownable {
         return msg.sender == _owner;
     }
 
+    function issOwner() public view returns (address sender, bool yn) {
+        sender = msg.sender;
+        yn = ( msg.sender == _owner );
+    }
+
+
     /**
      * @dev Allows the current owner to relinquish control of the contract.
      * It will not be possible to call the functions with the `onlyOwner`
