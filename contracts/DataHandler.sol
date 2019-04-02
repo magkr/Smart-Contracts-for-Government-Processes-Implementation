@@ -10,6 +10,7 @@ contract Graph {
     /* DataType dataType; */
     /* NodeType nodeType; */
     bytes32 title;
+    bytes32 phase;
     bool resolution;
   }
 
@@ -23,9 +24,9 @@ contract Graph {
     return titleToID[title]-1;
   }
 
-  function _addVertex(bytes32 _title, bool _resolution) internal {
+  function _addVertex(bytes32 _title, bytes32 _phase, bool _resolution) internal {
     // if title exists, throw error
-    vxs.push(DataNode(_title, _resolution));
+    vxs.push(DataNode(_title, _phase, _resolution));
     titleToID[_title] = vxs.length;
   }
 
@@ -38,6 +39,10 @@ contract Graph {
 
     adj[v].push(w);
     req[w].push(v);
+  }
+
+  function getPhase(bytes32 title) public view returns (bytes32) {
+    return vxs[_getIdx(title)].phase;
   }
 
 }
