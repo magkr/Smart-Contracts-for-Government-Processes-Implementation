@@ -52,6 +52,14 @@ export default class ResolutionView extends Component {
     }
   }
 
+  button(r) {
+    return (
+      <button onClick={() => this.props.contractContext.complain(r)}>
+        complain
+      </button>
+    );
+  }
+
   render() {
     return (
       <div className="pa2 helvetica">
@@ -73,6 +81,7 @@ export default class ResolutionView extends Component {
                 <span className="b">Hash: </span>
                 {r.dataHash}
               </h4>
+              {this.props.contractContext.isOwner ? null : this.button(r)}
             </div>
           );
         })}

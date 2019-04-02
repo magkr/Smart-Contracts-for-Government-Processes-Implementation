@@ -19,7 +19,6 @@ contract Graph {
   mapping (uint => uint[]) req;
   mapping (bytes32 => uint) titleToID;
 
-
   function _getIdx(bytes32 title) internal view returns (uint id) {
     // if v doesn't exist, throw error
     return titleToID[title]-1;

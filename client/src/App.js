@@ -19,6 +19,28 @@ class App extends Component {
     super();
     this.update = this.update.bind(this);
     this.newCase = this.newCase.bind(this);
+    this.complain = this.complain.bind(this);
+    this.fetchCases = this.fetchCases.bind(this);
+  }
+
+  fetchCases() {
+    this.state.contract.methods
+      .getCases(this.state.accounts[0])
+      .call()
+      .then(list => {
+        this.setState({
+          cases: list
+        });
+      });
+  }
+
+  complain(r) {
+    this.state.contract.methods
+      .complain(r.title, r.caseID)
+      .send({ from: this.state.accounts[0] })
+      .then(() => {
+        this.fetchCases();
+      });
   }
 
   newCase(add) {
@@ -26,14 +48,7 @@ class App extends Component {
       .addCase(add)
       .send({ from: this.state.accounts[0] })
       .then(() => {
-        this.state.contract.methods
-          .getCases(this.state.accounts[0])
-          .call()
-          .then(list => {
-            this.setState({
-              cases: list
-            });
-          });
+        this.fetchCases();
       });
   }
 
@@ -163,7 +178,8 @@ class App extends Component {
             store: this.state.store,
             cases: this.state.cases,
             newCase: this.newCase,
-            isOwner: this.state.isOwner
+            isOwner: this.state.isOwner,
+            complain: this.complain
           }}
         >
           <CaseOverview />
