@@ -96,7 +96,7 @@ export default class DataList extends Component {
               }
             >
               {this.utils.hexToAscii(d.title)}
-              {d.status !== this.utils.asciiToHex("undone") ? (
+              {this.props.contractContext.isOwner && d.status !== this.utils.asciiToHex("undone") ? (
                 <button
                   className="helvetica -20 f6 br1 ba bg-white"
                   onClick={e => this.setSelected(d)}
