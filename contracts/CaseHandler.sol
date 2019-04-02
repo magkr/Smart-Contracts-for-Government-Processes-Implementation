@@ -74,7 +74,7 @@ contract CaseHandler is Ownable, Graph {
     return caseToAddress[caseID];
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory phases, bytes32[] memory statuss, uint32[] memory locations, bool[] memory isReady) {
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations) {
     /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
     statuss = new bytes32[](vxs.length);
@@ -83,10 +83,10 @@ contract CaseHandler is Ownable, Graph {
 
     for(uint i = 0; i < vxs.length; i++){
       titles[i] = vxs[i].title;
-      phase[i] = vxs[i].phase;
+      /* phases[i] = vxs[i].phase; */
       statuss[i] = _getStatusString(c.dataMapping[vxs[i].title].status);
       locations[i] = c.dataMapping[vxs[i].title].dbLocation;
-      isReady[i] = _isReady(vxs[i].title, c);
+      /* isReady[i] = _isReady(vxs[i].title, c); */
     }
   }
 
