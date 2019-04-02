@@ -7,6 +7,7 @@ contract CaseHandler is Ownable, Graph {
   Case[] public cases;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
+  event Resolution(bytes32 title, uint32 caseID);
 
   struct Case {
     uint32 id;
@@ -69,6 +70,7 @@ contract CaseHandler is Ownable, Graph {
      /* TODO require at dataHash ikke er tom? */
     require(_caseID >= 0 && _caseID <= cases.length);
     cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
+    if(vxs[titleToID[_title]].resolution) emit Resolution(_title, _caseID);
   }
 
   function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations) {

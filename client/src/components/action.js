@@ -22,7 +22,6 @@ export default class Action extends Component {
       .send({ from: this.props.contractContext.accounts[0] });
     window.sessionStorage[window.sessionStorage.length + 1] = this.state.value;
     await this.props.update();
-    console.log(this.props.contractContext.store);
   };
 
   render() {

@@ -5,8 +5,7 @@ contract Graph {
   /* enum DataType { INT, TEXT, FILE, BOOL } */
   enum NodeType { EXTRA, RESOLUTION, NORMAL }
 
-  /* event Resolution(Data data); */
-
+  
   struct DataNode {
     /* DataType dataType; */
     /* NodeType nodeType; */

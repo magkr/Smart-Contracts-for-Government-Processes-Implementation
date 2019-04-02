@@ -51,7 +51,6 @@ class Case extends Component {
     const response = await this.props.contractContext.contract.methods
       .getCase(id)
       .call();
-    console.log(response);
     var statuss = response["statuss"];
     var locations = response["locations"];
     var titles = response["titles"];

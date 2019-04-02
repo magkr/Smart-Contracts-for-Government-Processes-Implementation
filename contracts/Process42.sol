@@ -29,11 +29,11 @@ contract Process42 is CaseHandler {
 
   function metering() public {
     bytes32 root = "root";
-    _addVertex("Arbejdstider", false);
-    _addVertex("Familieforhold", false);
-    _addVertex("Arbejdsfleksibilitet", false);
-    _addVertex("Bevilligede timer", false);
-    _addVertex("Sparede udgifter", false);
+    _addVertex("Arbejdstider", true);
+    _addVertex("Familieforhold", true);
+    _addVertex("Arbejdsfleksibilitet", true);
+    _addVertex("Bevilligede timer", true);
+    _addVertex("Sparede udgifter", true);
     _addVertex("Udmåling afgørelse", true);
 
     _addEdge(root,"Arbejdstider");
