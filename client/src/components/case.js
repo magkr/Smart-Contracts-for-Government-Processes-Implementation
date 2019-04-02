@@ -97,7 +97,7 @@ class Case extends Component {
               editData={this.editData}
               update={this.update}
             />
-          {this.state.isOwner ? (
+          {this.props.contractContext.isOwner ? (
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
