@@ -148,5 +148,11 @@ contract CaseHandler is Ownable, Graph {
     else return "";  /* TODO THROW ERROR !!! */
   }
 
+  function getPhase(bytes32 title) public view returns (uint id, bytes32 t, bytes32 p) {
+    id = _getIdx(title);
+    t = title;
+    p =  vxs[_getIdx(title)].phase;
+  }
+
 
 }

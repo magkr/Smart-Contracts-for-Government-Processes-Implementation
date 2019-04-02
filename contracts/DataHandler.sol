@@ -42,8 +42,6 @@ contract Graph {
     req[w].push(v);
   }
 
-  function getPhase(bytes32 title) public view returns (bytes32) {
-    return vxs[_getIdx(title)].phase;
-  }
+  
 
 }
