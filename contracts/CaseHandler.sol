@@ -69,12 +69,6 @@ contract CaseHandler is Ownable, Graph {
     return caseToAddress[caseID];
   }
 
-  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
-     /* TODO require at dataHash ikke er tom? */
-    require(_caseID >= 0 && _caseID <= cases.length);
-    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
-  }
-
   function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations) {
     /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
@@ -89,45 +83,53 @@ contract CaseHandler is Ownable, Graph {
   }
 
 
+
+
+
+  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
+     /* TODO require at dataHash ikke er tom? */
+    require(_caseID >= 0 && _caseID <= cases.length);
+    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
+  }
+
+
   function getActions(uint caseID) public view returns (bytes32[] memory) {
     /* TODO if case doesnt exist, throw error */
     bytes32[] memory toDo = new bytes32[](vxs.length);
     uint count = 0;
+    Case storage c = cases[caseID];
 
     for (uint v = 0; v < vxs.length; v++) {
-      if(_isReady(v, cases[caseID])) {
+      if (_isReady(v, c)) {
         toDo[count] = vxs[v].title;
         count++;
       }
     }
-
     return _cut(toDo, count);
   }
 
   function _isReady(uint v, Case storage c) private view returns (bool) {
-    // if v doesnt exist, throw error
-    if (c.dataMapping[vxs[v].title].status == Status.DONE) return false;
-    for(uint j = 0; j < req[v].length; j++) {
-      uint reqIdx = req[v][j];
-      if (c.dataMapping[vxs[reqIdx].title].status != Status.DONE) return false;
+    if(c.dataMapping[vxs[v].title].status == Status.DONE) return false;
+    for(uint r = 0; r < req[v].length; r++) {
+      uint reqID = req[v][r];
+      if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
     }
-
     return true;
   }
 
   function markData(bytes32 _title, uint _caseID) public {
     /* TODO EXPLANATION AS PARAMETER AND ONLY APPEALSBOARD*/
-
-    cases[_caseID].dataMapping[_title].status = Status.MARKED;
-    _cascade(_title, _caseID);
+    Case storage c = cases[_caseID];
+    c.dataMapping[_title].status = Status.MARKED;
+    _cascade(_getIdx(_title), c);
   }
 
-  function _cascade(bytes32 _title, uint caseID) private {
-    for (uint i = 0; i < adj[_getIdx(_title)].length; i++) {
-      uint adjIdx = adj[_getIdx(_title)][i];
-      if (cases[caseID].dataMapping[vxs[adjIdx].title].status == Status.DONE) {
-        cases[caseID].dataMapping[vxs[adjIdx].title].status = Status.UNSTABLE;
-        _cascade(vxs[adjIdx].title, caseID);
+  function _cascade(uint v, Case storage c) private {
+    for (uint i = 0; i < adj[v].length; i++) {
+      uint a = adj[v][i];
+      if (c.dataMapping[vxs[a].title].status == Status.DONE) {
+        c.dataMapping[vxs[a].title].status = Status.UNSTABLE;
+        _cascade(a, c);
       }
     }
   }

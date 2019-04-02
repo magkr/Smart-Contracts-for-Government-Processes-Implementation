@@ -16,15 +16,12 @@ class CaseList extends Component {
     this.setState({ newAddr: e.target.value });
   };
 
-  async newCase() {
+  newCase() {
     try {
-      await this.props.contractContext.contract.methods
-        .addCase(this.state.newAddr)
-        .send({ from: this.props.contractContext.accounts[0] });
+      this.props.contractContext.newCase(this.state.newAddr);
       this.setState({
         newAddr: ""
       });
-      await this.refreshCases();
     }
     catch (err) {
 

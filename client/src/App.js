@@ -17,14 +17,24 @@ class App extends Component {
   constructor() {
     super();
     this.update = this.update.bind(this);
+    this.newCase = this.newCase.bind(this);
   }
 
-  update(acc) {
+  newCase(add) {
+    this.state.contract.methods.addCase(add).send({from: this.state.accounts[0]}).then(() => {
+      this.state.contract.methods.getCases(this.state.accounts[0]).call().then(list => {
+        this.setState({
+          cases: list,
+        });
+      });
+    });
+  }
+
+  update() {
     this.state.web3.eth.getAccounts().then((acc) => {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
         this.state.contract.methods.getCases(acc[0]).call().then(list => {
-          console.log("list" + list);
           this.setState({
             cases: list,
             accounts: acc,
@@ -117,10 +127,6 @@ class App extends Component {
   //   await this.state.contract.methods.fill(t, caseID).send({ from: this.state.accounts[0] });
   // }
 
-  // addCase = async () => {
-  //   await this.state.contract.methods.addCase().send({ from: this.state.accounts[0] });
-  // }
-
   render() {
     if (!this.state.web3) {
       return (
@@ -140,7 +146,8 @@ class App extends Component {
             accounts: this.state.accounts,
             contract: this.state.contract,
             store: this.state.store,
-            cases: this.state.cases
+            cases: this.state.cases,
+            newCase: this.newCase
           }}
         >
           <CaseOverview/>
