@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
+import ResolutionView from "./resolutionview.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -98,16 +99,17 @@ class Case extends Component {
               update={this.update}
               id={this.state.id}
             />
-          {this.props.contractContext.isOwner ? (
-            <ActionsList
-              contractContext={this.props.contractContext}
-              actions={this.state.actions}
-              selected={this.props.selected}
-              update={this.update}
-            />
-        ) : null }
+            {this.props.contractContext.isOwner ? (
+              <ActionsList
+                contractContext={this.props.contractContext}
+                actions={this.state.actions}
+                selected={this.props.selected}
+                update={this.update}
+              />
+            ) : null}
           </div>
         )}
+        <ResolutionView contractContext={this.props.contractContext} />
       </div>
     );
   }

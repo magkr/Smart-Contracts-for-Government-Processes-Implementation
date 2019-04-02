@@ -13,46 +13,6 @@ export default class DataList extends Component {
     this.getColor = this.getColor.bind(this);
   }
 
-  componentDidMount() {
-    this.update();
-  }
-
-  async update() {
-    if (
-      this.props.contractContext.web3 &&
-      this.props.contractContext.contract
-    ) {
-      this.props.contractContext.contract.events
-        .Resolution(
-          {
-            filter: { caseID: this.props.id }, // Using an array means OR: e.g. 20 or 23
-            fromBlock: 0,
-            toBlock: "latest"
-          },
-          async function(error, result) {
-            if (!error) {
-              //console.log(result);
-              // event arguments cointained in result.args object
-              // new data have arrived. it is good idea to udpate data & UI
-            } else {
-              // log error here
-              console.log(error);
-            }
-          }
-        )
-        .on("data", async e => {
-          console.log(e.returnValues.title);
-          await this.setState({ title: e.returnValues.title });
-        })
-        .on("changed", e => {
-          // remove event from local database ???????
-        })
-        .on("error", e => {
-          console.log(e);
-        });
-    }
-  }
-
   getColor(status) {
     const toHex = this.utils.asciiToHex;
     switch (status) {
@@ -84,10 +44,6 @@ export default class DataList extends Component {
   }
 
   render() {
-    if (this.state.title)
-      console.log(
-        this.props.contractContext.web3.utils.hexToAscii(this.state.title)
-      );
     return (
       <div className="w-50">
         <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">
@@ -103,7 +59,8 @@ export default class DataList extends Component {
               }
             >
               {this.utils.hexToAscii(d.title)}
-              {this.props.contractContext.isOwner && d.status !== this.utils.asciiToHex("undone") ? (
+              {this.props.contractContext.isOwner &&
+              d.status !== this.utils.asciiToHex("undone") ? (
                 <button
                   className="helvetica -20 f6 br1 ba bg-white"
                   onClick={e => this.setSelected(d)}
