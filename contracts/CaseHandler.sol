@@ -74,7 +74,7 @@ contract CaseHandler is Ownable, Graph {
     return caseToAddress[caseID];
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory phase, bytes32[] memory statuss, uint32[] memory locations, bool[] memory isReady) {
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory phases, bytes32[] memory statuss, uint32[] memory locations, bool[] memory isReady) {
     /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
     statuss = new bytes32[](vxs.length);
