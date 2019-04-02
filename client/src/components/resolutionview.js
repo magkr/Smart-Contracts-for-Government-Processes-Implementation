@@ -59,17 +59,17 @@ export default class ResolutionView extends Component {
         {this.state.resolutions.map(r => {
           return (
             <div
-              key={r}
+              key={r.title}
               className="pa1 ma1 flex flex-column justify-around bg-near-white"
             >
-              <h3 className="b f5 pv1">
+              <h3 className="b f5 ph1 pv1">
                 {this.props.contractContext.web3.utils.hexToAscii(r.title)}
               </h3>
-              <h4 className="f6 ph2 pv1">
+              <h4 className="f6 ph3 pv1">
                 <span className="b">Lokation: </span>
                 {r.dbLocation}
               </h4>
-              <h4 className="f6 ph2 pv1">
+              <h4 className="f6 ph3 pv1">
                 <span className="b">Hash: </span>
                 {r.dataHash}
               </h4>

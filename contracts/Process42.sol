@@ -24,17 +24,17 @@ contract Process42 is CaseHandler {
 
   constructor() public {
     metering();
-    /* beregningsgrundlag(); */
+    beregningsgrundlag();
   }
 
   function metering() public {
     bytes32 root = "root";
     _addVertex("Arbejdstider", true);
-    _addVertex("Familieforhold", true);
+    _addVertex("Familieforhold", false);
     _addVertex("Arbejdsfleksibilitet", true);
-    _addVertex("Bevilligede timer", true);
-    _addVertex("Sparede udgifter", true);
-    _addVertex("Udmåling afgørelse", true);
+    _addVertex("Bevilligede timer", false);
+    _addVertex("Sparede udgifter", false);
+    _addVertex("Udmaaling afgoerelse", true);
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
@@ -46,8 +46,8 @@ contract Process42 is CaseHandler {
     _addEdge("Familieforhold","Sparede udgifter");
     _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
     _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
-    _addEdge("Bevilligede timer", "Udmåling afgørelse");
-    _addEdge("Sparede udgifter", "Udmåling afgørelse");
+    _addEdge("Bevilligede timer", "Udmaaling afgoerelse");
+    _addEdge("Sparede udgifter", "Udmaaling afgoerelse");
   }
 
   /* function metering() public {
@@ -57,7 +57,7 @@ contract Process42 is CaseHandler {
     _addVertex("Arbejdsfleksibilitet", DataType.INT, NodeType.NORMAL, false);
     _addVertex("Bevilligede timer", DataType.INT, NodeType.NORMAL, false);
     _addVertex("Sparede udgifter", DataType.INT, NodeType.NORMAL, false);
-    _addVertex("Udmåling afgørelse", DataType.INT, NodeType.NORMAL, true);
+    _addVertex("Udmaaling afgoerelse", DataType.INT, NodeType.NORMAL, true);
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
@@ -69,20 +69,20 @@ contract Process42 is CaseHandler {
     _addEdge("Familieforhold","Sparede udgifter");
     _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
     _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
-    _addEdge("Bevilligede timer", "Udmåling afgørelse");
-    _addEdge("Sparede udgifter", "Udmåling afgørelse");
+    _addEdge("Bevilligede timer", "Udmaaling afgoerelse");
+    _addEdge("Sparede udgifter", "Udmaaling afgoerelse");
   } */
 
-  /* function beregningsgrundlag() public {
-    bytes32 root = "Udmåling afgørelse";
-    _addVertex("Indkomstoplysninger", DataType.INT, NodeType.NORMAL);
-    _addVertex("Skatteoplysninger", DataType.INT, NodeType.NORMAL);
-    _addVertex("Pensionsoplysninger", DataType.INT, NodeType.NORMAL);
+  function beregningsgrundlag() public {
+    bytes32 root = "Udmaaling afgoerelse";
+    _addVertex("Indkomstoplysninger", false);
+    _addVertex("Skatteoplysninger", false);
+    _addVertex("Pensionsoplysninger", false);
 
-    _addVertex("Beregning af ydelse", DataType.INT, NodeType.NORMAL);
-    _addVertex("Pensionsselskabs info", DataType.INT, NodeType.NORMAL);
+    _addVertex("Beregning af ydelse", false);
+    _addVertex("Pensionsselskabs info", false);
 
-    _addVertex("Beregningsgrundlag afgørelse", DataType.INT, NodeType.NORMAL);
+    _addVertex("Beregningsgrundlag afgoerelse", true);
 
     _addEdge(root,"Indkomstoplysninger");
     _addEdge(root,"Skatteoplysninger");
@@ -93,8 +93,7 @@ contract Process42 is CaseHandler {
     _addEdge("Pensionsoplysninger", "Beregning af ydelse");
     _addEdge("Pensionsoplysninger", "Pensionsselskabs info");
 
-    _addEdge("Beregning af ydelse", "Beregningsgrundlag afgørelse");
-    _addEdge("Pensionsselskabs info", "Beregningsgrundlag afgørelse");
-  } */
-
+    _addEdge("Beregning af ydelse", "Beregningsgrundlag afgoerelse");
+    _addEdge("Pensionsselskabs info", "Beregningsgrundlag afgoerelse");
+  }
 }

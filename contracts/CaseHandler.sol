@@ -91,7 +91,7 @@ contract CaseHandler is Ownable, Graph {
      /* TODO require at dataHash ikke er tom? */
     require(_caseID >= 0 && _caseID <= cases.length);
     cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
-    emit Resolution(_title,  _dataHash, _dbLocation, _caseID);
+    if(vxs[_getIdx(_title)].resolution) emit Resolution(_title,  _dataHash, _dbLocation, _caseID);
   }
 
 
