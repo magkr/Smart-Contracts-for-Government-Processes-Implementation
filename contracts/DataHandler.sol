@@ -18,7 +18,6 @@ contract Graph {
   mapping (uint => uint[]) adj;
   mapping (uint => uint[]) req;
   mapping (bytes32 => uint) titleToID;
-  mapping (bytes32 => uint) phaseCount;
 
 
   function _getIdx(bytes32 title) internal view returns (uint id) {
@@ -30,7 +29,6 @@ contract Graph {
     // if title exists, throw error
     vxs.push(DataNode(_title, _phase, _resolution));
     titleToID[_title] = vxs.length;
-    phaseCount[_phase]++;
   }
 
   function _addEdge(bytes32 from, bytes32 to) public {
