@@ -17,7 +17,8 @@ class Case extends Component {
     id: null,
     addr: "",
     actions: [],
-    isLoading: false
+    isLoading: false,
+    titles: []
   };
 
   componentDidMount() {
@@ -34,36 +35,48 @@ class Case extends Component {
       .cases(this.props.selected)
       .call();
 
+    const res = await this.readData(c.id);
+
     await this.setState({
-      actions: await this.props.contractContext.contract.methods
-        .getActions(c.id)
-        .call(),
       id: c.id,
       addr: await this.props.contractContext.contract.methods
         .addressFromCase(c.id)
         .call(),
-      data: await this.readData(c.id),
+      // data: res.data,
+      // actions: res.actions,
       status: c.status,
       isLoading: false
     });
   }
 
   async readData(id) {
-    const response = await this.props.contractContext.contract.methods
-      .getCase(id)
-      .call();
-    var statuss = response["statuss"];
-    var locations = response["locations"];
-    var titles = response["titles"];
     const data = [];
-    statuss.forEach((item, idx) => {
-      data.push({
-        location: locations[idx],
-        title: titles[idx],
-        status: statuss[idx]
+    const actions = [];
+    this.props.contractContext.contract.methods
+      .getCase(id)
+      .call()
+      .then(response => {
+        console.log(response);
+        var statuss = response["statuss"];
+        var locations = response["locations"];
+        var titles = response["titles"];
+        // var isReady = response["isReady"];
+        // var phases = response["phases"];
+        statuss.forEach((item, idx) => {
+          // if (isReady[idx]) {
+          //   actions.push(titles[idx]);
+          // }
+          data.push({
+            location: locations[idx],
+            title: titles[idx],
+            status: statuss[idx]
+            // ready: isReady[idx],
+            // phase: phases[idx]
+          });
+        });
       });
-    });
-    return data;
+    // console.log(actions);
+    // return { data: data, actions: actions };
   }
 
   async editData(d) {
@@ -76,6 +89,7 @@ class Case extends Component {
   adminInterface() {
     return (
       <div className="w-100 flex justify-center">
+        {/*
         <DataList
           contractContext={this.props.contractContext}
           data={this.state.data}
@@ -87,7 +101,7 @@ class Case extends Component {
           actions={this.state.actions}
           selected={this.props.selected}
           update={this.update}
-        />
+        />*/}
       </div>
     );
   }
