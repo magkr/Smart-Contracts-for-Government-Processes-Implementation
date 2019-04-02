@@ -45,20 +45,16 @@ class App extends Component {
           .getCases(acc[0])
           .call()
           .then(list => {
-            this.setState({
-              cases: list,
-              accounts: acc
-            });
-          });
-        console.log(this.state.contract);
-        this.state.contract.methods
-          .isOwner()
-          .call({ from: acc[0] })
-          .then(v => {
-            console.log(v);
-            this.setState({
-              isOwner: v
-            });
+            this.state.contract.methods
+              .isOwner()
+              .call({ from: acc[0] })
+              .then(b => {
+                this.setState({
+                  cases: list,
+                  accounts: acc,
+                  isOwner: b
+                });
+              });
           });
       }
     });
