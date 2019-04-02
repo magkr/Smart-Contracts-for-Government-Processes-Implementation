@@ -38,9 +38,9 @@ export default class ResolutionView extends Component {
           }
         )
         .on("data", async e => {
-          console.log(e.returnValues.title);
+          console.log(e.returnValues);
           await this.setState({
-            resolutions: [...this.state.resolutions, e.returnValues.title]
+            resolutions: [...this.state.resolutions, e.returnValues]
           });
         })
         .on("changed", e => {
@@ -54,12 +54,25 @@ export default class ResolutionView extends Component {
 
   render() {
     return (
-      <div className="w-100 pa2">
-        <h2>Afgørelser:</h2>
+      <div className="pa2 helvetica">
+        <h2 className="b f4">Afgørelser:</h2>
         {this.state.resolutions.map(r => {
           return (
-            <div className="bg-silver pa1 ma1">
-              {this.props.contractContext.web3.utils.hexToAscii(r)}
+            <div
+              key={r}
+              className="pa1 ma1 flex flex-column justify-around bg-near-white"
+            >
+              <h3 className="b f5 pv1">
+                {this.props.contractContext.web3.utils.hexToAscii(r.title)}
+              </h3>
+              <h4 className="f6 ph2 pv1">
+                <span className="b">Lokation: </span>
+                {r.dbLocation}
+              </h4>
+              <h4 className="f6 ph2 pv1">
+                <span className="b">Hash: </span>
+                {r.dataHash}
+              </h4>
             </div>
           );
         })}
