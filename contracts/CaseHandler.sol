@@ -74,16 +74,19 @@ contract CaseHandler is Ownable, Graph {
     return caseToAddress[caseID];
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations) {
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory phase, bytes32[] memory statuss, uint32[] memory locations, bool[] memory isReady) {
     /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
     statuss = new bytes32[](vxs.length);
     locations = new uint32[](vxs.length);
+    Case storage c = cases[caseID];
 
     for(uint i = 0; i < vxs.length; i++){
       titles[i] = vxs[i].title;
-      statuss[i] = _getStatusString(cases[caseID].dataMapping[vxs[i].title].status);
-      locations[i] = cases[caseID].dataMapping[vxs[i].title].dbLocation;
+      phase[i] = vxs[i].phase;
+      statuss[i] = _getStatusString(c.dataMapping[vxs[i].title].status);
+      locations[i] = c.dataMapping[vxs[i].title].dbLocation;
+      isReady[i] = _isReady(vxs[i].title, c);
     }
   }
 
@@ -96,27 +99,17 @@ contract CaseHandler is Ownable, Graph {
     if(vxs[_getIdx(_title)].resolution) emit Resolution(_title,  _dataHash, _dbLocation, _caseID);
   }
 
-
-  function getActions(uint caseID) public view returns (bytes32[] memory) {
-    /* TODO if case doesnt exist, throw error */
-    bytes32[] memory toDo = new bytes32[](vxs.length);
-    uint count = 0;
-    Case storage c = cases[caseID];
-
+  function titles() public view returns (bytes32[] memory toDo) {
     for (uint v = 0; v < vxs.length; v++) {
-      if (_isReady(v, c)) {
-        toDo[count] = vxs[v].title;
-        count++;
-      }
+      toDo[v] = vxs[v].title;
     }
-    return _cut(toDo, count);
   }
 
-  function _isReady(uint v, Case storage c) private view returns (bool) {
-    if (c.status == CaseStatus.COMPLAINT) return (c.dataMapping[vxs[v].title].status == Status.COMPLAINED);
-    if(c.dataMapping[vxs[v].title].status == Status.DONE) return false;
-    for(uint r = 0; r < req[v].length; r++) {
-      uint reqID = req[v][r];
+  function _isReady(bytes32 v, Case storage c) private view returns (bool) {
+    if (c.status == CaseStatus.COMPLAINT) return (c.dataMapping[v].status == Status.COMPLAINED);
+    if(c.dataMapping[v].status == Status.DONE) return false;
+    for(uint r = 0; r < req[_getIdx(v)].length; r++) {
+      uint reqID = req[_getIdx(v)][r];
       if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
     }
     return true;
@@ -143,17 +136,16 @@ contract CaseHandler is Ownable, Graph {
   function complain(bytes32 _title, uint32 _caseID) public onlyUser(_caseID) {
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;
-    bytes32[] titles = getPhase(_title);
-    for(uint i = 0; i < titles.length; i++) {
-      c.dataMapping[titles[i]].status = Status.COMPLAINED;
+    for(uint i = 0; i < vxs.length; i++) {
+      if (vxs[i].phase == _title) c.dataMapping[vxs[i].title].status = Status.COMPLAINED;
     }
   }
 
-  function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
+  /* function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
     bytes32[] memory res = new bytes32[](count);
     for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
     return res;
-  }
+  } */
 
   function _getStatusString(Status status) internal pure returns(bytes32) {
     if (status == Status.DONE) return "done";
