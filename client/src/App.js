@@ -11,7 +11,8 @@ class App extends Component {
     accounts: [],
     contract: null,
     store: [],
-    cases: []
+    cases: [],
+    isOwner: false
   };
 
   constructor() {
@@ -33,7 +34,6 @@ class App extends Component {
               cases: list
             });
           });
-        console.log(this.state.cases);
       });
   }
 
@@ -48,6 +48,14 @@ class App extends Component {
             this.setState({
               cases: list,
               accounts: acc
+            });
+          });
+        this.state.contract.methods
+          .isOwner()
+          .call({ from: acc[0] })
+          .then(v => {
+            this.setState({
+              isOwner: v
             });
           });
       }
@@ -156,7 +164,8 @@ class App extends Component {
             contract: this.state.contract,
             store: this.state.store,
             cases: this.state.cases,
-            newCase: this.newCase
+            newCase: this.newCase,
+            isOwner: this.state.isOwner
           }}
         >
           <CaseOverview />

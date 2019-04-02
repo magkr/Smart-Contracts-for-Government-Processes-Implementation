@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
+import { ContractConsumer } from "../utils/contractcontext.js";
 
 class CaseList extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class CaseList extends Component {
     await this.refreshCases();
   }
 
-  makeCaseList() {
+  caseList() {
     return this.props.contractContext.cases.map(c => (
       <li
         key={c}
@@ -56,33 +57,45 @@ class CaseList extends Component {
     ));
   }
 
+  addCaseField() {
+    return (
+      <li className="dt w-100 bb b--black-05 pa2 flex flex-column justify-between items-start">
+        <input
+          className="w-100 dtc v-mid helvetica "
+          type="text"
+          value={this.state.newAddr}
+          onChange={this.updateAddr}
+        />
+        <button
+          className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica mv2"
+          onClick={this.newCase}
+        >
+          Add case
+        </button>
+      </li>
+    );
+  }
+
   render() {
     return (
-      <ul className="w-100">
-        {this.props.contractContext.cases ? this.makeCaseList() : null}
-        <li className="dt w-100 bb b--black-05 pa2 flex flex-column justify-between items-start">
-          <input
-            className="w-100 dtc v-mid helvetica "
-            type="text"
-            value={this.state.newAddr}
-            onChange={this.updateAddr}
-          />
-          <button
-            className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica mv2"
-            onClick={this.newCase}
-          >
-            Add case
-          </button>
-        </li>
-        <li className="dt w-100 bb b--black-05 pb2 mt2 flex justify-center">
-          <button
-            className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
-            onClick={this.mark}
-          >
-            Mark case
-          </button>
-        </li>
-      </ul>
+      <ContractConsumer>
+        {context => {
+          return (
+            <ul className="w-100">
+              {context.cases ? this.caseList() : null}
+              {context.isOwner ? this.addCaseField() : null}
+              <li className="dt w-100 bb b--black-05 pb2 mt2 flex justify-center">
+                <button
+                  className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
+                  onClick={this.mark}
+                >
+                  Mark case
+                </button>
+              </li>
+            </ul>
+          );
+        }}
+      </ContractConsumer>
     );
   }
 }
