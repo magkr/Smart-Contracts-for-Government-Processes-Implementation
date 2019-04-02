@@ -102,6 +102,7 @@ class Case extends Component {
               data={this.state.data}
               editData={this.editData}
               update={this.update}
+              id={this.state.id}
             />
           </div>
         )}

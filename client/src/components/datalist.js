@@ -22,18 +22,24 @@ export default class DataList extends Component {
       this.props.contractContext.web3 &&
       this.props.contractContext.contract
     ) {
-      await this.props.contractContext.contract.events
-        .Resolution(async function(error, result) {
-          if (!error) {
-            // event arguments cointained in result.args object
-            const { eventArg1, eventArg2 } = result.args;
-            // new data have arrived. it is good idea to udpate data & UI
-            console.log(eventArg1);
-          } else {
-            // log error here
-            console.log(error);
+      this.props.contractContext.contract.events
+        .Resolution(
+          {
+            filter: { caseID: this.props.id }, // Using an array means OR: e.g. 20 or 23
+            fromBlock: 0,
+            toBlock: "latest"
+          },
+          async function(error, result) {
+            if (!error) {
+              //console.log(result);
+              // event arguments cointained in result.args object
+              // new data have arrived. it is good idea to udpate data & UI
+            } else {
+              // log error here
+              console.log(error);
+            }
           }
-        })
+        )
         .on("data", async e => {
           console.log(e.returnValues.title);
           await this.setState({ title: e.returnValues.title });
@@ -78,9 +84,10 @@ export default class DataList extends Component {
   }
 
   render() {
-    console.log(this.state.title);
     if (this.state.title)
-      this.props.contractContext.web3.utils.hexToAscii(this.state.title);
+      console.log(
+        this.props.contractContext.web3.utils.hexToAscii(this.state.title)
+      );
     return (
       <div className="w-50">
         <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">

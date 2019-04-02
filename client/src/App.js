@@ -50,10 +50,12 @@ class App extends Component {
               accounts: acc
             });
           });
+        console.log(this.state.contract);
         this.state.contract.methods
           .isOwner()
           .call({ from: acc[0] })
           .then(v => {
+            console.log(v);
             this.setState({
               isOwner: v
             });
