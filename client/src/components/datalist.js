@@ -43,6 +43,17 @@ export default class DataList extends Component {
     }
   }
 
+  editButton(d) {
+    return (
+      <button
+        className="helvetica -20 f6 br1 ba bg-white"
+        onClick={e => this.setSelected(d)}
+      >
+        {this.state.selected === d ? "Don't edit" : "Edit"}
+      </button>
+    );
+  }
+
   render() {
     return (
       <div className="w-50">
@@ -60,14 +71,9 @@ export default class DataList extends Component {
             >
               {this.utils.hexToAscii(d.title)}
               {this.props.contractContext.isOwner &&
-              d.status !== this.utils.asciiToHex("undone") ? (
-                <button
-                  className="helvetica -20 f6 br1 ba bg-white"
-                  onClick={e => this.setSelected(d)}
-                >
-                  {this.state.selected === d ? "Don't edit" : "Edit"}
-                </button>
-              ) : null}
+              d.status !== this.utils.asciiToHex("undone")
+                ? this.editButton(d)
+                : null}
               <b>{window.sessionStorage[d.location]}</b>
             </div>
           );
