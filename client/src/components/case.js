@@ -72,6 +72,25 @@ class Case extends Component {
     });
   }
 
+  adminInterface() {
+    return (
+      <div className="w-100 flex justify-center">
+        <DataList
+          contractContext={this.props.contractContext}
+          data={this.state.data}
+          editData={this.editData}
+          update={this.update}
+        />
+        <ActionsList
+          contractContext={this.props.contractContext}
+          actions={this.state.actions}
+          selected={this.props.selected}
+          update={this.update}
+        />
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="w-100 flex flex-column items-left justify-around ph5">
@@ -90,22 +109,7 @@ class Case extends Component {
         {this.state.isLoading ? (
           <h2 className="ma3 f4 helvetica">Loading...</h2>
         ) : (
-          <div className="w-100 flex justify-center">
-            <DataList
-              contractContext={this.props.contractContext}
-              data={this.state.data}
-              editData={this.editData}
-              update={this.update}
-            />
-          {this.props.contractContext.isOwner ? (
-            <ActionsList
-              contractContext={this.props.contractContext}
-              actions={this.state.actions}
-              selected={this.props.selected}
-              update={this.update}
-            />
-        ) : null }
-          </div>
+          this.props.contractContext.isOwner ? this.adminInterface() : null
         )}
       </div>
     );
