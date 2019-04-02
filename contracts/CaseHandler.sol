@@ -27,7 +27,7 @@ contract CaseHandler is Ownable, Graph {
 
   /* event Resolution(Data data); */
   enum CaseStatus { ACTIVE, COMPLAINT, OLD }
-  enum Status { UNDONE, DONE, MARKED, UNSTABLE }
+  enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
 
   modifier onlyUser(uint32 _caseID) {
     require(caseToAddress[_caseID] == msg.sender);
@@ -115,6 +115,7 @@ contract CaseHandler is Ownable, Graph {
   }
 
   function _isReady(uint v, Case storage c) private view returns (bool) {
+    if (c.status == CaseStatus.COMPLAINT) return (c.dataMapping[vxs[v].title].status == Status.COMPLAINED);
     if(c.dataMapping[vxs[v].title].status == Status.DONE) return false;
     for(uint r = 0; r < req[v].length; r++) {
       uint reqID = req[v][r];
@@ -122,6 +123,7 @@ contract CaseHandler is Ownable, Graph {
     }
     return true;
   }
+
 
   function markData(bytes32 _title, uint _caseID) public {
     /* TODO EXPLANATION AS PARAMETER AND ONLY APPEALSBOARD*/
@@ -141,7 +143,12 @@ contract CaseHandler is Ownable, Graph {
   }
 
   function complain(bytes32 _title, uint32 _caseID) public onlyUser(_caseID) {
-    cases[_caseID].status = CaseStatus.COMPLAINT;
+    Case storage c = cases[_caseID];
+    c.status = CaseStatus.COMPLAINT;
+    bytes32[] titles = getPhase(_title);
+    for(uint i = 0; i < titles.length; i++) {
+      c.dataMapping[titles[i]].status = Status.COMPLAINED;
+    }
   }
 
   function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {

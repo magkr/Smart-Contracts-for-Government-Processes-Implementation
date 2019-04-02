@@ -5,7 +5,7 @@ contract Graph {
   /* enum DataType { INT, TEXT, FILE, BOOL } */
   enum NodeType { EXTRA, RESOLUTION, NORMAL }
 
-  
+
   struct DataNode {
     /* DataType dataType; */
     /* NodeType nodeType; */
@@ -17,7 +17,6 @@ contract Graph {
   mapping (uint => uint[]) adj;
   mapping (uint => uint[]) req;
   mapping (bytes32 => uint) titleToID;
-
 
   function _getIdx(bytes32 title) internal view returns (uint id) {
     // if v doesn't exist, throw error
