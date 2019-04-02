@@ -29,8 +29,12 @@ contract CaseHandler is Ownable, Graph {
   enum CaseStatus { ACTIVE, COMPLAINT, OLD }
   enum Status { UNDONE, DONE, MARKED, UNSTABLE }
 
+  modifier onlyUser(uint32 _caseID) {
+    require(caseToAddress[_caseID] == msg.sender);
+    _;
+  }
 
-  modifier onlyOwnerOf(uint32 _caseID) {
+  modifier ownerOrUser(uint32 _caseID) {
     require(isOwner() || caseToAddress[_caseID] == msg.sender);
     _;
   }
@@ -66,7 +70,7 @@ contract CaseHandler is Ownable, Graph {
     return res;
   }
 
-  function addressFromCase(uint32 caseID) public view onlyOwnerOf(caseID) returns(address) {
+  function addressFromCase(uint32 caseID) public view ownerOrUser(caseID) returns(address) {
     return caseToAddress[caseID];
   }
 
@@ -134,6 +138,10 @@ contract CaseHandler is Ownable, Graph {
         _cascade(a, c);
       }
     }
+  }
+
+  function complain(bytes32 _title, uint32 _caseID) public onlyUser(_caseID) {
+    cases[_caseID].status = CaseStatus.COMPLAINT;
   }
 
   function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {

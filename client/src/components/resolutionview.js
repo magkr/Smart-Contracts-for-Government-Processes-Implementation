@@ -52,6 +52,14 @@ export default class ResolutionView extends Component {
     }
   }
 
+  button(r) {
+    return (
+      <button onClick={() => this.props.contractContext.complain(r)}>
+        complain
+      </button>
+    );
+  }
+
   render() {
     return (
       <div className="w-100 pa2">
@@ -60,6 +68,7 @@ export default class ResolutionView extends Component {
           return (
             <div className="bg-silver pa1 ma1">
               {this.props.contractContext.web3.utils.hexToAscii(r)}
+              {this.props.contractContext.isOwner ? null : this.button(r)}
             </div>
           );
         })}
