@@ -21,25 +21,34 @@ class App extends Component {
   }
 
   newCase(add) {
-    this.state.contract.methods.addCase(add).send({from: this.state.accounts[0]}).then(() => {
-      this.state.contract.methods.getCases(this.state.accounts[0]).call().then(list => {
-        this.setState({
-          cases: list,
-        });
+    this.state.contract.methods
+      .addCase(add)
+      .send({ from: this.state.accounts[0] })
+      .then(() => {
+        this.state.contract.methods
+          .getCases(this.state.accounts[0])
+          .call()
+          .then(list => {
+            this.setState({
+              cases: list
+            });
+          });
       });
-    });
   }
 
   update() {
-    this.state.web3.eth.getAccounts().then((acc) => {
+    this.state.web3.eth.getAccounts().then(acc => {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
-        this.state.contract.methods.getCases(acc[0]).call().then(list => {
-          this.setState({
-            cases: list,
-            accounts: acc,
+        this.state.contract.methods
+          .getCases(acc[0])
+          .call()
+          .then(list => {
+            this.setState({
+              cases: list,
+              accounts: acc
+            });
           });
-        });
       }
     });
   }
@@ -67,19 +76,18 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address
       );
 
-      await this.setState({ web3, contract: p});
+      await this.setState({ web3, contract: p });
       this.update();
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
 
-      this.accountInterval = setInterval( () => {
+      this.accountInterval = setInterval(() => {
         this.update();
-          // Call a function to update the UI with the new account
-          // getZombiesByOwner(userAccount)
-          // .then(displayZombies);
+        // Call a function to update the UI with the new account
+        // getZombiesByOwner(userAccount)
+        // .then(displayZombies);
       }, 100);
-
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -150,7 +158,7 @@ class App extends Component {
             newCase: this.newCase
           }}
         >
-          <CaseOverview/>
+          <CaseOverview />
         </ContractProvider>
       </div>
     );

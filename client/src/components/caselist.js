@@ -22,10 +22,7 @@ class CaseList extends Component {
       this.setState({
         newAddr: ""
       });
-    }
-    catch (err) {
-
-    }
+    } catch (err) {}
   }
 
   async mark() {
@@ -38,27 +35,31 @@ class CaseList extends Component {
     await this.refreshCases();
   }
 
+  makeCaseList() {
+    this.props.contractContext.cases.map(c => (
+      <li
+        key={c}
+        className="dt w-100 bb b--black-05 pb2 mt2 flex justify-between items-center"
+      >
+        <div className="w-two-thirds dtc v-mid pl3">
+          <h2 className="f6 ph1 fw4 mt0 mb0 black-60 helvetica">
+            <b>Case ID:</b> {c}
+          </h2>
+        </div>
+        <button
+          className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
+          onClick={e => this.props.setSelected(c)}
+        >
+          Show case
+        </button>
+      </li>
+    ));
+  }
+
   render() {
     return (
       <ul className="w-100">
-        {this.props.contractContext.cases.map(c => (
-          <li
-            key={c}
-            className="dt w-100 bb b--black-05 pb2 mt2 flex justify-between items-center"
-          >
-            <div className="w-two-thirds dtc v-mid pl3">
-              <h2 className="f6 ph1 fw4 mt0 mb0 black-60 helvetica">
-                <b>Case ID:</b> {c}
-              </h2>
-            </div>
-            <button
-              className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
-              onClick={e => this.props.setSelected(c)}
-            >
-              Show case
-            </button>
-          </li>
-        ))}
+        {this.props.contractContext.cases ? this.makeCaseList() : null}
         <li className="dt w-100 bb b--black-05 pa2 flex flex-column justify-between items-start">
           <input
             className="w-100 dtc v-mid helvetica "
