@@ -99,12 +99,6 @@ contract CaseHandler is Ownable, Graph {
     if(vxs[_getIdx(_title)].resolution) emit Resolution(_title,  _dataHash, _dbLocation, _caseID);
   }
 
-  function titles() public view returns (bytes32[] memory toDo) {
-    for (uint v = 0; v < vxs.length; v++) {
-      toDo[v] = vxs[v].title;
-    }
-  }
-
   function _isReady(bytes32 v, Case storage c) private view returns (bool) {
     if (c.status == CaseStatus.COMPLAINT) return (c.dataMapping[v].status == Status.COMPLAINED);
     if(c.dataMapping[v].status == Status.DONE) return false;
