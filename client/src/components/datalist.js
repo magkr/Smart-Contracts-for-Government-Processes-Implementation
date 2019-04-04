@@ -60,7 +60,7 @@ export default class DataList extends Component {
         <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">
           Status:
         </h2>
-        {this.props.data.map((d,i) => {
+        {this.props.data.map((d) => {
           return (
             <div
               key={d.title}
@@ -70,7 +70,7 @@ export default class DataList extends Component {
               }
             >
               { this.utils.hexToAscii(d.title) }
-              { d.status === this.utils.asciiToHex("done") ? <b>{"value: " }</b> : null }
+              { d.status === this.utils.asciiToHex("done") ? <b>{"value: " + d.id }</b> : null }
               { d.status === this.utils.asciiToHex("done") ? this.editButton(d) : null }
             </div>
           );

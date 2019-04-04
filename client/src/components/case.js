@@ -35,9 +35,6 @@ class Case extends Component {
     const c = await this.props.contractContext.contract.methods
       .cases(this.props.selected)
       .call();
-    const addr = this.props.contractContext.contract.methods
-      .addressFromCase(c.id)
-      .call();
 
     await this.readData(c.id).then(async (res) => {
       return res;
@@ -48,12 +45,10 @@ class Case extends Component {
           .addressFromCase(c.id)
           .call(),
         data: res.data,
-        values: res.values,
         actions: res.actions,
         status: c.status,
         isLoading: false
       });
-      console.log(this.state.values);
     });
   }
 
@@ -76,28 +71,22 @@ class Case extends Component {
     });
   };
 
-  async getDataValue(status, id) {
-    const res = await this.props.contractContext.storeAPI.getData(id);
-    if (res.id === 0) {return ""}
-    
-    return res.data.value;
-  }
-
   async readData(id) {
     const data = [];
     const actions = [];
     const values = [];
-    this.props.contractContext.contract.methods
+    const res = await this.props.contractContext.contract.methods
       .getCase(id)
       .call()
       .then(response => {
+        var json = JSON.stringify(response);
+        console.log(json);
         var statuss = response["statuss"]; // JSON.STRINGIFY!!!
         var ids = response["ids"];
         var titles = response["titles"];
         var isReady = response["isReady"];
         var phases = response["phases"];
         statuss.forEach((item, idx) => {
-          this.getDataValue(item, ids[idx]).then(val => {values.push(val)});
           if (isReady[idx]) {
             actions.push(titles[idx]);
           }
@@ -109,9 +98,10 @@ class Case extends Component {
             phase: phases[idx]
           });
         });
+        return response;
       });
     // console.log(actions);
-    return { data: data, actions: actions, values: values };
+    return { data: data, actions: actions };
   }
 
   async editData(d) {
@@ -125,7 +115,6 @@ class Case extends Component {
     return (
       <div className="w-100 flex justify-center">
         <DataList
-          values={this.state.values}
           contractContext={this.props.contractContext}
           data={this.state.data}
           editData={this.editData}
