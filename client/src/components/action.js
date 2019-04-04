@@ -11,19 +11,6 @@ export default class Action extends Component {
     this.setState({ value: e.target.value });
   };
 
-  fillData = async () => {
-    await this.props.contractContext.contract.methods
-      .fillData(
-        this.props.action,
-        this.props.caseID,
-        this.props.contractContext.web3.utils.asciiToHex(this.state.value),
-        window.sessionStorage.length + 1
-      )
-      .send({ from: this.props.contractContext.accounts[0] });
-    window.sessionStorage[window.sessionStorage.length + 1] = this.state.value;
-    await this.props.update();
-  };
-
   render() {
     const utils = this.props.contractContext.web3.utils;
     return (
@@ -39,7 +26,7 @@ export default class Action extends Component {
           />
           <button
             className="helvetica w-20 f6 ml3 br1 ba bg-white"
-            onClick={this.fillData}
+            onClick={() => {this.props.submitData(this.props.action, this.state.value)}}
           >
             Submit
           </button>

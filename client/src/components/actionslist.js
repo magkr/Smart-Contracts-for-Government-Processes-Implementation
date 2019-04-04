@@ -19,8 +19,8 @@ export default class ActionsList extends Component {
             key={a}
             action={a}
             caseID={this.props.selected}
-            update={this.props.update}
             contractContext={this.props.contractContext}
+            submitData={this.props.submitData}
           />
         ))}
       </div>

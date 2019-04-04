@@ -22,7 +22,9 @@ export default class ResolutionView extends Component {
       this.props.contractContext.contract.events
         .Resolution(
           {
-            filter: { caseID: this.props.id }, // Using an array means OR: e.g. 20 or 23
+            filter: {
+              caseID: this.props.id
+            }, // Using an array means OR: e.g. 20 or 23
             fromBlock: 0,
             toBlock: "latest"
           },

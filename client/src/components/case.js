@@ -10,6 +10,7 @@ class Case extends Component {
     super(props);
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
+    this.submitData = this.submitData.bind(this);
   }
 
   state = {
@@ -34,39 +35,74 @@ class Case extends Component {
     const c = await this.props.contractContext.contract.methods
       .cases(this.props.selected)
       .call();
+    const addr = this.props.contractContext.contract.methods
+      .addressFromCase(c.id)
+      .call();
 
-    const res = await this.readData(c.id);
-
-    await this.setState({
-      id: c.id,
-      addr: await this.props.contractContext.contract.methods
-        .addressFromCase(c.id)
-        .call(),
-      data: res.data,
-      actions: res.actions,
-      status: c.status,
-      isLoading: false
+    await this.readData(c.id).then(async (res) => {
+      return res;
+    }).then(async res => {
+      await this.setState({
+        id: c.id,
+        addr: await this.props.contractContext.contract.methods
+          .addressFromCase(c.id)
+          .call(),
+        data: res.data,
+        values: res.values,
+        actions: res.actions,
+        status: c.status,
+        isLoading: false
+      });
+      console.log(this.state.values);
     });
+  }
+
+  async submitData(action, value) {
+    let hash = this.props.contractContext.web3.utils.sha3(value);
+    console.log(hash);
+    await this.props.contractContext.contract.methods
+      .fillData(action, this.state.id, hash)
+      .send({from: this.props.contractContext.accounts[0]}).catch(error => {console.log("failed to submit data to blockchain"); return error; });
+    await this.update().then(() => {
+      this.state.data.forEach(async d => {
+        if (d.title === action) {
+          await this.props.contractContext.storeAPI
+            .saveData(action, this.state.id, value, hash, d.id).then(() => {return;})
+            .catch(error => {
+              console.log(`failed to submit data to database!!: ` + { action: action, caseid: this.state.id, value: value, hash: hash, id: d.id });
+            });
+        }
+      })
+    });
+  };
+
+  async getDataValue(status, id) {
+    const res = await this.props.contractContext.storeAPI.getData(id);
+    if (res.id === 0) {return ""}
+    
+    return res.data.value;
   }
 
   async readData(id) {
     const data = [];
     const actions = [];
+    const values = [];
     this.props.contractContext.contract.methods
       .getCase(id)
       .call()
       .then(response => {
-        var statuss = response["statuss"];
-        var locations = response["locations"];
+        var statuss = response["statuss"]; // JSON.STRINGIFY!!!
+        var ids = response["ids"];
         var titles = response["titles"];
         var isReady = response["isReady"];
         var phases = response["phases"];
         statuss.forEach((item, idx) => {
+          this.getDataValue(item, ids[idx]).then(val => {values.push(val)});
           if (isReady[idx]) {
             actions.push(titles[idx]);
           }
           data.push({
-            location: locations[idx],
+            id: ids[idx],
             title: titles[idx],
             status: statuss[idx],
             ready: isReady[idx],
@@ -75,7 +111,7 @@ class Case extends Component {
         });
       });
     // console.log(actions);
-    return { data: data, actions: actions };
+    return { data: data, actions: actions, values: values };
   }
 
   async editData(d) {
@@ -89,6 +125,7 @@ class Case extends Component {
     return (
       <div className="w-100 flex justify-center">
         <DataList
+          values={this.state.values}
           contractContext={this.props.contractContext}
           data={this.state.data}
           editData={this.editData}
@@ -99,6 +136,7 @@ class Case extends Component {
           actions={this.state.actions}
           selected={this.props.selected}
           update={this.update}
+          submitData={this.submitData}
         />
       </div>
     );
