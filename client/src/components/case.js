@@ -57,18 +57,15 @@ class Case extends Component {
     console.log(hash);
     await this.props.contractContext.contract.methods
       .fillData(action, this.state.id, hash)
-      .send({from: this.props.contractContext.accounts[0]}).catch(error => {console.log("failed to submit data to blockchain"); return error; });
-    await this.update().then(() => {
-      this.state.data.forEach(async d => {
-        if (d.title === action) {
-          await this.props.contractContext.storeAPI
-            .saveData(action, this.state.id, value, hash, d.id).then(() => {return;})
-            .catch(error => {
-              console.log(`failed to submit data to database!!: ` + { action: action, caseid: this.state.id, value: value, hash: hash, id: d.id });
-            });
-        }
-      })
+      .send({from: this.props.contractContext.accounts[0]}).then(transaction => { console.log(transaction);}).catch(error => {console.log("failed to submit data to blockchain"); return error; });
+    await this.props.contractContext.contract.methods.dataCount().call().then( async id => {
+      await this.props.contractContext.storeAPI
+        .saveData(action, this.state.id, value, hash, id).then(() => {return;})
+        .catch(error => {
+          console.log(`failed to submit data to database!!: ` + { action: action, caseid: this.state.id, value: value, hash: hash, id: id });
+        });
     });
+    await this.update();
   };
 
   async readData(id) {
