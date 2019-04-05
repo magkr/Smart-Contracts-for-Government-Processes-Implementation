@@ -10,6 +10,7 @@ class Case extends Component {
     super(props);
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
+    this.submitData = this.submitData.bind(this);
   }
 
   state = {
@@ -35,19 +36,40 @@ class Case extends Component {
       .cases(this.props.selected)
       .call();
 
-    const res = await this.readData(c.id);
-
-    await this.setState({
-      id: c.id,
-      addr: await this.props.contractContext.contract.methods
-        .addressFromCase(c.id)
-        .call(),
-      data: res.data,
-      actions: res.actions,
-      status: c.status,
-      isLoading: false
+    await this.readData(c.id).then(async (res) => {
+      return res;
+    }).then(async res => {
+      await this.setState({
+        id: c.id,
+        addr: await this.props.contractContext.contract.methods
+          .addressFromCase(c.id)
+          .call(),
+        data: res.data,
+        actions: res.actions,
+        status: c.status,
+        isLoading: false
+      });
     });
   }
+
+  async submitData(action, value) {
+    let hash = this.props.contractContext.web3.utils.sha3(value);
+    console.log(hash);
+    await this.props.contractContext.contract.methods
+      .fillData(action, this.state.id, hash)
+      .send({from: this.props.contractContext.accounts[0]}).catch(error => {console.log("failed to submit data to blockchain"); return error; });
+    await this.update().then(() => {
+      this.state.data.forEach(async d => {
+        if (d.title === action) {
+          await this.props.contractContext.storeAPI
+            .saveData(action, this.state.id, value, hash, d.id).then(() => {return;})
+            .catch(error => {
+              console.log(`failed to submit data to database!!: ` + { action: action, caseid: this.state.id, value: value, hash: hash, id: d.id });
+            });
+        }
+      })
+    });
+  };
 
   async readData(id) {
     const actions = [];
@@ -56,15 +78,17 @@ class Case extends Component {
       .getCase(id)
       .call()
       .then(response => {
-        var statuss = response["statuss"];
-        var locations = response["locations"];
+        var json = JSON.stringify(response);
+        console.log(json);
+        var statuss = response["statuss"]; // JSON.STRINGIFY!!!
+        var ids = response["ids"];
         var titles = response["titles"];
         var isReady = response["isReady"];
         var phases = response["phases"];
         statuss.forEach((item, idx) => {
           if (!phaseStruct[phases[idx]]) phaseStruct[phases[idx]] = [];
           phaseStruct[phases[idx]].push({
-            location: locations[idx],
+            id: ids[idx],
             title: titles[idx],
             status: statuss[idx],
             ready: isReady[idx],
@@ -74,6 +98,7 @@ class Case extends Component {
             actions.push(titles[idx]);
           }
         });
+        return response;
       });
     console.log(phaseStruct);
 
@@ -101,6 +126,7 @@ class Case extends Component {
           actions={this.state.actions}
           selected={this.props.selected}
           update={this.update}
+          submitData={this.submitData}
         />
       </div>
     );

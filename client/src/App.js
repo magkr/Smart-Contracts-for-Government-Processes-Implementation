@@ -3,6 +3,7 @@ import Process42 from "./contracts/Process42.json";
 import CaseOverview from "./components/caseoverview.js";
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from "./utils/contractcontext.js";
+import Store from "./store.js";
 import "./App.css";
 
 class App extends Component {
@@ -12,11 +13,12 @@ class App extends Component {
     contract: null,
     store: [],
     cases: [],
-    isOwner: false
+    isOwner: false,
   };
 
   constructor() {
     super();
+    this.storeAPI = new Store();
     this.update = this.update.bind(this);
     this.newCase = this.newCase.bind(this);
     this.complain = this.complain.bind(this);
@@ -110,6 +112,7 @@ class App extends Component {
         // getZombiesByOwner(userAccount)
         // .then(displayZombies);
       }, 100);
+
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -179,7 +182,8 @@ class App extends Component {
             cases: this.state.cases,
             newCase: this.newCase,
             isOwner: this.state.isOwner,
-            complain: this.complain
+            complain: this.complain,
+            storeAPI: this.storeAPI
           }}
         >
           <CaseOverview />

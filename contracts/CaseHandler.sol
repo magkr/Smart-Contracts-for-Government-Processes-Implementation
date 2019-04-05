@@ -5,9 +5,11 @@ import {Ownable} from './Ownable.sol';
 
 contract CaseHandler is Ownable, Graph {
   Case[] public cases;
+  uint public dataCount;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
-  event Resolution(bytes32 title, bytes32 dataHash, uint32 dbLocation, uint32 indexed caseID);
+  event Resolution(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint indexed id); // should be a dataType instead of bool?
+  /* event NewData(bytes32 title, bytes32 dataHash, uint32 , uint32 indexed caseID); // should be a dataType instead of bool? */
 
   struct Case {
     uint32 id;
@@ -19,8 +21,8 @@ contract CaseHandler is Ownable, Graph {
   struct Data {
     bytes32 name;
     bytes32 dataHash;
-    uint32 dbLocation;
     uint32 caseID;
+    uint id;
     /* DataType dataType; */
     Status status;
   }
@@ -74,11 +76,11 @@ contract CaseHandler is Ownable, Graph {
     return caseToAddress[caseID];
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, bytes32[] memory statuss, uint32[] memory locations, bytes32[] memory phases, bool[] memory isReady) {
+  function getCase(uint caseID) public view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, bytes32[] memory phases, bool[] memory isReady) {
     /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
+    ids = new uint[](vxs.length);
     statuss = new bytes32[](vxs.length);
-    locations = new uint32[](vxs.length);
     phases = new bytes32[](vxs.length);
     isReady = new bool[](vxs.length);
     Case storage c = cases[caseID];
@@ -86,19 +88,20 @@ contract CaseHandler is Ownable, Graph {
     for(uint i = 0; i < vxs.length; i++){
       titles[i] = vxs[i].title;
       phases[i] = vxs[i].phase;
+      ids[i] = c.dataMapping[vxs[i].title].id;
       statuss[i] = _getStatusString(c.dataMapping[vxs[i].title].status);
-      locations[i] = c.dataMapping[vxs[i].title].dbLocation;
       isReady[i] = _isReady(vxs[i].title, c);
     }
   }
 
-
-
-  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash, uint32 _dbLocation) public onlyOwner {
+  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public onlyOwner returns (uint id) {
      /* TODO require at dataHash ikke er tom? */
-    require(_caseID >= 0 && _caseID <= cases.length);
-    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _dbLocation, _caseID, Status.DONE);
-    if(vxs[_getIdx(_title)].resolution) emit Resolution(_title,  _dataHash, _dbLocation, _caseID);
+    require(cases[_caseID].status == CaseStatus.ACTIVE && _dataHash.length > 0);
+    dataCount++;
+    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
+    if (vxs[_getIdx(_title)].resolution) emit Resolution(_title,  _dataHash, _caseID, dataCount);
+    return dataCount;
+    /* emit NewData(_title,  _dataHash, _caseID); */
   }
 
   function _isReady(bytes32 v, Case storage c) private view returns (bool) {

@@ -136,7 +136,7 @@ export default class DataList extends Component {
                       </h2>
                       <h2 className="f6 mb1">
                         <b>Lokation: </b>
-                        {window.sessionStorage[d.location]}
+                          { d.status === this.utils.asciiToHex("done") ? <b>{d.id }</b> : null }
                       </h2>
                       <h2 className="f6 mb1">
                         <b>Status: </b>
@@ -144,8 +144,7 @@ export default class DataList extends Component {
                       </h2>
                     </div>
                     <div className="w-40">
-                      {this.props.contractContext.isOwner &&
-                      d.status !== this.utils.asciiToHex("undone")
+                      { d.status === this.utils.asciiToHex("done")
                         ? this.editButton(d)
                         : null}
                     </div>
