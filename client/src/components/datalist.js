@@ -109,7 +109,7 @@ export default class DataList extends Component {
           Faser:
         </h2>
         {Object.keys(this.props.data).map(k => (
-          <div className="mh3 mv2 ">
+          <div key={k} className="mh3 mv2 ">
             <div
               className={
                 "flex justify-around items-center helvetica pa1 f5 " +

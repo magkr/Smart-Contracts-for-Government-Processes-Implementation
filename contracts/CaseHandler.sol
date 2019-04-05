@@ -15,6 +15,7 @@ contract CaseHandler is Ownable, Graph {
     uint32 id;
     CaseStatus status;
     mapping (bytes32 => Data) dataMapping;
+
     //mapping (uint => Data[]) extraDatas;
   }
 
@@ -28,13 +29,15 @@ contract CaseHandler is Ownable, Graph {
   }
 
   /* event Resolution(Data data); */
-  enum CaseStatus { ACTIVE, COMPLAINT, OLD }
+  enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, OLD }
   enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
 
   modifier onlyUser(uint32 _caseID) {
     require(caseToAddress[_caseID] == msg.sender);
     _;
   }
+
+
 
   modifier ownerOrUser(uint32 _caseID) {
     require(isOwner() || caseToAddress[_caseID] == msg.sender);
@@ -94,13 +97,21 @@ contract CaseHandler is Ownable, Graph {
     }
   }
 
+  function _resolveCase(uint32 _caseID) internal onlyOwner {
+    require(cases[_caseID].dataMapping[resolvingResolution].status == Status.DONE);
+    cases[_caseID].status = CaseStatus.RESOLVED;
+  }
+
   function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal onlyOwner returns (uint id) {
      /* TODO require at dataHash ikke er tom? */
     require(cases[_caseID].status == CaseStatus.ACTIVE && _dataHash.length > 0);
     require(_allowed(_title, cases[_caseID]));
     dataCount++;
     cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
-    if (vxs[_getIdx(_title)].resolution) emit Resolution(_title,  _dataHash, _caseID, dataCount);
+    if (vxs[_getIdx(_title)].resolution) {
+      if (_title == resolvingResolution) cases[_caseID].status = CaseStatus.RESOLVED;
+      emit Resolution(_title,  _dataHash, _caseID, dataCount);
+    }
     return dataCount;
     /* emit NewData(_title,  _dataHash, _caseID); */
   }

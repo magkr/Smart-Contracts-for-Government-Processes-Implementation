@@ -11,6 +11,7 @@ class Case extends Component {
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
     this.submitData = this.submitData.bind(this);
+    this.paymentOption = this.paymentOption.bind(this);
   }
 
   state = {
@@ -109,6 +110,20 @@ class Case extends Component {
     });
   }
 
+  paymentOption(a) {
+    console.log(a);
+    if (this.state.status === "2") {
+      for(var k in this.state.data) {
+        if(k === a) {
+          return (<div>hej</div>)
+        }
+      }
+      console.log(this.state.data);
+
+    }
+    else return (null);
+  }
+
   adminInterface() {
     return (
       <div className="w-100 flex justify-center">
@@ -124,6 +139,7 @@ class Case extends Component {
           selected={this.props.selected}
           update={this.update}
           submitData={this.submitData}
+          paymentOption={this.paymentOption}
         />
       </div>
     );

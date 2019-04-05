@@ -25,6 +25,8 @@ contract Process42 is ProcessInterface {
   constructor() public {
     metering();
     beregningsgrundlag();
+    udbetaling();
+    resolvingResolution = "Beregningsgrundlag";
   }
 
   function metering() private {
@@ -95,5 +97,14 @@ contract Process42 is ProcessInterface {
 
     _addEdge("Beregning af ydelse", "Beregningsgrundlag");
     _addEdge("Pensionsselskabs info", "Beregningsgrundlag");
+  }
+
+  function udbetaling() private {
+    bytes32 root = "Beregningsgrundlag";
+    _addVertex("Borgerdokumentation", "Udbetaling", false);
+    _addVertex("Udbetaling", "Udbetaling", true);
+
+    _addEdge(root,"Borgerdokumentation");
+    _addEdge("Borgerdokumentation","Udbetaling");
   }
 }

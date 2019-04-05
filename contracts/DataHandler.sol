@@ -4,6 +4,7 @@ pragma solidity 0.5.0;
 contract Graph {
   /* enum DataType { INT, TEXT, FILE, BOOL } */
   enum NodeType { EXTRA, RESOLUTION, NORMAL }
+  bytes32 resolvingResolution;
 
 
   struct DataNode {

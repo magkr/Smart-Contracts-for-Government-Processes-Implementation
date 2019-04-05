@@ -31,4 +31,8 @@ contract ProcessInterface is TransferHandler {
   function complain(bytes32 _title, uint32 _caseID) public onlyUser(_caseID) {
     return _complain(_title, _caseID);
   }
+
+  function sendEther(uint _amount, uint32 _caseID) public payable onlyOwner {
+    return _sendEther(_amount, _caseID);
+  }
 }

@@ -12,6 +12,7 @@ export default class Action extends Component {
   };
 
   render() {
+console.log(this.props.action);
     const utils = this.props.contractContext.web3.utils;
     return (
       <div className="w-100 bg-near-white pa2 mv2">
@@ -24,6 +25,7 @@ export default class Action extends Component {
             type="text"
             onChange={this.updateValue}
           />
+
           <button
             className="helvetica w-20 f6 ml3 br1 ba bg-white"
             onClick={() => {this.props.submitData(this.props.action, this.state.value)}}
@@ -31,6 +33,7 @@ export default class Action extends Component {
             Submit
           </button>
         </div>
+        { this.props.paymentOption(this.props.action) }
       </div>
     );
   }
