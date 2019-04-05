@@ -1,15 +1,14 @@
 import React from "react";
 
-export const ActionInput = (updateValue, fillData) => (
+export const ActionInput = (handleSubmit) => (
   <div>
     <input
       className="helvetica w-80"
       type="text"
-      onChange={e => updateValue(e)}
     />
     <button
       className="helvetica w-20 f6 ml3 br1 ba bg-white"
-      onClick={e => fillData()}
+      onClick={handleSubmit}
     >
       Submit
     </button>

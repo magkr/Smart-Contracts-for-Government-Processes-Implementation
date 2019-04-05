@@ -33,7 +33,6 @@ console.log(this.props.action);
             Submit
           </button>
         </div>
-        { this.props.paymentOption(this.props.action) }
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
+import { ActionInput } from './common.js'
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -11,7 +12,6 @@ class Case extends Component {
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
     this.submitData = this.submitData.bind(this);
-    this.paymentOption = this.paymentOption.bind(this);
   }
 
   state = {
@@ -37,20 +37,22 @@ class Case extends Component {
       .cases(this.props.selected)
       .call();
 
-    await this.readData(c.id).then(async (res) => {
-      return res;
-    }).then(async res => {
-      await this.setState({
-        id: c.id,
-        addr: await this.props.contractContext.contract.methods
-          .addressFromCase(c.id)
-          .call(),
-        data: res.data,
-        actions: res.actions,
-        status: c.status,
-        isLoading: false
+    await this.readData(c.id)
+      .then(async res => {
+        return res;
+      })
+      .then(async res => {
+        await this.setState({
+          id: c.id,
+          addr: await this.props.contractContext.contract.methods
+            .addressFromCase(c.id)
+            .call(),
+          data: res.data,
+          actions: res.actions,
+          status: c.status,
+          isLoading: false
+        });
       });
-    });
   }
 
   async submitData(action, value) {
@@ -58,16 +60,40 @@ class Case extends Component {
     console.log(hash);
     await this.props.contractContext.contract.methods
       .fillData(action, this.state.id, hash)
-      .send({from: this.props.contractContext.accounts[0]}).then(transaction => { console.log(transaction);}).catch(error => {console.log("failed to submit data to blockchain"); return error; });
-    await this.props.contractContext.contract.methods.dataCount().call().then( async id => {
-      await this.props.contractContext.storeAPI
-        .saveData(action, this.state.id, value, hash, id).then(() => {return;})
-        .catch(error => {
-          console.log(`failed to submit data to database!!: ` + { action: action, caseid: this.state.id, value: value, hash: hash, id: id });
-        });
-    });
+      .send({ from: this.props.contractContext.accounts[0] })
+      .then(transaction => {
+        console.log(transaction);
+      })
+      .catch(error => {
+        console.log("failed to submit data to blockchain");
+        return error;
+      });
+    await this.props.contractContext.contract.methods
+      .dataCount()
+      .call()
+      .then(async id => {
+        await this.props.contractContext.storeAPI
+          .saveData(action, this.state.id, value, hash, id)
+          .then(() => {
+            return;
+          })
+          .catch(error => {
+            console.log(
+              `failed to submit data to database!!: ` +
+                {
+                  action: action,
+                  caseid: this.state.id,
+                  value: value,
+                  hash: hash,
+                  id: id
+                }
+            );
+          });
+      });
     await this.update();
-  };
+  }
+
+
 
   async readData(id) {
     const actions = [];
@@ -110,18 +136,8 @@ class Case extends Component {
     });
   }
 
-  paymentOption(a) {
-    console.log(a);
-    if (this.state.status === "2") {
-      for(var k in this.state.data) {
-        if(k === a) {
-          return (<div>hej</div>)
-        }
-      }
-      console.log(this.state.data);
-
-    }
-    else return (null);
+  handlePayment(e){
+    console.log(e.target.value);
   }
 
   adminInterface() {
@@ -133,14 +149,17 @@ class Case extends Component {
           editData={this.editData}
           update={this.update}
         />
-        <ActionsList
-          contractContext={this.props.contractContext}
-          actions={this.state.actions}
-          selected={this.props.selected}
-          update={this.update}
-          submitData={this.submitData}
-          paymentOption={this.paymentOption}
-        />
+        {this.state.status === "3" ? (
+          <div><ActionInput handleSubmit={this.handlePayment.bind(this)}/></div>
+        ) : (
+          <ActionsList
+            contractContext={this.props.contractContext}
+            actions={this.state.actions}
+            selected={this.props.selected}
+            update={this.update}
+            submitData={this.submitData}
+          />
+        )}
       </div>
     );
   }

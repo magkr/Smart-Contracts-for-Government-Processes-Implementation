@@ -24,32 +24,34 @@ contract Process42 is ProcessInterface {
 
   constructor() public {
     metering();
-    beregningsgrundlag();
-    udbetaling();
-    resolvingResolution = "Beregningsgrundlag";
+    /* beregningsgrundlag(); */
+    /* udbetaling(); */
+    /* resolvingResolution = "Beregningsgrundlag"; */
+    resolvingResolution = "Familieforhold";
+
   }
 
   function metering() private {
     bytes32 root = "root";
     _addVertex("Arbejdstider","Udmaaling", false);
-    _addVertex("Familieforhold", "Udmaaling", false);
-    _addVertex("Arbejdsfleksibilitet", "Udmaaling", false);
+    _addVertex("Familieforhold", "Udmaaling", true);
+    /* _addVertex("Arbejdsfleksibilitet", "Udmaaling", false); */
     _addVertex("Bevilligede timer", "Udmaaling", false);
-    _addVertex("Sparede udgifter", "Udmaaling", false);
-    _addVertex("Udmaaling", "Udmaaling", true);
+    /* _addVertex("Sparede udgifter", "Udmaaling", false); */
+    /* _addVertex("Udmaaling", "Udmaaling", true); */
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
-    _addEdge(root,"Arbejdsfleksibilitet");
+    /* _addEdge(root,"Arbejdsfleksibilitet"); */
 
     _addEdge("Arbejdstider","Bevilligede timer");
-    _addEdge("Arbejdstider","Sparede udgifter");
+    /* _addEdge("Arbejdstider","Sparede udgifter");
     _addEdge("Familieforhold","Bevilligede timer");
     _addEdge("Familieforhold","Sparede udgifter");
     _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
     _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
     _addEdge("Bevilligede timer", "Udmaaling");
-    _addEdge("Sparede udgifter", "Udmaaling");
+    _addEdge("Sparede udgifter", "Udmaaling"); */
   }
 
   /* function metering() public {

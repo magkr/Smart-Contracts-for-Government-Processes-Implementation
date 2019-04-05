@@ -21,7 +21,6 @@ export default class ActionsList extends Component {
             caseID={this.props.selected}
             contractContext={this.props.contractContext}
             submitData={this.props.submitData}
-            paymentOption={this.props.paymentOption}
           />
         ))}
       </div>

@@ -29,7 +29,7 @@ contract CaseHandler is Ownable, Graph {
   }
 
   /* event Resolution(Data data); */
-  enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, OLD }
+  enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, READYFORPAYMENT, OLD }
   enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
 
   modifier onlyUser(uint32 _caseID) {
@@ -109,6 +109,7 @@ contract CaseHandler is Ownable, Graph {
     dataCount++;
     cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
     if (vxs[_getIdx(_title)].resolution) {
+      if (cases[_caseID].status == CaseStatus.RESOLVED) cases[_caseID].status = CaseStatus.READYFORPAYMENT;
       if (_title == resolvingResolution) cases[_caseID].status = CaseStatus.RESOLVED;
       emit Resolution(_title,  _dataHash, _caseID, dataCount);
     }
@@ -140,15 +141,15 @@ contract CaseHandler is Ownable, Graph {
     /* TODO EXPLANATION AS PARAMETER AND ONLY APPEALSBOARD*/
     Case storage c = cases[_caseID];
     c.dataMapping[_title].status = Status.MARKED;
-    _cascade(_getIdx(_title), c);
+    _cascade(_getIdx(_title), c, Status.DONE, Status.UNSTABLE);
   }
 
-  function _cascade(uint v, Case storage c) private {
+  function _cascade(uint v, Case storage c, Status from, Status to) internal {
     for (uint i = 0; i < adj[v].length; i++) {
       uint a = adj[v][i];
-      if (c.dataMapping[vxs[a].title].status == Status.DONE) {
-        c.dataMapping[vxs[a].title].status = Status.UNSTABLE;
-        _cascade(a, c);
+      if (c.dataMapping[vxs[a].title].status == from) {
+        c.dataMapping[vxs[a].title].status = to;
+        _cascade(a, c, from, to);
       }
     }
   }
