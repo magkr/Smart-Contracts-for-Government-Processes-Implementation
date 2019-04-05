@@ -1,8 +1,8 @@
 pragma solidity 0.5.0;
 
-import {CaseHandler} from "./CaseHandler.sol";
+import {ProcessInterface} from "./ProcessInterface.sol";
 
-contract Process42 is CaseHandler {
+contract Process42 is ProcessInterface {
 
   /* IDEA
   bytes32[] vs;
@@ -27,7 +27,7 @@ contract Process42 is CaseHandler {
     beregningsgrundlag();
   }
 
-  function metering() public {
+  function metering() private {
     bytes32 root = "root";
     _addVertex("Arbejdstider","Udmaaling", false);
     _addVertex("Familieforhold", "Udmaaling", false);
@@ -73,7 +73,7 @@ contract Process42 is CaseHandler {
     _addEdge("Sparede udgifter", "Udmaaling afgoerelse");
   } */
 
-  function beregningsgrundlag() public {
+  function beregningsgrundlag() private {
     bytes32 root = "Udmaaling";
     _addVertex("Indkomstoplysninger", "Beregningsgrundlag", false);
     _addVertex("Skatteoplysninger", "Beregningsgrundlag", false);

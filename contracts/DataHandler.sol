@@ -30,7 +30,7 @@ contract Graph {
     titleToID[_title] = vxs.length;
   }
 
-  function _addEdge(bytes32 from, bytes32 to) public {
+  function _addEdge(bytes32 from, bytes32 to) internal {
     // if v or w doesn't exist, throw error
     uint v = _getIdx(from);
     uint w = _getIdx(to);
@@ -41,6 +41,6 @@ contract Graph {
     req[w].push(v);
   }
 
-  
+
 
 }

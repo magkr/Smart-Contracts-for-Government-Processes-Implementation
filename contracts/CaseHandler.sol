@@ -41,7 +41,7 @@ contract CaseHandler is Ownable, Graph {
     _;
   }
 
-  function addCase(address user) external onlyOwner {
+  function _addCase(address user) internal onlyOwner {
     // if case exist, throw error
     uint32 idx = uint32(cases.length);
     cases.push(Case(idx, CaseStatus.ACTIVE));
@@ -49,7 +49,7 @@ contract CaseHandler is Ownable, Graph {
     caseCount[user]++;
   }
 
-  function getCases(address user) public view returns (uint32[] memory) {
+  function _getCases(address user) internal view returns (uint32[] memory) {
     require(isOwner() || msg.sender == user);
     if (user == owner()) return _allCases();
     uint32[] memory res = new uint32[](caseCount[user]);
@@ -72,11 +72,11 @@ contract CaseHandler is Ownable, Graph {
     return res;
   }
 
-  function addressFromCase(uint32 caseID) public view ownerOrUser(caseID) returns(address) {
+  function _addressFromCase(uint32 caseID) internal view ownerOrUser(caseID) returns(address) {
     return caseToAddress[caseID];
   }
 
-  function getCase(uint caseID) public view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, bytes32[] memory phases, bool[] memory isReady) {
+  function _getCase(uint caseID) internal view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, bytes32[] memory phases, bool[] memory isReady) {
     /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
     ids = new uint[](vxs.length);
@@ -94,14 +94,24 @@ contract CaseHandler is Ownable, Graph {
     }
   }
 
-  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public onlyOwner returns (uint id) {
+  function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal onlyOwner returns (uint id) {
      /* TODO require at dataHash ikke er tom? */
     require(cases[_caseID].status == CaseStatus.ACTIVE && _dataHash.length > 0);
+    require(_allowed(_title, cases[_caseID]));
     dataCount++;
     cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
     if (vxs[_getIdx(_title)].resolution) emit Resolution(_title,  _dataHash, _caseID, dataCount);
     return dataCount;
     /* emit NewData(_title,  _dataHash, _caseID); */
+  }
+
+  function _allowed(bytes32 v, Case storage c) private view returns (bool) {
+    if (c.status == CaseStatus.COMPLAINT) return (c.dataMapping[v].status == Status.COMPLAINED);
+    for(uint r = 0; r < req[_getIdx(v)].length; r++) {
+      uint reqID = req[_getIdx(v)][r];
+      if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
+    }
+    return true;
   }
 
   function _isReady(bytes32 v, Case storage c) private view returns (bool) {
@@ -115,7 +125,7 @@ contract CaseHandler is Ownable, Graph {
   }
 
 
-  function markData(bytes32 _title, uint _caseID) public {
+  function _markData(bytes32 _title, uint _caseID) internal {
     /* TODO EXPLANATION AS PARAMETER AND ONLY APPEALSBOARD*/
     Case storage c = cases[_caseID];
     c.dataMapping[_title].status = Status.MARKED;
@@ -132,7 +142,7 @@ contract CaseHandler is Ownable, Graph {
     }
   }
 
-  function complain(bytes32 _title, uint32 _caseID) public onlyUser(_caseID) {
+  function _complain(bytes32 _title, uint32 _caseID) internal onlyUser(_caseID) {
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;
     for(uint i = 0; i < vxs.length; i++) {
