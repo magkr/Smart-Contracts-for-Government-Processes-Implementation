@@ -5,6 +5,8 @@ contract Graph {
   /* enum DataType { INT, TEXT, FILE, BOOL } */
   enum NodeType { EXTRA, RESOLUTION, NORMAL }
   bytes32 resolvingResolution;
+  bytes32 root = "root";
+  bytes32 end = "end";
 
 
   struct DataNode {

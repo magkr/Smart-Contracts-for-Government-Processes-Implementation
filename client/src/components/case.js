@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
-import { ActionInput } from './common.js'
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -12,6 +11,8 @@ class Case extends Component {
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
     this.submitData = this.submitData.bind(this);
+    this.handlePayment = this.handlePayment.bind(this);
+    this.updateInput = this.updateInput.bind(this);
   }
 
   state = {
@@ -20,7 +21,7 @@ class Case extends Component {
     addr: "",
     actions: [],
     isLoading: false,
-    titles: []
+    titles: [],
   };
 
   componentDidMount() {
@@ -137,7 +138,13 @@ class Case extends Component {
   }
 
   handlePayment(e){
-    console.log(e.target.value);
+    let money = this.props.contractContext.web3.utils.toWei(this.value, 'ether');
+    console.log(money);
+    this.props.contractContext.contract.methods._sendEther(this.state.id).send({ from: this.props.contractContext.accounts[0], value: money})
+  }
+
+  updateInput(e) {
+    this.value = e.target.value;
   }
 
   adminInterface() {
@@ -150,13 +157,22 @@ class Case extends Component {
           update={this.update}
         />
         {this.state.status === "3" ? (
-          <div><ActionInput handleSubmit={this.handlePayment.bind(this)}/></div>
+          <div>
+            <input
+              className="helvetica w-80"
+              type="text"
+              onChange={ this.updateInput }
+            />
+          <button
+              className="helvetica w-20 f6 ml3 br1 ba bg-white"
+              onClick={this.handlePayment}
+            />
+          </div>
         ) : (
           <ActionsList
             contractContext={this.props.contractContext}
             actions={this.state.actions}
             selected={this.props.selected}
-            update={this.update}
             submitData={this.submitData}
           />
         )}
@@ -165,6 +181,7 @@ class Case extends Component {
   }
 
   render() {
+    console.log(this.state.h);
     return (
       <div className="w-100 flex flex-column items-left justify-around ph5">
         <h2 className="f4 helvetica tl pa2 mt2 mr2">
@@ -184,7 +201,7 @@ class Case extends Component {
         ) : this.props.contractContext.isOwner ? (
           this.adminInterface()
         ) : null}
-        <ResolutionView contractContext={this.props.contractContext} />
+        <ResolutionView id={this.state.id} contractContext={this.props.contractContext} />
       </div>
     );
   }

@@ -23,35 +23,37 @@ contract Process42 is ProcessInterface {
   */
 
   constructor() public {
-    metering();
-    /* beregningsgrundlag(); */
-    /* udbetaling(); */
-    /* resolvingResolution = "Beregningsgrundlag"; */
-    resolvingResolution = "Familieforhold";
-
+    test();
+    resolvingResolution = "Resolution";
   }
 
+  /* constructor() public {
+    metering();
+    beregningsgrundlag();
+    udbetaling();
+    resolvingResolution = "Beregningsgrundlag";
+  } */
+
   function metering() private {
-    bytes32 root = "root";
     _addVertex("Arbejdstider","Udmaaling", false);
-    _addVertex("Familieforhold", "Udmaaling", true);
-    /* _addVertex("Arbejdsfleksibilitet", "Udmaaling", false); */
+    _addVertex("Familieforhold", "Udmaaling", false);
+    _addVertex("Arbejdsfleksibilitet", "Udmaaling", false);
     _addVertex("Bevilligede timer", "Udmaaling", false);
-    /* _addVertex("Sparede udgifter", "Udmaaling", false); */
-    /* _addVertex("Udmaaling", "Udmaaling", true); */
+    _addVertex("Sparede udgifter", "Udmaaling", false);
+    _addVertex("Udmaaling", "Udmaaling", true);
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
-    /* _addEdge(root,"Arbejdsfleksibilitet"); */
+    _addEdge(root,"Arbejdsfleksibilitet");
 
     _addEdge("Arbejdstider","Bevilligede timer");
-    /* _addEdge("Arbejdstider","Sparede udgifter");
+    _addEdge("Arbejdstider","Sparede udgifter");
     _addEdge("Familieforhold","Bevilligede timer");
     _addEdge("Familieforhold","Sparede udgifter");
     _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
     _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
     _addEdge("Bevilligede timer", "Udmaaling");
-    _addEdge("Sparede udgifter", "Udmaaling"); */
+    _addEdge("Sparede udgifter", "Udmaaling");
   }
 
   /* function metering() public {
@@ -76,9 +78,21 @@ contract Process42 is ProcessInterface {
     _addEdge("Bevilligede timer", "Udmaaling afgoerelse");
     _addEdge("Sparede udgifter", "Udmaaling afgoerelse");
   } */
+  function test() private {
+    _addVertex("Normal","Resolution", false);
+    _addVertex("Resolution", "Resolution", true);
+    _addVertex("Final", "Final", true);
+
+
+    _addEdge(root,"Normal");
+    _addEdge("Normal","Resolution");
+
+    _addEdge("Resolution","Final");
+    _addEdge("Final",end);
+
+  }
 
   function beregningsgrundlag() private {
-    bytes32 root = "Udmaaling";
     _addVertex("Indkomstoplysninger", "Beregningsgrundlag", false);
     _addVertex("Skatteoplysninger", "Beregningsgrundlag", false);
     _addVertex("Pensionsoplysninger", "Beregningsgrundlag", false);
@@ -88,9 +102,9 @@ contract Process42 is ProcessInterface {
 
     _addVertex("Beregningsgrundlag", "Beregningsgrundlag", true);
 
-    _addEdge(root,"Indkomstoplysninger");
-    _addEdge(root,"Skatteoplysninger");
-    _addEdge(root,"Pensionsoplysninger");
+    _addEdge("Udmaaling","Indkomstoplysninger");
+    _addEdge("Udmaaling","Skatteoplysninger");
+    _addEdge("Udmaaling","Pensionsoplysninger");
 
     _addEdge("Indkomstoplysninger", "Beregning af ydelse");
     _addEdge("Skatteoplysninger", "Beregning af ydelse");
@@ -102,11 +116,11 @@ contract Process42 is ProcessInterface {
   }
 
   function udbetaling() private {
-    bytes32 root = "Beregningsgrundlag";
     _addVertex("Borgerdokumentation", "Udbetaling", false);
     _addVertex("Udbetaling", "Udbetaling", true);
 
-    _addEdge(root,"Borgerdokumentation");
+    _addEdge("Beregningsgrundlag","Borgerdokumentation");
     _addEdge("Borgerdokumentation","Udbetaling");
+    _addEdge("Udbetaling", end);
   }
 }
