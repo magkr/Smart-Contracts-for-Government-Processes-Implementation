@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
-import { ActionInput } from './common.js'
+import { ActionInput } from "./common.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -19,7 +19,7 @@ class Case extends Component {
     id: null,
     addr: "",
     actions: [],
-    isLoading: false,
+    isLoading: true,
     titles: []
   };
 
@@ -42,6 +42,7 @@ class Case extends Component {
         return res;
       })
       .then(async res => {
+        console.log(c);
         await this.setState({
           id: c.id,
           addr: await this.props.contractContext.contract.methods
@@ -93,8 +94,6 @@ class Case extends Component {
     await this.update();
   }
 
-
-
   async readData(id) {
     const actions = [];
     const phaseStruct = {};
@@ -103,7 +102,6 @@ class Case extends Component {
       .call()
       .then(response => {
         var json = JSON.stringify(response);
-        console.log(json);
         var statuss = response["statuss"]; // JSON.STRINGIFY!!!
         var ids = response["ids"];
         var titles = response["titles"];
@@ -124,8 +122,6 @@ class Case extends Component {
         });
         return response;
       });
-    console.log(phaseStruct);
-
     return { data: phaseStruct, actions: actions };
   }
 
@@ -136,7 +132,7 @@ class Case extends Component {
     });
   }
 
-  handlePayment(e){
+  handlePayment(e) {
     console.log(e.target.value);
   }
 
@@ -150,7 +146,9 @@ class Case extends Component {
           update={this.update}
         />
         {this.state.status === "3" ? (
-          <div><ActionInput handleSubmit={this.handlePayment.bind(this)}/></div>
+          <div>
+            <ActionInput handleSubmit={this.handlePayment.bind(this)} />
+          </div>
         ) : (
           <ActionsList
             contractContext={this.props.contractContext}
@@ -167,24 +165,36 @@ class Case extends Component {
   render() {
     return (
       <div className="w-100 flex flex-column items-left justify-around ph5">
-        <h2 className="f4 helvetica tl pa2 mt2 mr2">
-          <span className="b">Case ID: </span>
-          {this.state.id}
-        </h2>
-        <h2 className="f4 helvetica tl pa2 mt2 mr2">
-          <span className="b">Address: </span>
-          {this.state.addr}
-        </h2>
-        <h2 className="f4 helvetica tl pa2 mt2 mr2">
-          <span className="b">Status: </span>
-          {this.state.status}
-        </h2>
         {this.state.isLoading ? (
-          <h2 className="ma3 f4 helvetica">Loading...</h2>
-        ) : this.props.contractContext.isOwner ? (
-          this.adminInterface()
-        ) : null}
-        <ResolutionView contractContext={this.props.contractContext} />
+          <h2 className="f4 helvetica tl pa2 mt2 mr2">
+            <span className="b">Case ID: </span>
+            {this.state.id}
+          </h2>
+        ) : (
+          <div>
+            <h2 className="f4 helvetica tl pa2 mt2 mr2">
+              <span className="b">Case ID: </span>
+              {this.state.id}
+            </h2>
+            <h2 className="f4 helvetica tl pa2 mt2 mr2">
+              <span className="b">Address: </span>
+              {this.state.addr}
+            </h2>
+            <h2 className="f4 helvetica tl pa2 mt2 mr2">
+              <span className="b">Status: </span>
+              {this.state.status}
+            </h2>
+            {this.state.isLoading ? (
+              <h2 className="ma3 f4 helvetica">Loading...</h2>
+            ) : this.props.contractContext.isOwner ? (
+              this.adminInterface()
+            ) : null}
+            <ResolutionView
+              id={this.state.id}
+              contractContext={this.props.contractContext}
+            />
+          </div>
+        )}
       </div>
     );
   }

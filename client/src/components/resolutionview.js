@@ -19,6 +19,7 @@ export default class ResolutionView extends Component {
       this.props.contractContext.web3 &&
       this.props.contractContext.contract
     ) {
+      console.log(this.props);
       this.props.contractContext.contract.events
         .Resolution(
           {

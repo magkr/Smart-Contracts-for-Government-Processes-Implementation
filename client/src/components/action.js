@@ -12,7 +12,6 @@ export default class Action extends Component {
   };
 
   render() {
-console.log(this.props.action);
     const utils = this.props.contractContext.web3.utils;
     return (
       <div className="w-100 bg-near-white pa2 mv2">
