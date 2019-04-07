@@ -67,7 +67,7 @@ class App extends Component {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
         this.role(acc[0]).then(async role => {
-          this.setState({
+          await this.setState({
             cases: await this.getCases(acc[0], role),
             accounts: acc,
             role: role
@@ -122,43 +122,6 @@ class App extends Component {
     }
   };
 
-  toBytes(s) {
-    return this.state.web3.utils.utf8ToHex(s);
-  }
-
-  toString(s) {
-    return this.state.web3.utils.hexToUtf8(s);
-  }
-
-  // getActions = async (id) => {
-  //   const { accounts, contract, caseID, web3 } = this.state;
-  //
-  //   // Stores a given value, 5 by default.
-  //   //await contract.methods.set(5).send({ from: accounts[0] });
-  //
-  //   // Get the value from the contract to prove it worked.
-  //
-  //   const response = await contract.methods.getActions(id).call();
-  //   //web3.eth.contract(Process.abi).at(contract.address).test(caseID);
-  //   //await contract.methods.test(caseID).call();
-  //
-  //   // Update state with the result.
-  //   //this.setState({ storageValue: response });
-  //   console.log(response);
-  //   return response;
-  // };
-
-  // getCases = async () => {
-  //   const { accounts, contract, caseID, web3, process42 } = this.state;
-  //
-  //   const response = await contract.methods.getCases().call();
-  //   console.log(response);
-  //   return response;
-  // };
-
-  // setToDone = async (t, caseID) => {
-  //   await this.state.contract.methods.fill(t, caseID).send({ from: this.state.accounts[0] });
-  // }
 
   render() {
     if (!this.state.web3) {
@@ -171,25 +134,25 @@ class App extends Component {
     if (!this.state.contract || !this.state.accounts) {
       return <div className="helvetica tc pa4">Loading contract...</div>;
     }
-    return null;
-    // return (
-    //   <div className="App">
-    //     <ContractProvider
-    //       value={{
-    //         web3: this.state.web3,
-    //         accounts: this.state.accounts,
-    //         contract: this.state.contract,
-    //         store: this.state.store,
-    //         cases: this.state.cases,
-    //         newCase: this.newCase,
-    //         complain: this.complain,
-    //         role: this.role
-    //       }}
-    //     >
-    //       <CaseOverview />
-    //     </ContractProvider>
-    //   </div>
-    // );
+    //return null;
+    return (
+      <div className="App">
+        <ContractProvider
+          value={{
+            web3: this.state.web3,
+            accounts: this.state.accounts,
+            contract: this.state.contract,
+            store: this.state.store,
+            cases: this.state.cases,
+            newCase: this.newCase,
+            complain: this.complain,
+            role: this.state.role
+          }}
+        >
+          <CaseOverview />
+        </ContractProvider>
+      </div>
+    );
   }
 }
 

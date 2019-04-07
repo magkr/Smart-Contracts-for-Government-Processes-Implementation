@@ -26,6 +26,10 @@ contract RBAC {
   event RoleAdded(address indexed operator, string role);
   event RoleRemoved(address indexed operator, string role);
 
+  constructor() public {
+    addRole(msg.sender, MUNICIPALITY);
+  }
+
   modifier anyRole() {
     /* require (hasRole(msg.sender, Role.CITIZEN) || hasRole(msg.sender, Role.MUNICIPALITY) || hasRole(msg.sender, Role.COUNCIL)); */
     bool a = hasRole(msg.sender, CITIZEN);

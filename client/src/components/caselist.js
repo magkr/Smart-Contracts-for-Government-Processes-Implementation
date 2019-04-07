@@ -80,10 +80,11 @@ class CaseList extends Component {
     return (
       <ContractConsumer>
         {context => {
+          console.log(context.role);
           return (
             <ul className="w-100">
               {context.cases ? this.caseList() : null}
-              {context.isOwner ? this.addCaseField() : null}
+              {context.role === 1 ? this.addCaseField() : null}
               <li className="dt w-100 bb b--black-05 pb2 mt2 flex justify-center">
                 <button
                   className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"

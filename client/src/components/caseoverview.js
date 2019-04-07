@@ -62,6 +62,4 @@ class CaseOverview extends Component {
   }
 }
 
-CaseOverview.contextType = ContractContext;
-
 export default CaseOverview;
