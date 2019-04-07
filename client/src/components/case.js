@@ -14,15 +14,13 @@ class Case extends Component {
     this.submitData = this.submitData.bind(this);
     this.handlePayment = this.handlePayment.bind(this);
     this.updateInput = this.updateInput.bind(this);
+    this.readData = this.readData.bind(this);
   }
 
   state = {
-    data: [],
-    id: null,
-    addr: "",
+    data: null,
     actions: [],
-    isLoading: true,
-    titles: []
+    isLoading: true
   };
 
   componentDidMount() {
@@ -35,34 +33,21 @@ class Case extends Component {
 
   async update() {
     await this.setState({ isLoading: true });
-    const c = await this.props.contractContext.contract.methods
-      .cases(this.props.selected)
-      .call();
-
-    await this.readData(c.id)
-      .then(async res => {
-        return res;
-      })
-      .then(async res => {
-        console.log(c);
-        await this.setState({
-          id: c.id,
-          addr: await this.props.contractContext.contract.methods
-            .addressFromCase(c.id)
-            .call(),
+    await this.readData(this.props.case).then(res => {
+      this.setState({
           data: res.data,
           actions: res.actions,
-          status: c.status,
           isLoading: false
         });
-      });
+    });
   }
+
 
   async submitData(action, value) {
     let hash = this.props.contractContext.web3.utils.sha3(value);
     console.log(hash);
     await this.props.contractContext.contract.methods
-      .fillData(action, this.state.id, hash)
+      .fillData(action, this.props.case.id, hash)
       .send({ from: this.props.contractContext.accounts[0] })
       .then(transaction => {
         console.log(transaction);
@@ -75,7 +60,7 @@ class Case extends Component {
       .dataCount()
       .call()
       .then(async id => {
-        saveData(action, this.state.id, value, hash, id)
+        saveData(action, this.props.case.id, value, hash, id)
           .then(() => {
             return;
           })
@@ -84,7 +69,6 @@ class Case extends Component {
               `failed to submit data to database!!: ` +
                 {
                   action: action,
-                  caseid: this.state.id,
                   value: value,
                   hash: hash,
                   id: id
@@ -95,33 +79,26 @@ class Case extends Component {
     await this.update();
   }
 
-  async readData(id) {
+  async readData(c) {
     const actions = [];
     const phaseStruct = {};
-    this.props.contractContext.contract.methods
-      .getCase(id)
+    await this.props.contractContext.contract.methods
+      .getCase(c.id)
       .call()
-      .then(response => {
-        var json = JSON.stringify(response);
-        var statuss = response["statuss"]; // JSON.STRINGIFY!!!
-        var ids = response["ids"];
-        var titles = response["titles"];
-        var isReady = response["isReady"];
-        var phases = response["phases"];
-        statuss.forEach((item, idx) => {
-          if (!phaseStruct[phases[idx]]) phaseStruct[phases[idx]] = [];
-          phaseStruct[phases[idx]].push({
-            id: ids[idx],
-            title: titles[idx],
-            status: statuss[idx],
-            ready: isReady[idx],
-            phase: phases[idx]
+      .then(data => {
+        data["phases"].forEach((phase, idx) => {
+          if (!phaseStruct[phase]) phaseStruct[phase] = [];
+          phaseStruct[phase].push({
+            id: data["ids"][idx],
+            title: data["titles"][idx],
+            status: data["statuss"][idx],
+            ready: data["isReady"][idx],
+            phase: data["phases"][idx]
           });
-          if (isReady[idx]) {
-            actions.push(titles[idx]);
+          if (data["isReady"][idx]) {
+            actions.push(data["titles"][idx]);
           }
         });
-        return response;
       });
     return { data: phaseStruct, actions: actions };
   }
@@ -140,7 +117,7 @@ class Case extends Component {
     );
     console.log(money);
     this.props.contractContext.contract.methods
-      ._sendEther(this.state.id)
+      ._sendEther(this.props.case.id)
       .send({ from: this.props.contractContext.accounts[0], value: money });
   }
 
@@ -148,7 +125,7 @@ class Case extends Component {
     this.value = e.target.value;
   }
 
-  adminInterface() {
+  adminInterface(data) {
     return (
       <div className="w-100 flex justify-center">
         <DataList
@@ -173,7 +150,7 @@ class Case extends Component {
           <ActionsList
             contractContext={this.props.contractContext}
             actions={this.state.actions}
-            selected={this.props.selected}
+            case={this.props.case.id}
             submitData={this.submitData}
           />
         )}
@@ -194,27 +171,21 @@ class Case extends Component {
           <div>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
               <span className="b">Case ID: </span>
-              {this.state.id}
+              {this.props.case.id}
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
               <span className="b">Address: </span>
-              {this.state.addr}
+              {this.props.contractContext.accounts[0]}
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
               <span className="b">Status: </span>
-              {this.state.status}
+              {this.props.case.status}
             </h2>
-            {this.props.contractContext.role === 1 ? this.adminInterface() : null}
-            {/*this.props.contractContext.isOwner ? null : (
-            //   <h2>
-            //     Konto:
-            //     <span>
-            //       {balance}
-            //     </span>
-            //   </h2>
-          )*/}
+            { this.state.data !== null && this.props.contractContext.role === 1
+              ? this.adminInterface()
+              : null}
             <ResolutionView
-              id={this.state.id}
+              id={this.props.case.id}
               contractContext={this.props.contractContext}
             />
           </div>

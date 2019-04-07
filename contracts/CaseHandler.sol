@@ -69,7 +69,7 @@ contract CaseHandler is RBAC, Graph {
 
   function _allCases() internal view returns (uint32[] memory cs, CaseStatus[] memory statuss) {
     cs = new uint32[](cases.length);
-    statuss = new CaseStatus[](caseCount[msg.sender]);
+    statuss = new CaseStatus[](cases.length);
 
     for(uint32 i = 0; i < cases.length; i++){
         cs[i] = cases[i].id;

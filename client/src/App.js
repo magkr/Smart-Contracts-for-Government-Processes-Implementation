@@ -11,7 +11,7 @@ class App extends Component {
     web3: null,
     accounts: [],
     contract: null,
-    cases: [],
+    cases: {},
   };
 
   constructor() {
