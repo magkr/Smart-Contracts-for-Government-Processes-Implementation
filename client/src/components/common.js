@@ -2,13 +2,13 @@ import React from "react";
 import { getData, saveData } from "../store.js";
 
 export const dataShow = location => {
-  var d = "{}"
+  var d = "{ var: 1 }"
 
-  getData(1).then(res => console.log(JSON.stringify(res)));
+  getData(location).then(res => d = JSON.stringify(res)).then();
   console.log(d);
   return (
     <div>
-      <p>Data her</p>
+      <p>Data her: {d.value}</p>
     </div>
   );
 };

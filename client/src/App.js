@@ -11,9 +11,7 @@ class App extends Component {
     web3: null,
     accounts: [],
     contract: null,
-    store: [],
     cases: [],
-    isOwner: false,
   };
 
   constructor() {
@@ -25,9 +23,7 @@ class App extends Component {
   }
 
   fetchCases() {
-    this.state.contract.methods
-      .getCases(this.state.accounts[0])
-      .call()
+    this.getCases(this.state.accounts[0], this.state.role)
       .then(list => {
         this.setState({
           cases: list
@@ -53,25 +49,30 @@ class App extends Component {
       });
   }
 
+  async role(account) {
+    if (await this.state.contract.methods.hasRole(account, "citizen").call({from: account})) return 0;
+    if (await this.state.contract.methods.hasRole(account, "municipality").call({from: account})) return 1;
+    if (await this.state.contract.methods.hasRole(account, "council").call({from: account})) return 2;
+    return -1;
+  }
+
+  async getCases(account, role) {
+    if (role === -1) return [];
+    if (role === 0) return await this.state.contract.methods.myCases().call({from: account});
+    else return await this.state.contract.methods.allCases().call({from: account});
+  }
+
   update() {
     this.state.web3.eth.getAccounts().then(acc => {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
-        this.state.contract.methods
-          .getCases(acc[0])
-          .call()
-          .then(list => {
-            this.state.contract.methods
-              .isOwner()
-              .call({ from: acc[0] })
-              .then(b => {
-                this.setState({
-                  cases: list,
-                  accounts: acc,
-                  isOwner: b
-                });
-              });
+        this.role(acc[0]).then(async role => {
+          this.setState({
+            cases: await this.getCases(acc[0], role),
+            accounts: acc,
+            role: role
           });
+        });
       }
     });
   }
@@ -170,24 +171,25 @@ class App extends Component {
     if (!this.state.contract || !this.state.accounts) {
       return <div className="helvetica tc pa4">Loading contract...</div>;
     }
-    return (
-      <div className="App">
-        <ContractProvider
-          value={{
-            web3: this.state.web3,
-            accounts: this.state.accounts,
-            contract: this.state.contract,
-            store: this.state.store,
-            cases: this.state.cases,
-            newCase: this.newCase,
-            isOwner: this.state.isOwner,
-            complain: this.complain
-          }}
-        >
-          <CaseOverview />
-        </ContractProvider>
-      </div>
-    );
+    return null;
+    // return (
+    //   <div className="App">
+    //     <ContractProvider
+    //       value={{
+    //         web3: this.state.web3,
+    //         accounts: this.state.accounts,
+    //         contract: this.state.contract,
+    //         store: this.state.store,
+    //         cases: this.state.cases,
+    //         newCase: this.newCase,
+    //         complain: this.complain,
+    //         role: this.role
+    //       }}
+    //     >
+    //       <CaseOverview />
+    //     </ContractProvider>
+    //   </div>
+    // );
   }
 }
 

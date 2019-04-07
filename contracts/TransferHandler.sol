@@ -6,7 +6,7 @@ contract TransferHandler is CaseHandler {
 
   event Transfer(bool success, uint amount, uint32 caseID, address receiver);
 
-  function _sendEther(uint32 _caseID) internal onlyOwner {
+  function _sendEther(uint32 _caseID) internal {
     require(cases[_caseID].status == CaseStatus.READYFORPAYMENT);
     address payable to = address(uint160(caseToAddress[_caseID]));
     bool success = to.send(msg.value);

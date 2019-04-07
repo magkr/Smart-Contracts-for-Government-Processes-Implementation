@@ -1,15 +1,20 @@
 pragma solidity 0.5.0;
 
-import {Graph} from './DataHandler.sol';
-import {Ownable} from './Ownable.sol';
+import {Graph} from './Graph.sol';
+import {RBAC} from './RBAC.sol';
 
-contract CaseHandler is Ownable, Graph {
-  Case[] public cases;
+contract CaseHandler is RBAC, Graph {
+  Case[] cases;
   uint public dataCount;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
+
+  enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, READYFORPAYMENT, OLD }
+  enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
+
   event Resolution(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location); // should be a dataType instead of bool?
   /* event NewData(bytes32 title, bytes32 dataHash, uint32 , uint32 indexed caseID); // should be a dataType instead of bool? */
+  /* event Resolution(Data data); */
 
   struct Case {
     uint32 id;
@@ -28,38 +33,32 @@ contract CaseHandler is Ownable, Graph {
     Status status;
   }
 
-  /* event Resolution(Data data); */
-  enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, READYFORPAYMENT, OLD }
-  enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
-
-  modifier onlyUser(uint32 _caseID) {
+  /* modifier onlyUser(uint32 _caseID) {
     require(caseToAddress[_caseID] == msg.sender);
     _;
   }
 
-
-
   modifier ownerOrUser(uint32 _caseID) {
     require(isOwner() || caseToAddress[_caseID] == msg.sender);
     _;
-  }
+  } */
 
-  function _addCase(address user) internal onlyOwner {
+  function _addCase(address user) internal {
     // if case exist, throw error
     uint32 idx = uint32(cases.length);
     cases.push(Case(idx, CaseStatus.ACTIVE));
     caseToAddress[idx] = user;
     caseCount[user]++;
+    addRole(user, CITIZEN);
   }
 
-  function _getCases(address user) internal view returns (uint32[] memory) {
-    require(isOwner() || msg.sender == user);
-    if (user == owner()) return _allCases();
-    uint32[] memory res = new uint32[](caseCount[user]);
+  function _myCases() internal view returns (uint32[] memory) {
+    /* if (msg.sender == ANKESTYRELSE) RETURN COMPLAINs */
+    uint32[] memory res = new uint32[](caseCount[msg.sender]);
     uint32 counter = 0;
 
-    for(uint32 i = 0; i < caseCount[user]; i++){
-      if (caseToAddress[i] == user){
+    for(uint32 i = 0; i < caseCount[msg.sender]; i++){
+      if (caseToAddress[i] == msg.sender){
         res[counter] = i;
         counter++;
       }
@@ -67,7 +66,7 @@ contract CaseHandler is Ownable, Graph {
     return res;
   }
 
-  function _allCases() private view onlyOwner returns (uint32[] memory) {
+  function _allCases() internal view returns (uint32[] memory) {
     uint32[] memory res = new uint32[](cases.length);
     for(uint32 i = 0; i < cases.length; i++){
         res[i] = i;
@@ -75,12 +74,11 @@ contract CaseHandler is Ownable, Graph {
     return res;
   }
 
-  function _addressFromCase(uint32 caseID) internal view ownerOrUser(caseID) returns(address) {
+  function _addressFromCase(uint32 caseID) internal view returns(address) {
     return caseToAddress[caseID];
   }
 
   function _getCase(uint caseID) internal view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, bytes32[] memory phases, bool[] memory isReady) {
-    /* TODO sikr det kun er SBH der kan spørge */
     titles = new bytes32[](vxs.length);
     ids = new uint[](vxs.length);
     statuss = new bytes32[](vxs.length);
@@ -97,12 +95,7 @@ contract CaseHandler is Ownable, Graph {
     }
   }
 
-  function _resolveCase(uint32 _caseID) internal onlyOwner {
-    require(cases[_caseID].dataMapping[resolvingResolution].status == Status.DONE);
-    cases[_caseID].status = CaseStatus.RESOLVED;
-  }
-
-  function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal onlyOwner returns (uint id) {
+  function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
     //require((cases[_caseID].status == CaseStatus.ACTIVE ) && _dataHash.length > 0);
     require(_allowed(_title, cases[_caseID]));
     dataCount++;
@@ -135,7 +128,6 @@ contract CaseHandler is Ownable, Graph {
     return true;
   }
 
-
   function _markData(bytes32 _title, uint _caseID) internal {
     /* TODO EXPLANATION AS PARAMETER AND ONLY APPEALSBOARD*/
     Case storage c = cases[_caseID];
@@ -153,7 +145,7 @@ contract CaseHandler is Ownable, Graph {
     }
   }
 
-  function _complain(bytes32 _title, uint32 _caseID) internal onlyUser(_caseID) {
+  function _complain(bytes32 _title, uint32 _caseID) internal {
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;
     for(uint i = 0; i < vxs.length; i++) {
