@@ -8,7 +8,7 @@ const axios = require("axios");
 //     console.log("result", i);
 // })();
 
-class Store {
+
   // async getIdx() {
   //   return axios.get(`http://localhost:8888/nextIdx`);
   // }
@@ -40,7 +40,7 @@ class Store {
   //     });
   // }
 
-  async saveData(action, caseID, value, hash, id) {
+  export async function saveData(action, caseID, value, hash, id) {
     var data = {
       action: action,
       caseID: caseID,
@@ -56,7 +56,7 @@ class Store {
     });
   }
 
-  async getData(id) {
+  export async function getData(id) {
     try {
       return axios.get(`http://localhost:8888/${id}`);
       // console.log(`Get data [id: ${id}]`);
@@ -64,6 +64,3 @@ class Store {
       console.error(`Get data error [hash: ${id}] : ${id}`);
     }
   }
-}
-
-export default Store;

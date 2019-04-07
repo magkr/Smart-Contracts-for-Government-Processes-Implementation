@@ -8,7 +8,7 @@ contract CaseHandler is Ownable, Graph {
   uint public dataCount;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
-  event Resolution(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint indexed id); // should be a dataType instead of bool?
+  event Resolution(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location); // should be a dataType instead of bool?
   /* event NewData(bytes32 title, bytes32 dataHash, uint32 , uint32 indexed caseID); // should be a dataType instead of bool? */
 
   struct Case {
@@ -103,8 +103,7 @@ contract CaseHandler is Ownable, Graph {
   }
 
   function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal onlyOwner returns (uint id) {
-     /* TODO require at dataHash ikke er tom? */
-    require(cases[_caseID].status == CaseStatus.ACTIVE && _dataHash.length > 0);
+    //require((cases[_caseID].status == CaseStatus.ACTIVE ) && _dataHash.length > 0);
     require(_allowed(_title, cases[_caseID]));
     dataCount++;
     cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);

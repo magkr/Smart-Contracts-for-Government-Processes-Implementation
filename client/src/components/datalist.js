@@ -1,6 +1,7 @@
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 import React, { Component } from "react";
+import { dataShow } from "./common.js";
 
 export default class DataList extends Component {
   constructor(props) {
@@ -103,6 +104,7 @@ export default class DataList extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div className="w-50">
         <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b ">
@@ -130,23 +132,30 @@ export default class DataList extends Component {
                       this.getColor(d.status)
                     }
                   >
-                    <div className="flex flex-column justify-around w-60">
+                    <div className="flex flex-column justify-around w-60 fl">
                       <h2 className="b f5 mb1">
                         {this.utils.hexToAscii(d.title)}
                       </h2>
-                      <h2 className="f6 mb1">
-                        <b>Lokation: </b>
-                          { d.status === this.utils.asciiToHex("done") ? <b>{d.id }</b> : null }
-                      </h2>
+                      {d.status === this.utils.asciiToHex("done") ? (
+                        <h2 className="f6 mb1">
+                          {" "}
+                          <b>Lokation: </b>
+                          {d.id}
+                        </h2>
+                      ) : null}
+
                       <h2 className="f6 mb1">
                         <b>Status: </b>
                         {this.getStatus(d.status)}
                       </h2>
                     </div>
                     <div className="w-40">
-                      { d.status === this.utils.asciiToHex("done")
-                        ? this.editButton(d)
-                        : null}
+                      {d.status === this.utils.asciiToHex("done") ? (
+                        <div>
+                          {this.editButton(d)}
+                          {/*dataShow(d.id)*/}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 ))

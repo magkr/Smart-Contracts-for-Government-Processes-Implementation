@@ -32,7 +32,7 @@ contract ProcessInterface is TransferHandler {
     return _complain(_title, _caseID);
   }
 
-  function sendEther(uint _amount, uint32 _caseID) public payable onlyOwner {
+  /* function sendEther(uint _amount, uint32 _caseID) public payable onlyOwner {
     return _sendEther(_amount, _caseID);
-  }
+  } */
 }

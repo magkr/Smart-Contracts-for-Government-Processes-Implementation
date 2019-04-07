@@ -1,16 +1,14 @@
 import React from "react";
+import { getData, saveData } from "../store.js";
 
-export const ActionInput = (handleSubmit) => (
-  <div>
-    <input
-      className="helvetica w-80"
-      type="text"
-    />
-    <button
-      className="helvetica w-20 f6 ml3 br1 ba bg-white"
-      onClick={handleSubmit}
-    >
-      Submit
-    </button>
-  </div>
-);
+export const dataShow = location => {
+  var d = "{}"
+
+  getData(1).then(res => console.log(JSON.stringify(res)));
+  console.log(d);
+  return (
+    <div>
+      <p>Data her</p>
+    </div>
+  );
+};

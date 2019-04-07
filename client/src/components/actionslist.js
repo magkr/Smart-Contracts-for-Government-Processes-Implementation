@@ -4,10 +4,6 @@ import React, { Component } from "react";
 import Action from "./action.js";
 
 export default class ActionsList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="w-50">

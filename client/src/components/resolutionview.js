@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { dataShow } from "./common.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -64,6 +65,7 @@ export default class ResolutionView extends Component {
   }
 
   render() {
+
     return (
       <div className="pa2 helvetica mt2">
         <h2 className="b f4">Afgørelser:</h2>
@@ -74,15 +76,23 @@ export default class ResolutionView extends Component {
               className="pa1 ma1 flex flex-column justify-around bg-near-white"
             >
               <h3 className="b f5 ph1 pv1">
-                {this.props.contractContext.web3.utils.hexToAscii(r.title)}
+                <p>
+                  {this.props.contractContext.web3.utils.hexToAscii(r.title)}
+                </p>
               </h3>
-              <h4 className="f6 ph3 pv1">
-                <span className="b">Lokation: </span>
-                {r.dbLocation}
+              <h4 className="f6 ph3 pv1 flex justify-between items-center">
+                <div>
+                  <span className="b">Lokation: </span>
+                  {r.location}
+                </div>
+
               </h4>
+              {/*dataShow(r.location)*/}
               <h4 className="f6 ph3 pv1">
-                <span className="b">Hash: </span>
-                {r.dataHash}
+                <p>
+                  <span className="b">Hash: </span>
+                  {r.dataHash}
+                </p>
               </h4>
               {this.props.contractContext.isOwner ? null : this.button(r)}
             </div>
