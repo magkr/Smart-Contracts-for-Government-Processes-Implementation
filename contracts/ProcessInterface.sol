@@ -20,11 +20,11 @@ contract ProcessInterface is TransferHandler {
     return _fillData(_title, _caseID, _dataHash);
   }
 
-  function allCases() public view onlyAdmin returns (uint32[] memory) {
+  function allCases() public view onlyAdmin returns (uint32[] memory,  CaseStatus[] memory) {
     return _allCases();
   }
 
-  function myCases() public view onlyRole(CITIZEN) returns (uint32[] memory) {
+  function myCases() public view onlyRole(CITIZEN) returns (uint32[] memory, CaseStatus[] memory) {
     return _myCases();
   }
 

@@ -52,26 +52,29 @@ contract CaseHandler is RBAC, Graph {
     addRole(user, CITIZEN);
   }
 
-  function _myCases() internal view returns (uint32[] memory) {
+  function _myCases() internal view returns (uint32[] memory cs, CaseStatus[] memory statuss) {
     /* if (msg.sender == ANKESTYRELSE) RETURN COMPLAINs */
-    uint32[] memory res = new uint32[](caseCount[msg.sender]);
+    cs = new uint32[](caseCount[msg.sender]);
+    statuss = new CaseStatus[](caseCount[msg.sender]);
     uint32 counter = 0;
 
     for(uint32 i = 0; i < caseCount[msg.sender]; i++){
       if (caseToAddress[i] == msg.sender){
-        res[counter] = i;
+        cs[counter] = cases[i].id;
+        statuss[counter] = cases[i].status;
         counter++;
       }
     }
-    return res;
   }
 
-  function _allCases() internal view returns (uint32[] memory) {
-    uint32[] memory res = new uint32[](cases.length);
+  function _allCases() internal view returns (uint32[] memory cs, CaseStatus[] memory statuss) {
+    cs = new uint32[](cases.length);
+    statuss = new CaseStatus[](caseCount[msg.sender]);
+
     for(uint32 i = 0; i < cases.length; i++){
-        res[i] = i;
+        cs[i] = cases[i].id;
+        statuss[i] = cases[i].status;
     }
-    return res;
   }
 
   function _addressFromCase(uint32 caseID) internal view returns(address) {

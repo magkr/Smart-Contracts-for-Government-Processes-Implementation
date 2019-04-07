@@ -94,7 +94,7 @@ export default class ResolutionView extends Component {
                   {r.dataHash}
                 </p>
               </h4>
-              {this.props.contractContext.isOwner ? null : this.button(r)}
+              {this.props.contractContext === 0 ? this.button(r) : null }
             </div>
           );
         })}

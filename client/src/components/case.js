@@ -204,7 +204,7 @@ class Case extends Component {
               <span className="b">Status: </span>
               {this.state.status}
             </h2>
-            {this.props.contractContext.isOwner ? this.adminInterface() : null}
+            {this.props.contractContext.role === 1 ? this.adminInterface() : null}
             {/*this.props.contractContext.isOwner ? null : (
             //   <h2>
             //     Konto:
