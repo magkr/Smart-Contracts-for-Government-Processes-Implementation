@@ -12,8 +12,8 @@ contract CaseHandler is RBAC, Graph {
   enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, READYFORPAYMENT, OLD }
   enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
 
-  event Resolution(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location); // should be a dataType instead of bool?
-  /* event NewData(bytes32 title, bytes32 dataHash, uint32 , uint32 indexed caseID); // should be a dataType instead of bool? */
+  event Resolution(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location);
+  event NewData(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location); // should be a dataType instead of bool?
   /* event Resolution(Data data); */
 
   struct Case {
@@ -32,16 +32,6 @@ contract CaseHandler is RBAC, Graph {
     /* DataType dataType; */
     Status status;
   }
-
-  /* modifier onlyUser(uint32 _caseID) {
-    require(caseToAddress[_caseID] == msg.sender);
-    _;
-  }
-
-  modifier ownerOrUser(uint32 _caseID) {
-    require(isOwner() || caseToAddress[_caseID] == msg.sender);
-    _;
-  } */
 
   function _addCase(address user) internal {
     // if case exist, throw error
@@ -108,8 +98,8 @@ contract CaseHandler is RBAC, Graph {
       if (_title == resolvingResolution) cases[_caseID].status = CaseStatus.RESOLVED;
       emit Resolution(_title,  _dataHash, _caseID, dataCount);
     }
+    emit NewData(_title,  _dataHash, _caseID, dataCount);
     return dataCount;
-    /* emit NewData(_title,  _dataHash, _caseID); */
   }
 
   function _allowed(bytes32 v, Case storage c) private view returns (bool) {

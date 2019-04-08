@@ -3,6 +3,7 @@ import { saveData } from "../store.js";
 import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
+import HistoryView from "./historyview.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -185,6 +186,10 @@ class Case extends Component {
               ? this.adminInterface()
               : null}
             <ResolutionView
+              id={this.props.case.id}
+              contractContext={this.props.contractContext}
+            />
+          <HistoryView
               id={this.props.case.id}
               contractContext={this.props.contractContext}
             />

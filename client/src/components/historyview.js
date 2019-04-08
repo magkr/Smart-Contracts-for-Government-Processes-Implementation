@@ -3,11 +3,11 @@ import { dataShow, dataEvent } from "./common.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
-export default class ResolutionView extends Component {
+export default class HistoryView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      resolutions: []
+      newDatas: [],
     };
   }
 
@@ -20,9 +20,8 @@ export default class ResolutionView extends Component {
       this.props.contractContext.web3 &&
       this.props.contractContext.contract
     ) {
-      console.log(this.props);
       this.props.contractContext.contract.events
-        .Resolution(
+        .NewData(
           {
             filter: {
               caseID: this.props.id
@@ -44,7 +43,7 @@ export default class ResolutionView extends Component {
         .on("data", async e => {
           console.log(e.returnValues);
           await this.setState({
-            resolutions: [...this.state.resolutions, e.returnValues]
+            newDatas: [...this.state.newDatas, e.returnValues]
           });
         })
         .on("changed", e => {
@@ -56,23 +55,14 @@ export default class ResolutionView extends Component {
     }
   }
 
-  button(r) {
-    return (
-      <button onClick={() => this.props.contractContext.complain(r)}>
-        complain
-      </button>
-    );
-  }
-
   render() {
     return (
       <div className="pa2 helvetica mt2">
-        <h2 className="b f4">Afgørelser:</h2>
-        {this.state.resolutions.map(r => {
+        <h2 className="b f4">Historik:</h2>
+        {this.state.newDatas.map(d => {
           return (
-            <div key={r.title} className="pa1 ma1 flex flex-column justify-around bg-near-white">
-              { dataEvent(r, this.props.contractContext.web3)}
-              {this.props.contractContext.role === 0 ? this.button(r) : null }
+            <div key={d.title} className="pa1 ma1 flex flex-column justify-around bg-near-white">
+              { dataEvent(d, this.props.contractContext.web3) }
             </div>
           );
         })}
