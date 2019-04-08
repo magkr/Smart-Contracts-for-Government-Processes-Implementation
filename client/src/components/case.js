@@ -50,32 +50,17 @@ class Case extends Component {
     await this.props.contractContext.contract.methods
       .fillData(action, this.props.case.id, hash)
       .send({ from: this.props.contractContext.accounts[0] })
-      .then(transaction => {
+      .then(async transaction => {
         console.log(transaction);
+        const bcData = transaction.events.NewData.returnValues
+        await saveData(bcData.action, bcData.caseID, value, bcData.dataHash, bcData.location)
+          .catch(error => {
+            console.log(`ERROR: save data to database failed`);
+          });
       })
       .catch(error => {
-        console.log("failed to submit data to blockchain");
+        console.log("ERROR: submit data to blockchain failed");
         return error;
-      });
-    await this.props.contractContext.contract.methods
-      .dataCount()
-      .call()
-      .then(async id => {
-        saveData(action, this.props.case.id, value, hash, id)
-          .then(() => {
-            return;
-          })
-          .catch(error => {
-            console.log(
-              `failed to submit data to database!!: ` +
-                {
-                  action: action,
-                  value: value,
-                  hash: hash,
-                  id: id
-                }
-            );
-          });
       });
     await this.update();
   }

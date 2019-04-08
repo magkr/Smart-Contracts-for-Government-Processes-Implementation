@@ -40,15 +40,15 @@ const axios = require("axios");
   //     });
   // }
 
-  export async function saveData(action, caseID, value, hash, id) {
+  export async function saveData(action, caseID, value, hash, location) {
     var data = {
       action: action,
       caseID: caseID,
       value: value,
       hash: hash,
-      id: id
+      location: location
     };
-    return axios({
+    return await axios({
       method: "PUT",
       url: `http://localhost:8888/${data.id}`,
       headers: { "Content-Type": "application/json" },
@@ -58,7 +58,7 @@ const axios = require("axios");
 
   export async function getData(id) {
     try {
-      return axios.get(`http://localhost:8888/${id}`);
+      return await axios.get(`http://localhost:8888/${id}`);
       // console.log(`Get data [id: ${id}]`);
     } catch (error) {
       console.error(`Get data error [hash: ${id}] : ${id}`);
