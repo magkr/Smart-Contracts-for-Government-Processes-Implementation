@@ -1,7 +1,7 @@
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 import React, { Component } from "react";
-import { dataShow } from "./common.js";
+// import { dataShow } from "./common.js";
 
 export default class DataList extends Component {
   constructor(props) {
@@ -33,7 +33,6 @@ export default class DataList extends Component {
 
   componentDidMount(){
     this.setState({ struct: this.props.data});
-    console.log(this.props.data);
   }
 
   getStatus(status) {
@@ -109,7 +108,6 @@ export default class DataList extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="w-50">
         <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b ">

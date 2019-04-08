@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { dataShow, dataEvent } from "./common.js";
+import { dataEvent } from "./common.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -20,12 +20,11 @@ export default class ResolutionView extends Component {
       this.props.contractContext.web3 &&
       this.props.contractContext.contract
     ) {
-      console.log(this.props);
       this.props.contractContext.contract.events
-        .Resolution(
+        .NewData(
           {
             filter: {
-              caseID: this.props.id
+              caseID: this.props.id, resolution: true
             }, // Using an array means OR: e.g. 20 or 23
             fromBlock: 0,
             toBlock: "latest"
@@ -42,7 +41,6 @@ export default class ResolutionView extends Component {
           }
         )
         .on("data", async e => {
-          console.log(e.returnValues);
           await this.setState({
             resolutions: [...this.state.resolutions, e.returnValues]
           });

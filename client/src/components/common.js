@@ -1,5 +1,5 @@
 import React from "react";
-import { getData, saveData } from "../store.js";
+import { getData } from "../store.js";
 
 
 export const dataShow = location => {

@@ -11,9 +11,7 @@ contract CaseHandler is RBAC, Graph {
 
   enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, READYFORPAYMENT, OLD }
   enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
-
-  event Resolution(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location);
-  event NewData(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location); // should be a dataType instead of bool?
+  event NewData(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location, bool indexed resolution); // should be a dataType instead of bool?
   /* event Resolution(Data data); */
 
   struct Case {
@@ -96,9 +94,8 @@ contract CaseHandler is RBAC, Graph {
     if (vxs[_getIdx(_title)].resolution) {
       if (cases[_caseID].status == CaseStatus.RESOLVED) cases[_caseID].status = CaseStatus.READYFORPAYMENT;
       if (_title == resolvingResolution) cases[_caseID].status = CaseStatus.RESOLVED;
-      emit Resolution(_title,  _dataHash, _caseID, dataCount);
     }
-    emit NewData(_title,  _dataHash, _caseID, dataCount);
+    emit NewData(_title,  _dataHash, _caseID, dataCount, vxs[_getIdx(_title)].resolution);
     return dataCount;
   }
 

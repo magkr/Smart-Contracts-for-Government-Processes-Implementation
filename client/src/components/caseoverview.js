@@ -4,7 +4,7 @@ import Case from "./case.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
-import { ContractConsumer, ContractContext } from "../utils/contractcontext.js";
+import { ContractConsumer } from "../utils/contractcontext.js";
 
 class CaseOverview extends Component {
   state = {

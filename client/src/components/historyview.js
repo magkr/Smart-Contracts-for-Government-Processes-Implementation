@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { dataShow, dataEvent } from "./common.js";
+import { dataEvent } from "./common.js";
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 
@@ -11,8 +11,8 @@ export default class HistoryView extends Component {
     };
   }
 
-  componentDidMount() {
-    this.update();
+  componentDidMount = async () => {
+    await this.update();
   }
 
   async update() {
@@ -41,7 +41,6 @@ export default class HistoryView extends Component {
           }
         )
         .on("data", async e => {
-          console.log(e.returnValues);
           await this.setState({
             newDatas: [...this.state.newDatas, e.returnValues]
           });

@@ -185,14 +185,17 @@ class Case extends Component {
             { this.state.data !== null && this.props.contractContext.role === 1
               ? this.adminInterface()
               : null}
-            <ResolutionView
-              id={this.props.case.id}
-              contractContext={this.props.contractContext}
-            />
-          <HistoryView
-              id={this.props.case.id}
-              contractContext={this.props.contractContext}
-            />
+            { this.props.contractContext.role === 0 ?
+              <ResolutionView
+                id={this.props.case.id}
+                contractContext={this.props.contractContext}
+              />
+            :
+            <HistoryView
+                id={this.props.case.id}
+                contractContext={this.props.contractContext}
+              />
+             }
           </div>
         )}
       </div>
