@@ -88,12 +88,6 @@ class App extends Component {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
 
-      // const deployedNetwork = Process.networks[networkId];
-      // const instance = new web3.eth.Contract(
-      //   Process.abi,
-      //   deployedNetwork && deployedNetwork.address,
-      // );
-
       const deployedNetwork = Process42.networks[networkId];
       const p = new web3.eth.Contract(
         Process42.abi,
@@ -134,7 +128,6 @@ class App extends Component {
     if (!this.state.contract || !this.state.accounts) {
       return <div className="helvetica tc pa4">Loading contract...</div>;
     }
-    //return null;
     return (
       <div className="App">
         <ContractProvider
