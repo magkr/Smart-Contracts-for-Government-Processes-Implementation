@@ -15,6 +15,7 @@ export const dataShow = location => {
 };
 
 export const dataEvent = (e, web3) => { // KAN LÆGGES UD I COMMON OG GENBRUGES TIL RESOLUTIONVIEW OG HISTORIK
+  if (!e) return null;
   return (
     <div>
       <h3 className="b f5 ph1 pv1">

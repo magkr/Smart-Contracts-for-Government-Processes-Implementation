@@ -11,8 +11,8 @@ export default class HistoryView extends Component {
     };
   }
 
-  componentDidMount = async () => {
-    await this.update();
+  componentDidMount() {
+    this.update();
   }
 
   async update() {

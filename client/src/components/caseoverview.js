@@ -45,7 +45,6 @@ class CaseOverview extends Component {
                 {value => (
                   <Case
                     case={this.state.selected}
-                    data={value.contract.methods}
                     contractContext={value}
                   />
                 )}

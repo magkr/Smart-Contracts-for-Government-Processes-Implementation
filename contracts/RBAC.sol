@@ -27,7 +27,8 @@ contract RBAC {
   event RoleRemoved(address indexed operator, string role);
 
   constructor() public {
-    addRole(msg.sender, MUNICIPALITY);
+    _addRole(0x2F605F73cE7023bf1A2C4e050b2076fFc04aBBc6, COUNCIL);
+    _addRole(msg.sender, MUNICIPALITY);
   }
 
   modifier anyRole() {
@@ -76,7 +77,7 @@ contract RBAC {
    * @param _operator address
    * @param _role the name of the role
    */
-  function addRole(address _operator, string memory _role)
+  function _addRole(address _operator, string memory _role)
     internal
   {
     roles[_role].add(_operator);
@@ -88,7 +89,7 @@ contract RBAC {
    * @param _operator address
    * @param _role the name of the role
    */
-  function removeRole(address _operator, string memory _role)
+  function _removeRole(address _operator, string memory _role)
     internal
   {
     roles[_role].remove(_operator);

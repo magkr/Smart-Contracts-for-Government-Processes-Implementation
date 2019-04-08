@@ -39,4 +39,14 @@ contract ProcessInterface is TransferHandler {
   function sendEther(uint32 _caseID) public payable onlyRole(MUNICIPALITY) {
     return _sendEther(_caseID);
   }
+
+  function addRole(address _operator, string memory _role) public onlyAdmin {
+    require(hasRole(msg.sender, _role));
+    return _addRole(_operator, _role);
+  }
+
+  function removeRole(address _operator, string memory _role) public onlyAdmin {
+    require(hasRole(msg.sender, _role) && msg.sender != _operator);
+    return _removeRole(_operator, _role);
+  }
 }

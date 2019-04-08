@@ -27,7 +27,7 @@ export default class Action extends Component {
 
           <button
             className="helvetica w-20 f6 ml3 br1 ba bg-white"
-            onClick={() => {this.props.submitData(this.props.action, this.state.value)}}
+            onClick={() => {this.props.contractContext.submitData(this.props.action, this.props.case.id, this.state.value)}}
           >
             Submit
           </button>

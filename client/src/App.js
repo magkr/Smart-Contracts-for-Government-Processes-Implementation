@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import Process42 from "./contracts/Process42.json";
 import CaseOverview from "./components/caseoverview.js";
+import { Council } from "./components/council.js";
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from "./utils/contractcontext.js";
+import { saveData } from "./store.js";
+
 
 import "./App.css";
 
@@ -20,6 +23,9 @@ class App extends Component {
     this.newCase = this.newCase.bind(this);
     this.complain = this.complain.bind(this);
     this.fetchCases = this.fetchCases.bind(this);
+    this.markData = this.markData.bind(this);
+    this.caseData = this.caseData.bind(this);
+    this.submitData = this.submitData.bind(this);
   }
 
   fetchCases() {
@@ -49,6 +55,58 @@ class App extends Component {
       });
   }
 
+  async markData(title, caseID) {
+    await this.state.contract.methods
+      .markData(title, caseID)
+      .send({ from: this.state.accounts[0] })
+      .then(() => {
+        this.fetchCases();
+      });
+  }
+
+  async submitData(action, caseId, value) {
+    let hash = this.state.web3.utils.sha3(value);
+    await this.state.contract.methods
+      .fillData(action, caseId, hash)
+      .send({ from: this.state.accounts[0] })
+      .then(async transaction => {
+        const bcData = transaction.events.NewData.returnValues
+        await saveData(bcData.action, bcData.caseID, value, bcData.dataHash, bcData.location)
+          .catch(error => {
+            console.log(`ERROR: save data to database failed`);
+          });
+      })
+      .catch(error => {
+        console.log("ERROR: submit data to blockchain failed");
+        return error;
+      });
+      await this.fetchCases();
+  }
+
+  async caseData(c) {
+    const actions = [];
+    const phaseStruct = {};
+    await this.state.contract.methods
+      .getCase(c.id)
+      .call()
+      .then(data => {
+        data["phases"].forEach((phase, idx) => {
+          if (!phaseStruct[phase]) phaseStruct[phase] = [];
+          phaseStruct[phase].push({
+            id: data["ids"][idx],
+            title: data["titles"][idx],
+            status: data["statuss"][idx],
+            ready: data["isReady"][idx],
+            phase: data["phases"][idx]
+          });
+          if (data["isReady"][idx]) {
+            actions.push(data["titles"][idx]);
+          }
+        });
+      });
+    return { data: phaseStruct, actions: actions };
+  }
+
   async role(account) {
     if (await this.state.contract.methods.hasRole(account, "citizen").call({from: account})) return 0;
     if (await this.state.contract.methods.hasRole(account, "municipality").call({from: account})) return 1;
@@ -57,12 +115,13 @@ class App extends Component {
   }
 
   async getCases(account, role) {
-    if (role === -1) return [];
+    if (role === -1) return {};
     if (role === 0) return await this.state.contract.methods.myCases().call({from: account});
     else return await this.state.contract.methods.allCases().call({from: account});
   }
 
   update() {
+    if (!this.state.web3 || !this.state.contract) return;
     this.state.web3.eth.getAccounts().then(acc => {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
@@ -125,27 +184,31 @@ class App extends Component {
         </div>
       );
     }
-    if (!this.state.contract || !this.state.accounts) {
+    else if (!this.state.contract || !this.state.accounts) {
       return <div className="helvetica tc pa4">Loading contract...</div>;
+    } else {
+      return (
+        <div className="App">
+          <ContractProvider
+            value={{
+              web3: this.state.web3,
+              accounts: this.state.accounts,
+              contract: this.state.contract,
+              store: this.state.store,
+              cases: this.state.cases,
+              newCase: this.newCase,
+              complain: this.complain,
+              role: this.state.role,
+              markData: this.markData,
+              caseData: this.caseData,
+              submitData: this.submitData
+            }}
+          >
+            <CaseOverview />
+          </ContractProvider>
+        </div>
+      );
     }
-    return (
-      <div className="App">
-        <ContractProvider
-          value={{
-            web3: this.state.web3,
-            accounts: this.state.accounts,
-            contract: this.state.contract,
-            store: this.state.store,
-            cases: this.state.cases,
-            newCase: this.newCase,
-            complain: this.complain,
-            role: this.state.role
-          }}
-        >
-          <CaseOverview />
-        </ContractProvider>
-      </div>
-    );
   }
 }
 

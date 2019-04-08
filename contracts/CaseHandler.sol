@@ -37,7 +37,7 @@ contract CaseHandler is RBAC, Graph {
     cases.push(Case(idx, CaseStatus.ACTIVE));
     caseToAddress[idx] = user;
     caseCount[user]++;
-    addRole(user, CITIZEN);
+    _addRole(user, CITIZEN);
   }
 
   function _myCases() internal view returns (uint32[] memory cs, CaseStatus[] memory statuss) {
@@ -154,6 +154,7 @@ contract CaseHandler is RBAC, Graph {
     if (status == Status.UNDONE) return "undone";
     if (status == Status.UNSTABLE) return "unstable";
     if (status == Status.MARKED) return "marked";
+    if (status == Status.COMPLAINED) return "complained";
     else return "";  /* TODO THROW ERROR !!! */
   }
 
