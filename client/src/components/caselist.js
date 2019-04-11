@@ -34,20 +34,50 @@ class CaseList extends Component {
     } catch (err) {}
   }
 
+  caseStatusBG(status) {
+    switch (parseInt(status)) {
+      case 1:
+        return "bg-washed-red";
+      case 3:
+        return "bg-washed-yellow";
+      case 4:
+        return "bg-washed-blue";
+      default:
+        return "bg-washed-green";
+    }
+  }
+
+  caseStatusText(status) {
+    switch (parseInt(status)) {
+      case 0:
+        return "Aktiv"
+      case 1:
+        return "Under klage";
+      case 2:
+        return "Afgjort"
+      case 3:
+        return "Klar til udbetaling";
+      case 4:
+        return "Forældet";
+      default:
+        return "Fejl";
+    }
+  }
+
   caseList() {
     const cs = this.props.contractContext.cases
     if (!cs.ids) return null
     return cs.ids.map((id, idx) => (
       <li
         key={id}
-        className="dt w-100 bb b--black-05 pb2 mt2 flex justify-between items-center"
+        className={"dt w-100 bb b--black-05 pv2 flex justify-between items-center " + this.caseStatusBG(cs.sts[idx])}
       >
         <div className="w-two-thirds dtc v-mid pl3">
           <h2 className="f6 ph1 fw4 mt0 mb0 black-60 helvetica">
-            <b>Case ID:</b> {id}
+            <b>Sag:</b> {id}
           </h2>
-          <h2 className="f6 ph1 fw4 mt0 mb0 black-60 helvetica">
-            <b>Status:</b> {cs.sts[idx]}
+          <h2 className="f6 ph1 fw4 mt1 mb0 black-60 helvetica ">
+            {this.caseStatusText(cs.sts[idx])}
           </h2>
         </div>
         <button

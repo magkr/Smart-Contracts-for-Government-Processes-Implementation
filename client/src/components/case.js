@@ -28,6 +28,24 @@ class Case extends Component {
     this.update();
   }
 
+  caseStatusText(status) {
+    switch (parseInt(status)) {
+      case 0:
+        return "Aktiv"
+      case 1:
+        return "Under klage";
+      case 2:
+        return "Afgjort"
+      case 3:
+        return "Klar til udbetaling";
+      case 4:
+        return "Forældet";
+      default:
+        return "Fejl";
+    }
+  }
+
+
   async update() {
     if (this.props.case) {
       console.log(this.props.case);
@@ -138,7 +156,7 @@ class Case extends Component {
         ) : (
           <div>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
-              <span className="b">Case ID: </span>
+              <span className="b">Sagsnummer: </span>
               {this.props.case.id}
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
@@ -147,7 +165,7 @@ class Case extends Component {
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
               <span className="b">Status: </span>
-              {this.props.case.status}
+              {this.caseStatusText(this.props.case.status)}
             </h2>
             { this.getInterface() }
           </div>
