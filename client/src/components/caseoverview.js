@@ -23,9 +23,7 @@ class CaseOverview extends Component {
   }
 
   render() {
-    console.log(this.state.selected);
     var c = this.state.selected === -1 ? {} : { id: this.props.cases.ids[this.state.selected], status: this.props.cases.sts[this.state.selected] }
-    console.log(c);
     return (
       <div className="caseoverview w-100 h-100">
         <h1 className="helvetica b tc mv0 mt0 mb2 pa4 bg-near-white">
