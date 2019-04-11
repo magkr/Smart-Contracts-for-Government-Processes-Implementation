@@ -136,6 +136,7 @@ contract CaseHandler is RBAC, Graph {
   }
 
   function _complain(bytes32 _title, uint32 _caseID) internal {
+    require(cases[_caseID].status != CaseStatus.COMPLAINT);
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;
     for(uint i = 0; i < vxs.length; i++) {
@@ -143,11 +144,13 @@ contract CaseHandler is RBAC, Graph {
     }
   }
 
-  /* function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
+  /*
+  function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
     bytes32[] memory res = new bytes32[](count);
     for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
     return res;
-  } */
+  }
+  */
 
   function _getStatusString(Status status) internal pure returns(bytes32) {
     if (status == Status.DONE) return "done";
