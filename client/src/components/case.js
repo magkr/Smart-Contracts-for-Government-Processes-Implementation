@@ -61,6 +61,7 @@ class Case extends Component {
         contractContext={this.props.contractContext}
         data={this.state.data}
         editData={this.editData}
+        case={this.props.case}
       />
     )
   }

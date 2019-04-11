@@ -25,6 +25,8 @@ export default class DataList extends Component {
         return "bg-light-red";
       case toHex("unstable"):
         return "bg-light-yellow";
+      case toHex("complained"):
+        return "bg-dark-red";
       default:
         return "bg-hot-pink";
     }
@@ -45,6 +47,8 @@ export default class DataList extends Component {
         return "Markeret";
       case toHex("unstable"):
         return "Afventer";
+      case toHex("complained"):
+        return "Under klage"
       default:
         return "Ukendt";
     }
@@ -123,7 +127,7 @@ export default class DataList extends Component {
                   {this.props.contractContext.web3.utils.hexToAscii(k)}
                 </h3>
               </div>
-              {this.state.selectedPhase === k
+              { /*this.state.selectedPhase === k */ true
                 ? this.props.data[k].map(d => (
                     <div
                       key={d.title}
