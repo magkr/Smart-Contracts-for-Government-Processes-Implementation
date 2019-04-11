@@ -9,6 +9,7 @@ contract ProcessInterface is TransferHandler {
   }
 
   function addressFromCase(uint32 caseID) public view anyRole returns(address) {
+    if (hasRole(msg.sender, CITIZEN)) { require(_addressFromCase(caseID) == msg.sender); }
     return _addressFromCase(caseID);
   }
 

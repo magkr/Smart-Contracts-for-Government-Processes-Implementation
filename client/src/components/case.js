@@ -11,7 +11,6 @@ class Case extends Component {
     super(props);
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
-    this.handlePayment = this.handlePayment.bind(this);
     this.updateInput = this.updateInput.bind(this);
   }
 
@@ -30,14 +29,19 @@ class Case extends Component {
   }
 
   async update() {
-    await this.setState({ isLoading: true });
-    await this.props.contractContext.caseData(this.props.case).then(res => {
-      this.setState({
-          data: res.data,
-          actions: res.actions,
-          isLoading: false
-        });
-    });
+    if (this.props.case) {
+      console.log(this.props.case);
+      await this.setState({ isLoading: true });
+      const add = await this.props.contractContext.contract.methods.addressFromCase(this.props.case.id).call();
+      await this.props.contractContext.caseData(this.props.case).then(res => {
+        this.setState({
+            data: res.data,
+            actions: res.actions,
+            isLoading: false,
+            address: add
+          });
+      });
+    }
   }
 
   async editData(d) {
@@ -45,17 +49,6 @@ class Case extends Component {
     this.setState({
       actions: this.state.actions
     });
-  }
-
-  handlePayment(e) {
-    let money = this.props.contractContext.web3.utils.toWei(
-      this.value,
-      "ether"
-    );
-    console.log(money);
-    this.props.contractContext.contract.methods
-      .sendEther(this.props.case.id)
-      .send({ from: this.props.contractContext.accounts[0], value: money });
   }
 
   updateInput(e) {
@@ -100,7 +93,7 @@ class Case extends Component {
               />
             <input
                 className="helvetica w-20 f6 ml3 br1 ba bg-white"
-                onClick={this.handlePayment}
+                onClick={() => this.props.contractContext.handlePayment(this.props.case.id, this.value)}
                 type="submit"
               />
             </div>
@@ -149,7 +142,7 @@ class Case extends Component {
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
               <span className="b">Address: </span>
-              {this.props.contractContext.accounts[0]}
+              {this.state.address}
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
               <span className="b">Status: </span>

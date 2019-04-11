@@ -26,6 +26,7 @@ class App extends Component {
     this.markData = this.markData.bind(this);
     this.caseData = this.caseData.bind(this);
     this.submitData = this.submitData.bind(this);
+    this.handlePayment = this.handlePayment.bind(this);
   }
 
   fetchCases() {
@@ -81,6 +82,17 @@ class App extends Component {
         return error;
       });
       await this.fetchCases();
+  }
+
+  async handlePayment(caseId, value) {
+    let money = this.state.web3.utils.toWei(
+      value,
+      "ether"
+    );
+    await this.state.contract.methods
+      .sendEther(caseId)
+      .send({ from: this.state.accounts[0], value: money });
+    await this.fetchCases();
   }
 
   async caseData(c) {
@@ -191,20 +203,20 @@ class App extends Component {
         <div className="App">
           <ContractProvider
             value={{
+              contract: this.state.contract,
               web3: this.state.web3,
               accounts: this.state.accounts,
-              contract: this.state.contract,
-              store: this.state.store,
               cases: this.state.cases,
               newCase: this.newCase,
               complain: this.complain,
               role: this.state.role,
               markData: this.markData,
               caseData: this.caseData,
-              submitData: this.submitData
+              submitData: this.submitData,
+              handlePayment: this.handlePayment
             }}
           >
-            <CaseOverview />
+            <CaseOverview cases={ this.state.cases } />
           </ContractProvider>
         </div>
       );

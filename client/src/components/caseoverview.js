@@ -8,7 +8,7 @@ import { ContractConsumer } from "../utils/contractcontext.js";
 
 class CaseOverview extends Component {
   state = {
-    selected: null
+    selected: -1
   };
 
   constructor(props) {
@@ -16,13 +16,16 @@ class CaseOverview extends Component {
     this.setSelected = this.setSelected.bind(this);
   }
 
-  async setSelected(c) {
+  async setSelected(idx) {
     this.setState({
-      selected: c
+      selected: idx
     });
   }
 
   render() {
+    console.log(this.state.selected);
+    var c = this.state.selected === -1 ? {} : { id: this.props.cases.ids[this.state.selected], status: this.props.cases.sts[this.state.selected] }
+    console.log(c);
     return (
       <div className="caseoverview w-100 h-100">
         <h1 className="helvetica b tc mv0 mt0 mb2 pa4 bg-near-white">
@@ -40,11 +43,11 @@ class CaseOverview extends Component {
             </ContractConsumer>
           </div>
           <div className="fl w-80">
-            {this.state.selected !== null ? (
+            {this.state.selected !== -1 ? (
               <ContractConsumer>
                 {value => (
                   <Case
-                    case={this.state.selected}
+                    case = {c}
                     contractContext={value}
                   />
                 )}

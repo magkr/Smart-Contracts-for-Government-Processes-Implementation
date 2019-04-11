@@ -60,7 +60,7 @@ export default class HistoryView extends Component {
         <h2 className="b f4">Historik:</h2>
         {this.state.newDatas.map(d => {
           return (
-            <div key={d.title} className="pa1 ma1 flex flex-column justify-around bg-near-white">
+            <div key={d.location} className="pa1 ma1 flex flex-column justify-around bg-near-white">
               { dataEvent(d, this.props.contractContext.web3) }
             </div>
           );

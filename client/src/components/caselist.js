@@ -52,7 +52,7 @@ class CaseList extends Component {
         </div>
         <button
           className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
-          onClick={e => this.props.setSelected({id: id, status: cs.sts[idx]})}
+          onClick={e => this.props.setSelected(idx)}
         >
           Show case
         </button>
