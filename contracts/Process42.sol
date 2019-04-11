@@ -24,13 +24,13 @@ contract Process42 is ProcessInterface {
 
 
   constructor() public {
-    metering();
+    /* metering();
     beregningsgrundlag();
     udbetaling();
-    resolvingResolution = "Beregningsgrundlag";
+    resolvingResolution = "Beregningsgrundlag"; */
 
-    /* test();
-    resolvingResolution = "Resolution"; */
+    test();
+    resolvingResolution = "Resolution";
   }
 
   function metering() private {

@@ -46,7 +46,7 @@ contract CaseHandler is RBAC, Graph {
     statuss = new CaseStatus[](caseCount[msg.sender]);
     uint32 counter = 0;
 
-    for(uint32 i = 0; i < caseCount[msg.sender]; i++){
+    for(uint32 i = 0; counter < caseCount[msg.sender] && i < cases.length; i++){
       if (caseToAddress[i] == msg.sender){
         cs[counter] = cases[i].id;
         statuss[counter] = cases[i].status;
