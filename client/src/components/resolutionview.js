@@ -56,8 +56,8 @@ export default class ResolutionView extends Component {
 
   button(r) {
     return (
-      <button onClick={() => this.props.contractContext.complain(r)}>
-        complain
+      <button className="helvetica w-20 f6 ml3 br1 ba bg-white h2" onClick={() => this.props.contractContext.complain(r)}>
+        Klag!
       </button>
     );
   }
@@ -68,9 +68,11 @@ export default class ResolutionView extends Component {
         <h2 className="b f4">Afgørelser:</h2>
         {this.state.resolutions.map(r => {
           return (
-            <div key={r.title} className="pa1 ma1 flex flex-column justify-around bg-near-white">
+            <div key={r.title} className="pa1 ma1 flex justify-between bg-near-white">
               { dataEvent(r, this.props.contractContext.web3)}
+              <div className="flex justify-end items-center w-40 pr3">
               {this.props.contractContext.role === 0 ? this.button(r) : null }
+              </div>
             </div>
           );
         })}

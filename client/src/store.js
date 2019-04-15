@@ -48,12 +48,15 @@ const axios = require("axios");
       hash: hash,
       location: location
     };
-    return await axios({
+    console.log(data);
+    var response = await axios({
       method: "PUT",
-      url: `http://localhost:8888/${data.id}`,
+      url: `http://localhost:8888/${data.location}`,
       headers: { "Content-Type": "application/json" },
       data
     });
+    console.log(response);
+    return response;
   }
 
   export async function getData(id) {

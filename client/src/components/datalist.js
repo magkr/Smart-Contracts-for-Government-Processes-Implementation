@@ -1,12 +1,13 @@
 import "../css/reset.css";
 import "../css/tachyons.min.css";
 import React, { Component } from "react";
+import Data from "./data.js";
 
 export default class DataList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: null,
+      selected: "",
       selectedPhase: {},
       title: 0
     };
@@ -32,8 +33,8 @@ export default class DataList extends Component {
     }
   }
 
-  componentDidMount(){
-    this.setState({ struct: this.props.data});
+  componentDidMount() {
+    this.setState({ struct: this.props.data });
   }
 
   getStatus(status) {
@@ -48,7 +49,7 @@ export default class DataList extends Component {
       case toHex("unstable"):
         return "Afventer";
       case toHex("complained"):
-        return "Under klage"
+        return "Under klage";
       default:
         return "Ukendt";
     }
@@ -58,16 +59,20 @@ export default class DataList extends Component {
     return "bg-near-white";
   }
 
-  setSelected(d) {
-    if (this.state.selected === d) {
+  async setSelected(d) {
+
+    if (this.state.selected === d.title) {
       this.setState({
-        selected: {}
+        selected: ""
       });
+      await this.props.dontEditData(d.title);
+      return;
     } else {
+      await this.props.dontEditData(this.state.selected);
       this.setState({
-        selected: d
+        selected: d.title
       });
-      this.props.editData(d);
+      await this.props.editData(d.title);
     }
   }
 
@@ -84,21 +89,30 @@ export default class DataList extends Component {
   }
 
   getButton(d) {
-    if (this.props.contractContext.role === 1 && d.status === this.utils.asciiToHex("done")) {
+    if (
+      this.props.contractContext.role === 1 &&
+      d.status === this.utils.asciiToHex("done")
+    ) {
       return (
         <button
           className="helvetica f6 br1 ba bg-white fr mr3"
           onClick={e => this.setSelected(d)}
         >
-          {this.state.selected === d ? "Fortryd" : "Rediger"}
+          {this.state.selected === d.title ? "Fortryd" : "Rediger"}
         </button>
       );
     }
-    if (this.props.contractContext.role === 2 && d.status !== this.utils.asciiToHex("undone") && d.status !== this.utils.asciiToHex("marked")) {
+    if (
+      this.props.contractContext.role === 2 &&
+      d.status !== this.utils.asciiToHex("undone") &&
+      d.status !== this.utils.asciiToHex("marked")
+    ) {
       return (
         <button
           className="helvetica f6 br1 ba bg-white fr mr3"
-          onClick={e => this.props.contractContext.markData(d.title, this.props.case.id)}
+          onClick={e =>
+            this.props.contractContext.markData(d.title, this.props.case.id)
+          }
         >
           {"Marker"}
         </button>
@@ -113,7 +127,7 @@ export default class DataList extends Component {
         <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b ">
           Faser:
         </h2>
-        { Object.keys(this.props.data).map(k => {
+        {Object.keys(this.props.data).map(k => {
           return (
             <div key={k} className="mh3 mv2 ">
               <div
@@ -127,7 +141,7 @@ export default class DataList extends Component {
                   {this.props.contractContext.web3.utils.hexToAscii(k)}
                 </h3>
               </div>
-              { /*this.state.selectedPhase === k */ true
+              {/*this.state.selectedPhase === k */ true
                 ? this.props.data[k].map(d => (
                     <div
                       key={d.title}
@@ -141,10 +155,7 @@ export default class DataList extends Component {
                           {this.utils.hexToAscii(d.title)}
                         </h2>
                         {d.status !== this.utils.asciiToHex("undone") ? (
-                          <h2 className="f6 mb1">
-                            <b>Lokation: </b>
-                            {d.id}
-                          </h2>
+                          <Data location={d.id} />
                         ) : null}
                         <h2 className="f6 mb1">
                           <b>Status: </b>
@@ -152,17 +163,14 @@ export default class DataList extends Component {
                         </h2>
                       </div>
                       <div className="w-40">
-                        <div>
-                          {this.getButton(d)}
-                        </div>
+                        <div>{this.getButton(d)}</div>
                       </div>
                     </div>
                   ))
                 : null}
             </div>
           );
-        })
-        }
+        })}
         {this.props.data[0]}
       </div>
     );

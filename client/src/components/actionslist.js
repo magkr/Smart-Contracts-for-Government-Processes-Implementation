@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import Action from "./action.js";
 
 export default class ActionsList extends Component {
+
+
   render() {
     return (
       <div className="w-50">
@@ -16,6 +18,7 @@ export default class ActionsList extends Component {
             action={a}
             contractContext={this.props.contractContext}
             case={this.props.case}
+            data={this.props.data}
           />
         ))}
       </div>

@@ -71,8 +71,9 @@ class App extends Component {
       .fillData(action, caseId, hash)
       .send({ from: this.state.accounts[0] })
       .then(async transaction => {
-        const bcData = transaction.events.NewData.returnValues
-        await saveData(bcData.action, bcData.caseID, value, bcData.dataHash, bcData.location)
+        const bcData = await transaction.events.NewData.returnValues
+        console.log(bcData);
+        await saveData(bcData.title, bcData.caseID, value, bcData.dataHash, bcData.location)
           .catch(error => {
             console.log(`ERROR: save data to database failed`);
           });
