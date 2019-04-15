@@ -11,6 +11,7 @@ class Case extends Component {
     super(props);
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
+    this.dontEditData = this.dontEditData.bind(this);
     this.updateInput = this.updateInput.bind(this);
     this.handleComplaint = this.handleComplaint.bind(this);
   }
@@ -18,7 +19,8 @@ class Case extends Component {
   state = {
     data: null,
     actions: [],
-    isLoading: true
+    isLoading: true,
+    history: []
   };
 
   componentDidMount() {
@@ -26,6 +28,9 @@ class Case extends Component {
   }
 
   componentWillReceiveProps(props) {
+    this.setState({
+      history: []
+    })
     this.update();
   }
 
@@ -62,14 +67,57 @@ class Case extends Component {
             //complaint: null
           });
       });
-      //console.log(null);
+      if (
+        this.props.contractContext.web3 &&
+        this.props.contractContext.contract
+      ) {
+        this.props.contractContext.contract.events
+          .NewData(
+            {
+              filter: {
+                caseID: this.props.id
+              }, // Using an array means OR: e.g. 20 or 23
+              fromBlock: 0,
+              toBlock: "latest"
+            },
+            async function(error, result) {
+              if (!error) {
+                //console.log(result);
+                // event arguments cointained in result.args object
+                // new data have arrived. it is good idea to udpate data & UI
+              } else {
+                // log error here
+                console.log(error);
+              }
+            }
+          )
+          .on("data", async e => {
+            console.log(e);
+            await this.setState({
+              history: [e.returnValues, ...this.state.history]
+            });
+          })
+          .on("changed", e => {
+            // remove event from local database ???????
+          })
+          .on("error", e => {
+            console.log(e);
+          });
+      }
     }
+    console.log(this.state.data);
   }
 
   async editData(d) {
-    this.state.actions.push(d.title);
-    this.setState({
+    this.state.actions.push(d);
+    await this.setState({
       actions: this.state.actions
+    });
+  }
+
+  async dontEditData(d) {
+    await this.setState({
+      actions: this.state.actions.filter(a => a !== d)
     });
   }
 
@@ -83,6 +131,7 @@ class Case extends Component {
         contractContext={this.props.contractContext}
         data={this.state.data}
         editData={this.editData}
+        dontEditData={this.dontEditData}
         case={this.props.case}
       />
     )
@@ -146,12 +195,14 @@ class Case extends Component {
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
+              data={this.state.history}
               case={this.props.case}
             />
         )}
       </div>
       <HistoryView
           id={this.props.case.id}
+          history={this.state.history}
           contractContext={this.props.contractContext}
         />
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { getData } from "../store.js";
-
+import Data from "./data.js"
 
 export const dataShow = location => {
   var d = "{ var: 1 }"
@@ -23,20 +23,9 @@ export const dataEvent = (e, web3) => { // KAN LÆGGES UD I COMMON OG GENBRUGES 
           {web3.utils.hexToAscii(e.title)}
         </p>
       </h3>
-      <h4 className="f6 ph3 pv1 flex justify-between items-center">
-        <div>
-          <span className="b">Lokation: </span>
-          {e.location}
+      <div className="ph2">
+        <Data location={e.location}/>
         </div>
-
-      </h4>
-      {/*dataShow(r.location)*/}
-      <h4 className="f6 ph3 pv1">
-        <p>
-          <span className="b">Hash: </span>
-          {e.dataHash}
-        </p>
-      </h4>
     </div>
   );
 }
