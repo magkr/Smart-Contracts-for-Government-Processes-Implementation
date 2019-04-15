@@ -28,12 +28,12 @@ contract Process42 is ProcessInterface {
     beregningsgrundlag();
     udbetaling();
     resolvingResolution = "Beregningsgrundlag";
-    lastEdge = "Final"
+    lastEdge = "Udbetaling"
 */
 
     test();
     resolvingResolution = "Resolution";
-    lastVtx = "Udbetaling"
+    lastVtx = "Final";
   }
 
   function metering() private {
