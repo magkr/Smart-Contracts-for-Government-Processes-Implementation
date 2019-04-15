@@ -100,7 +100,6 @@ contract CaseHandler is RBAC, Graph {
   }
 
   function _allowed(bytes32 v, Case storage c) private view returns (bool) {
-    if (c.status == CaseStatus.COMPLAINT) return (c.dataMapping[v].status == Status.COMPLAINED);
     for(uint r = 0; r < req[_getIdx(v)].length; r++) {
       uint reqID = req[_getIdx(v)][r];
       if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
@@ -109,7 +108,6 @@ contract CaseHandler is RBAC, Graph {
   }
 
   function _isReady(bytes32 v, Case storage c) private view returns (bool) {
-    if (c.status == CaseStatus.COMPLAINT) return (c.dataMapping[v].status == Status.COMPLAINED);
     if(c.dataMapping[v].status == Status.DONE) return false;
     for(uint r = 0; r < req[_getIdx(v)].length; r++) {
       uint reqID = req[_getIdx(v)][r];
