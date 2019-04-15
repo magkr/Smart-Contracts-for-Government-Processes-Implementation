@@ -38,9 +38,9 @@ class CaseList extends Component {
     switch (parseInt(status)) {
       case 1:
         return "bg-washed-red";
-      case 3:
+      case 2:
         return "bg-washed-yellow";
-      case 4:
+      case 3:
         return "bg-washed-blue";
       default:
         return "bg-washed-green";
@@ -54,11 +54,9 @@ class CaseList extends Component {
       case 1:
         return "Under klage";
       case 2:
-        return "Afgjort"
-      case 3:
         return "Klar til udbetaling";
-      case 4:
-        return "Forældet";
+      case 3:
+        return "Hos ankestyrelsen";
       default:
         return "Fejl";
     }

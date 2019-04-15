@@ -8,8 +8,9 @@ contract CaseHandler is RBAC, Graph {
   uint public dataCount;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
+  mapping (uint32 => Complaint) complaints;
 
-  enum CaseStatus { ACTIVE, COMPLAINT, RESOLVED, READYFORPAYMENT, OLD }
+  enum CaseStatus { ACTIVE, COMPLAINT, READYFORPAYMENT, COUNCIL }
   enum Status { UNDONE, DONE, COMPLAINED, MARKED, UNSTABLE }
   event NewData(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location, bool indexed resolution); // should be a dataType instead of bool?
   /* event Resolution(Data data); */
@@ -30,6 +31,13 @@ contract CaseHandler is RBAC, Graph {
     /* DataType dataType; */
     Status status;
   }
+
+  struct Complaint {
+    bytes32 data;
+    uint caseID;
+    bool isMarked;
+  }
+
 
   function _addCase(address user) internal {
     // if case exist, throw error
@@ -87,16 +95,50 @@ contract CaseHandler is RBAC, Graph {
   }
 
   function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
-    //require((cases[_caseID].status == CaseStatus.ACTIVE ) && _dataHash.length > 0);
+
+    if(cases[_caseID].status == CaseStatus.ACTIVE) return _activeFillData(_title, _caseID, _dataHash);
+    else if(cases[_caseID].status == CaseStatus.COMPLAINT) return _complainFillData(_title, _caseID, _dataHash);
+  }
+
+  function _activeFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
+    require(cases[_caseID].status == CaseStatus.ACTIVE );
     require(_allowed(_title, cases[_caseID]));
+    Case storage c = cases[_caseID];
+
     dataCount++;
-    cases[_caseID].dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
-    if (vxs[_getIdx(_title)].resolution) {
-      if (cases[_caseID].status == CaseStatus.RESOLVED) cases[_caseID].status = CaseStatus.READYFORPAYMENT;
-      if (_title == resolvingResolution) cases[_caseID].status = CaseStatus.RESOLVED;
+    c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
+
+    if(c.dataMapping[lastVtx].status == Status.DONE) {
+      c.status = CaseStatus.READYFORPAYMENT;
     }
+
     emit NewData(_title,  _dataHash, _caseID, dataCount, vxs[_getIdx(_title)].resolution);
     return dataCount;
+  }
+
+  function _complainFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
+    require(cases[_caseID].status == CaseStatus.COMPLAINT);
+    Case storage c = cases[_caseID];
+    if(c.dataMapping[_title].dataHash != _dataHash) {
+      dataCount++;
+      if(complaints[_caseID].data == _title) {
+        c.status = CaseStatus.ACTIVE;
+        if(c.dataMapping[lastVtx].status == Status.DONE) {
+          c.status = CaseStatus.READYFORPAYMENT;
+        }
+        //TODO emit decision;
+      }
+      c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
+      emit NewData(_title,  _dataHash, _caseID, dataCount, vxs[_getIdx(_title)].resolution);
+
+      return dataCount;
+    } else {
+      c.dataMapping[_title].status = Status.DONE;
+      if(complaints[_caseID].data == _title) {
+        c.status = CaseStatus.COUNCIL;
+      }
+      return c.dataMapping[_title].id;
+    }
   }
 
   function _allowed(bytes32 v, Case storage c) private view returns (bool) {
@@ -116,10 +158,17 @@ contract CaseHandler is RBAC, Graph {
     return true;
   }
 
-  function _markData(bytes32 _title, uint _caseID) internal {
+  function _getComplaint(uint32 _caseID) internal returns (bytes32, bool){
+    Complaint memory complaint = complaints[_caseID];
+    return (complaint.data, complaint.isMarked);
+  }
+
+  function _markData(bytes32 _title, uint32 _caseID) internal {
     /* TODO EXPLANATION AS PARAMETER AND ONLY APPEALSBOARD*/
+    require(cases[_caseID].status == CaseStatus.COUNCIL);
     Case storage c = cases[_caseID];
     c.dataMapping[_title].status = Status.MARKED;
+    complaints[_caseID].isMarked = true;
     _cascade(_getIdx(_title), c, Status.DONE, Status.UNSTABLE);
   }
 
@@ -133,6 +182,19 @@ contract CaseHandler is RBAC, Graph {
     }
   }
 
+  function _stadfast(uint32 _caseID) internal {
+    require(cases[_caseID].status == CaseStatus.COUNCIL && !complaints[_caseID].isMarked);
+    Case storage c = cases[_caseID];
+    c.status = CaseStatus.ACTIVE;
+    //EMIT EVENT
+  }
+
+  function _homesend(uint32 _caseID) internal {
+    require(cases[_caseID].status == CaseStatus.COUNCIL && complaints[_caseID].isMarked);
+    Case storage c = cases[_caseID];
+    c.status = CaseStatus.COMPLAINT;
+  }
+
   function _complain(bytes32 _title, uint32 _caseID) internal {
     require(cases[_caseID].status != CaseStatus.COMPLAINT);
     Case storage c = cases[_caseID];
@@ -140,6 +202,8 @@ contract CaseHandler is RBAC, Graph {
     for(uint i = 0; i < vxs.length; i++) {
       if (vxs[i].phase == _title) c.dataMapping[vxs[i].title].status = Status.COMPLAINED;
     }
+    _cascade(_getIdx(_title), c, Status.DONE, Status.UNSTABLE);
+    complaints[_caseID] = Complaint(_title, _caseID, false);
   }
 
   /*
