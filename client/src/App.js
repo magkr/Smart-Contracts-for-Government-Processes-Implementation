@@ -98,6 +98,7 @@ class App extends Component {
   async caseData(c) {
     const actions = [];
     const phaseStruct = {};
+    var marked = false;
     await this.state.contract.methods
       .getCase(c.id)
       .call()
@@ -111,12 +112,13 @@ class App extends Component {
             ready: data["isReady"][idx],
             phase: data["phases"][idx]
           });
+          if(data["statuss"][idx] === this.state.web3.utils.asciiToHex("marked")) marked = true;
           if (data["isReady"][idx]) {
             actions.push(data["titles"][idx]);
           }
         });
       });
-    return { data: phaseStruct, actions: actions };
+    return { data: phaseStruct, actions: actions, marked: marked };
   }
 
   async role(account) {

@@ -1,8 +1,8 @@
 pragma solidity 0.5.0;
 
-import {CaseHandler} from "./CaseHandler.sol";
+import {ComplainHandler} from "./ComplainHandler.sol";
 
-contract TransferHandler is CaseHandler {
+contract TransferHandler is ComplainHandler {
 
   event Transfer(bool success, uint amount, uint32 caseID, address receiver);
 
@@ -12,7 +12,7 @@ contract TransferHandler is CaseHandler {
     bool success = to.send(msg.value);
     emit Transfer(success, msg.value, _caseID, caseToAddress[_caseID]);
     if(success) {
-      cases[_caseID].status = CaseStatus.RESOLVED;
+      cases[_caseID].status = CaseStatus.ACTIVE;
       _cascade(_getIdx(resolvingResolution), cases[_caseID], Status.DONE, Status.UNDONE);
     }
   }

@@ -29,7 +29,7 @@ contract ProcessInterface is TransferHandler {
     return _myCases();
   }
 
-  function markData(bytes32 _title, uint _caseID) public onlyRole(COUNCIL) {
+  function markData(bytes32 _title, uint32 _caseID) public onlyRole(COUNCIL) {
     return _markData(_title, _caseID);
   }
 
@@ -49,5 +49,17 @@ contract ProcessInterface is TransferHandler {
   function removeRole(address _operator, string memory _role) public onlyAdmin {
     require(hasRole(msg.sender, _role) && msg.sender != _operator);
     return _removeRole(_operator, _role);
+  }
+
+  function stadfast(uint32 _caseID) public onlyRole(COUNCIL) {
+    return _stadfast(_caseID);
+  }
+
+  function homesend(uint32 _caseID) public onlyRole(COUNCIL) {
+    return _homesend(_caseID);
+  }
+
+  function getComplaint(uint32 _caseID) public returns (bytes32, bool){
+    return _getComplaint(_caseID);
   }
 }

@@ -12,6 +12,7 @@ class Case extends Component {
     this.update = this.update.bind(this);
     this.editData = this.editData.bind(this);
     this.updateInput = this.updateInput.bind(this);
+    this.handleComplaint = this.handleComplaint.bind(this);
   }
 
   state = {
@@ -35,11 +36,9 @@ class Case extends Component {
       case 1:
         return "Under klage";
       case 2:
-        return "Afgjort"
-      case 3:
         return "Klar til udbetaling";
-      case 4:
-        return "Forældet";
+      case 3:
+        return "Hos ankestyrelsen";
       default:
         return "Fejl";
     }
@@ -51,14 +50,19 @@ class Case extends Component {
       console.log(this.props.case);
       await this.setState({ isLoading: true });
       const add = await this.props.contractContext.contract.methods.addressFromCase(this.props.case.id).call();
+      // const c = await t
+      //this.props.contractContext.contract.methods.getComplaint(this.props.case.id).call().then(r => console.log(r));
       await this.props.contractContext.caseData(this.props.case).then(res => {
         this.setState({
             data: res.data,
             actions: res.actions,
             isLoading: false,
-            address: add
+            address: add,
+            marked: res.marked
+            //complaint: null
           });
       });
+      //console.log(null);
     }
   }
 
@@ -84,11 +88,33 @@ class Case extends Component {
     )
   }
 
+  handleComplaint(){
+    if(this.state.marked) {
+      this.props.contractContext.contract.methods.homesend(this.props.case.id).send({ from: this.props.contractContext.accounts[0] });
+    }
+    else {
+      this.props.contractContext.contract.methods.stadfast(this.props.case.id).send({ from: this.props.contractContext.accounts[0] });
+    }
+    this.setState({ marked: false })
+  }
+
   councilInterface(data) {
     return (
       <div>
         <div className="w-100 flex justify-center">
           {this.dataList()}
+          <div className="w-50 flex justify-center items-center">
+            {this.props.case.status === "3"
+              ?
+              (<div>
+              <button className="helvetica f6 br1 ba bg-white fr mr3" onClick={() => this.handleComplaint()}>
+                {this.state.marked ? "Hjemvis" : "Stadfæst"}
+              </button>
+            </div>)
+              : null
+            }
+
+          </div>
         </div>
         <HistoryView
             id={this.props.case.id}
