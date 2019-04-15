@@ -84,7 +84,7 @@ class CaseList extends Component {
           className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica ma2"
           onClick={e => this.props.setSelected(idx)}
         >
-          Show case
+          Vis sag
         </button>
       </li>
     ));
@@ -103,7 +103,7 @@ class CaseList extends Component {
           className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica mv2"
           onClick={this.newCase}
         >
-          Add case
+          Tilføj sag
         </button>
       </li>
     );

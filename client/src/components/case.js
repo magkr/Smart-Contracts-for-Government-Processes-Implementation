@@ -53,7 +53,7 @@ class Case extends Component {
 
   async update() {
     if (this.props.case) {
-      console.log(this.props.case);
+
       await this.setState({ isLoading: true });
       const add = await this.props.contractContext.contract.methods.addressFromCase(this.props.case.id).call();
       await this.props.contractContext.caseData(this.props.case).then(res => {
@@ -64,45 +64,7 @@ class Case extends Component {
             address: add
           });
       });
-      if (
-        this.props.contractContext.web3 &&
-        this.props.contractContext.contract
-      ) {
-        this.props.contractContext.contract.events
-          .NewData(
-            {
-              filter: {
-                caseID: this.props.id
-              }, // Using an array means OR: e.g. 20 or 23
-              fromBlock: 0,
-              toBlock: "latest"
-            },
-            async function(error, result) {
-              if (!error) {
-                //console.log(result);
-                // event arguments cointained in result.args object
-                // new data have arrived. it is good idea to udpate data & UI
-              } else {
-                // log error here
-                console.log(error);
-              }
-            }
-          )
-          .on("data", async e => {
-            console.log(e);
-            await this.setState({
-              history: [e.returnValues, ...this.state.history]
-            });
-          })
-          .on("changed", e => {
-            // remove event from local database ???????
-          })
-          .on("error", e => {
-            console.log(e);
-          });
-      }
     }
-    console.log(this.state.data);
   }
 
   async editData(d) {
@@ -212,7 +174,7 @@ class Case extends Component {
               {this.props.case.id}
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">
-              <span className="b">Address: </span>
+              <span className="b">Addresse: </span>
               {this.state.address}
             </h2>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">

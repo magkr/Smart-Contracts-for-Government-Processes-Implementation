@@ -217,7 +217,7 @@ class App extends Component {
               handlePayment: this.handlePayment
             }}
           >
-            <CaseOverview cases={ this.state.cases } />
+            <CaseOverview cases={ this.state.cases } role={this.state.role} />
           </ContractProvider>
         </div>
       );
