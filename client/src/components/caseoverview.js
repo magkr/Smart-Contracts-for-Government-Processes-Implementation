@@ -23,7 +23,7 @@ class CaseOverview extends Component {
   }
 
   getRole() {
-    if(this.props.role == 0) return "Borger";
+    if(this.props.role === 0) return "Borger";
     else if (this.props.role === 1) return "Sagsbehandler";
     else if (this.props.role === 2) return "Ankestyrelsen";
     return "";
@@ -59,7 +59,7 @@ class CaseOverview extends Component {
               </ContractConsumer>
             ) : (
               <h1 className="helvetica f4 pa5 tc pt3 w-100">
-                Vælg en sag at vise
+                { this.props.cases.ids ? <span>Vælg en sag til venstre</span> : <span>Ingen sager</span> }
               </h1>
             )}
           </div>

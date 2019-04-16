@@ -15,6 +15,7 @@ class App extends Component {
     accounts: [],
     contract: null,
     cases: {},
+    role: -1
   };
 
   constructor() {
@@ -130,9 +131,10 @@ class App extends Component {
   }
 
   async getCases(account, role) {
-    if (role === -1) return {};
     if (role === 0) return await this.state.contract.methods.myCases().call({from: account});
-    else return await this.state.contract.methods.allCases().call({from: account});
+    if (role === 1) return await this.state.contract.methods.allCases().call({from: account});
+    if (role === 2) return await this.state.contract.methods.complaintCases().call({from: account});
+    else return {};
   }
 
   update() {
@@ -168,7 +170,7 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address
       );
 
-      await this.setState({ web3, contract: p });
+      await this.setState({ web3, accounts: accounts, contract: p });
       this.update();
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -192,15 +194,15 @@ class App extends Component {
 
 
   render() {
-    if (!this.state.web3) {
+    if (!this.state.web3 || !this.state.contract || !this.state.accounts) {
       return (
         <div className="helvetica tc pa4">
-          Loading Web3, accounts, and contract...
+          Loader Web3, kontoer, og kontrakt...
         </div>
       );
     }
-    else if (!this.state.contract || !this.state.accounts) {
-      return <div className="helvetica tc pa4">Loading contract...</div>;
+    else if (this.state.role === -1) {
+      return <div className="helvetica tc pa4">'Velkommen til Process 42 hos Syddjurs Kommunes. Din konto er ukendt og kan ikke udføre nogle handlinger.'</div>;
     } else {
       return (
         <div className="App">

@@ -73,6 +73,25 @@ contract CaseHandler is RBAC, Graph {
     }
   }
 
+  function complaintCases() public view returns (uint32[] memory cs, CaseStatus[] memory statuss) {
+    uint count = 0;
+
+    for(uint32 i = 0; i < cases.length; i++){
+      if (cases[i].status == CaseStatus.COMPLAINT)
+        count++;
+    }
+
+    cs = new uint32[](count);
+    statuss = new CaseStatus[](count);
+
+    for(uint32 i = 0; i < cases.length; i++){
+      if (cases[i].status == CaseStatus.COMPLAINT) {
+        cs[i] = cases[i].id;
+        statuss[i] = cases[i].status;
+      }
+    }
+  }
+
   function _addressFromCase(uint32 caseID) internal view returns(address) {
     return caseToAddress[caseID];
   }
