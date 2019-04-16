@@ -171,7 +171,8 @@ class App extends Component {
       );
 
       await this.setState({ web3, accounts: accounts, contract: p });
-      this.update();
+      await this.setState({ role: await this.role(accounts[0])});
+      this.fetchCases();
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
