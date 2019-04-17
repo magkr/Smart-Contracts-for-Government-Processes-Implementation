@@ -49,12 +49,10 @@ class Case extends Component {
 
 
   async update() {
-    if (this.props.case) {
+    if (this.props.case.id) {
 
       await this.setState({ isLoading: true });
       const add = await this.props.contractContext.contract.methods.addressFromCase(this.props.case.id).call();
-      // const c = await t
-      //this.props.contractContext.contract.methods.getComplaint(this.props.case.id).call().then(r => console.log(r));
       await this.props.contractContext.caseData(this.props.case).then(res => {
         var actions = (this.props.contractContext.role === 0) ? res.actions.filter(a => a.type === "2") : res.actions;
         this.setState({
@@ -63,7 +61,6 @@ class Case extends Component {
             isLoading: false,
             address: add,
             marked: res.marked
-            //complaint: null
           });
       });
     }

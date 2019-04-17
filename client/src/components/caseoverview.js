@@ -12,6 +12,7 @@ class CaseOverview extends Component {
   constructor(props) {
     super(props);
     this.setSelected = this.setSelected.bind(this);
+    this.prevAccount = this.props.account;
   }
 
   async setSelected(idx) {
@@ -46,7 +47,7 @@ class CaseOverview extends Component {
             </ContractConsumer>
           </div>
           <div className="fl w-80">
-            {this.state.selected !== -1 ? (
+            {c.id ? (
               <ContractConsumer>
                 {value => (
                   <Case

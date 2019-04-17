@@ -27,6 +27,14 @@ export default class Action extends Component {
     this.props.addValueToSubmit(this.props.action.title, val);
   }
 
+  buttonText() {
+    if (this.props.action.type === "1" && this.props.action.status === this.props.contractContext.web3.utils.asciiToHex("complained")) {
+      return this.state.value === this.state.prevValue && this.state.value !== "" ? "Stadfæst" : "Ændre afgørelse";
+    } else {
+      return this.state.value === this.state.prevValue && this.state.value !== "" ? "Behold" : "Indsend";
+    }
+  }
+
   render() {
     const utils = this.props.contractContext.web3.utils;
     return (
@@ -45,7 +53,7 @@ export default class Action extends Component {
             className="helvetica w-20 f6 ml3 br1 ba bg-white"
             onClick={() => this.props.submitData(this.props.action.title, this.state.value)}
           >
-            {this.state.value === this.state.prevValue && this.state.value !== "" ? "Behold" : "Indsend"}
+            {this.buttonText()}
           </button>
         </div>
       </div>
