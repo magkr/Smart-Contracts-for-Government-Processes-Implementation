@@ -20,7 +20,7 @@ export const dataEvent = (e, web3) => { // KAN LÆGGES UD I COMMON OG GENBRUGES 
     <div>
       <h3 className="b f5 ph1 pv1">
         <p>
-          {web3.utils.hexToAscii(e.title)}
+          {web3.utils.hexToUtf8(e.title)}
         </p>
       </h3>
       <div className="ph2">

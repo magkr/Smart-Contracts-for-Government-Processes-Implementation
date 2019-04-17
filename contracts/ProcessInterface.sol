@@ -23,6 +23,11 @@ contract ProcessInterface is TransferHandler {
     return _fillData(_title, _caseID, _dataHash);
   }
 
+  function fillDatas(bytes32[] memory _titles, uint32 _caseID, bytes32[] memory _dataHashes) public returns (uint[] memory ids) {
+    require(hasRole(msg.sender, MUNICIPALITY));
+    return _fillDatas(_titles, _caseID, _dataHashes);
+  }
+
   function allCases() public view onlyAdmin returns (uint32[] memory ids,  CaseStatus[] memory sts) {
     return _allCases();
   }
@@ -66,7 +71,7 @@ contract ProcessInterface is TransferHandler {
     return _homesend(_caseID);
   }
 
-  function getComplaint(uint32 _caseID) public returns (bytes32, bool){
+  function getComplaint(uint32 _caseID) public view returns (bytes32, bool){
     return _getComplaint(_caseID);
   }
 }

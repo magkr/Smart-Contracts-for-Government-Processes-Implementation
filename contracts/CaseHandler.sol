@@ -41,6 +41,7 @@ contract CaseHandler is RBAC, Graph {
 
   function _addCase(address user) internal {
     // if case exist, throw error
+    require(!hasRole(user, MUNICIPALITY) || !hasRole(user, COUNCIL));
     uint32 idx = uint32(cases.length);
     cases.push(Case(idx, CaseStatus.ACTIVE));
     caseToAddress[idx] = user;
@@ -115,6 +116,20 @@ contract CaseHandler is RBAC, Graph {
     }
   }
 
+  function _fillDatas(bytes32[] memory _titles, uint32 _caseID, bytes32[] memory _dataHashes) internal returns (uint[] memory ids) {
+    ids = new uint[](_titles.length);
+    if(cases[_caseID].status == CaseStatus.ACTIVE) {
+      for(uint i = 0; i < _titles.length; i++) {
+        ids[i] = _activeFillData(_titles[i], _caseID, _dataHashes[i]);
+      }
+    }
+    else if(cases[_caseID].status == CaseStatus.COMPLAINT) {
+      for(uint i = 0; i < _titles.length; i++) {
+        ids[i] = _complainFillData(_titles[i], _caseID, _dataHashes[i]);
+      }
+    }
+  }
+
   function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
     if(cases[_caseID].status == CaseStatus.ACTIVE) return _activeFillData(_title, _caseID, _dataHash);
     else if(cases[_caseID].status == CaseStatus.COMPLAINT) return _complainFillData(_title, _caseID, _dataHash);
@@ -178,7 +193,7 @@ contract CaseHandler is RBAC, Graph {
     return true;
   }
 
-  function _getComplaint(uint32 _caseID) internal returns (bytes32, bool){
+  function _getComplaint(uint32 _caseID) internal view returns (bytes32, bool){
     Complaint memory complaint = complaints[_caseID];
     return (complaint.data, complaint.isMarked);
   }

@@ -1,5 +1,3 @@
-import "../css/reset.css";
-import "../css/tachyons.min.css";
 import React, { Component } from "react";
 import { getData } from "../store.js";
 
@@ -42,7 +40,7 @@ export default class Action extends Component {
     return (
       <div className="w-100 bg-near-white pa2 mv2">
         <div className="flex items-end helvetica f5">
-          {utils.hexToAscii(this.props.action.title)}
+          {utils.hexToUtf8(this.props.action.title)}
         </div>
         <div className="helvetica flex justify-around mt3">
           <input

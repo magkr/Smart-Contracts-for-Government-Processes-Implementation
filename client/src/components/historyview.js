@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { dataEvent } from "./common.js";
-import "../css/reset.css";
-import "../css/tachyons.min.css";
 
 export default class HistoryView extends Component {
 
@@ -61,7 +59,7 @@ export default class HistoryView extends Component {
         <h2 className="b f4">Historik:</h2>
         {this.state.history.map((d, idx) => {
           return (
-            <div key={idx} className="pa1 ma1 flex flex-column justify-around bg-near-white">
+            <div key={idx} className="pa1 ma1 flex flex-column bg-near-white">
               { dataEvent(d, this.props.contractContext.web3) }
             </div>
           );
