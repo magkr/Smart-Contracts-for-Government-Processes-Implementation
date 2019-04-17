@@ -216,7 +216,7 @@ contract CaseHandler is RBAC, Graph {
   }
 
   function _complain(bytes32 _title, uint32 _caseID) internal {
-    require(cases[_caseID].status != CaseStatus.COMPLAINT);
+    require(cases[_caseID].status != CaseStatus.COMPLAINT && cases[_caseID].status != CaseStatus.COUNCIL);
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;
     for(uint i = 0; i < vxs.length; i++) {
