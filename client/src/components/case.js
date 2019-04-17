@@ -3,8 +3,6 @@ import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
 import HistoryView from "./historyview.js";
-import "../css/reset.css";
-import "../css/tachyons.min.css";
 
 class Case extends Component {
   constructor(props) {
@@ -58,7 +56,7 @@ class Case extends Component {
       // const c = await t
       //this.props.contractContext.contract.methods.getComplaint(this.props.case.id).call().then(r => console.log(r));
       await this.props.contractContext.caseData(this.props.case).then(res => {
-        var actions = (this.props.contractContext.role === 0) ? res.actions.filter(a => a.type !== "1") : res.actions;
+        var actions = (this.props.contractContext.role === 0) ? res.actions.filter(a => a.type === "2") : res.actions;
         this.setState({
             data: res.data,
             actions: actions,

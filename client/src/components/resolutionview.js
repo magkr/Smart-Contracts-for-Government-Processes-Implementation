@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { dataEvent } from "./common.js";
-import "../css/reset.css";
-import "../css/tachyons.min.css";
 
 export default class ResolutionView extends Component {
   constructor(props) {
@@ -42,7 +40,7 @@ export default class ResolutionView extends Component {
         )
         .on("data", async e => {
           await this.setState({
-            resolutions: [...this.state.resolutions, e.returnValues]
+            resolutions: [e.returnValues, ...this.state.resolutions]
           });
         })
         .on("changed", e => {

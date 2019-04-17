@@ -1,5 +1,3 @@
-import "../css/reset.css";
-import "../css/tachyons.min.css";
 import React, { Component } from "react";
 import Data from "./data.js";
 
@@ -15,23 +13,7 @@ export default class DataList extends Component {
     this.getColor = this.getColor.bind(this);
   }
 
-  getColor(status) {
-    const toHex = this.utils.asciiToHex;
-    switch (status) {
-      case toHex("done"):
-        return "bg-green";
-      case toHex("undone"):
-        return "bg-near-white";
-      case toHex("marked"):
-        return "bg-light-red";
-      case toHex("unstable"):
-        return "bg-light-yellow";
-      case toHex("complained"):
-        return "bg-dark-red";
-      default:
-        return "bg-hot-pink";
-    }
-  }
+
 
   componentDidMount() {
     this.setState({ struct: this.props.data });
@@ -55,7 +37,56 @@ export default class DataList extends Component {
     }
   }
 
+  getColor(status) {
+    const toHex = this.utils.asciiToHex;
+    switch (status) {
+      case toHex("done"):
+        return "bg-green";
+      case toHex("undone"):
+        return "bg-near-white";
+      case toHex("marked"):
+        return "bg-light-red";
+      case toHex("unstable"):
+        return "bg-light-yellow";
+      case toHex("complained"):
+        return "bg-dark-red";
+      default:
+        return "bg-near-white";
+    }
+  }
+
   getColorPhase(phase) {
+    var unstable = false;
+    var allGreen = true;
+    var marked = false;
+    this.props.data[phase].forEach(d => {
+      var c = this.getColor(d.status);
+      switch (c) {
+        case "bg-dark-red":
+          return "bg-dark-red";
+          break;
+        case "bg-light-red":
+          marked = true;
+          allGreen = false;
+          break;
+        case "bg-light-yellow":
+          unstable = true;
+          allGreen = false;
+          break;
+        case "bg-near-white":
+          allGreen = false;
+          break;
+        default:
+          break;
+      }
+    })
+    if(marked) {
+      return "bg-light-red";
+    } else if(unstable) {
+      return "bg-light-yellow";
+    } else if (allGreen) {
+      return "bg-green"
+    }
     return "bg-near-white";
   }
 
@@ -137,22 +168,25 @@ export default class DataList extends Component {
                 onClick={e => this.setSelectedPhase(k)}
               >
                 <h3 className="b pa1">
-                  {this.props.contractContext.web3.utils.hexToAscii(k)}
+                  {this.props.contractContext.web3.utils.hexToUtf8(k)}
                 </h3>
               </div>
-              {/*this.state.selectedPhase === k */ true
+              {this.state.selectedPhase === k
                 ? this.props.data[k].map(d => (
                     <div
                       key={d.title}
                       className={
-                        "flex justify-around items-center helvetica pa1 mv1 mh2 f4 " +
+                        "flex justify-around items-center helvetica pa2 mv1 mh2 f4 " +
                         this.getColor(d.status)
                       }
                     >
-                      <div className="flex flex-column justify-around w-60 fl">
-                        <h2 className="b f5 mb1">
-                          {this.utils.hexToAscii(d.title)}
-                        </h2>
+                      <div className="flex flex-column justify-around fl w-100">
+                        <div className="flex justify-between items-center">
+                          <h2 className="b f5 mb1">
+                            {this.utils.hexToUtf8(d.title)}
+                          </h2>
+                          <div>{this.getButton(d)}</div>
+                        </div>
                         {d.status !== this.utils.asciiToHex("undone") ? (
                           <Data location={d.id} />
                         ) : null}
@@ -160,9 +194,6 @@ export default class DataList extends Component {
                           <b>Status: </b>
                           {this.getStatus(d.status)}
                         </h2>
-                      </div>
-                      <div className="w-40">
-                        <div>{this.getButton(d)}</div>
                       </div>
                     </div>
                   ))

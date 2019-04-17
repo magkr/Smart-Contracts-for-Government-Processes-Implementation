@@ -27,6 +27,8 @@ class App extends Component {
     this.markData = this.markData.bind(this);
     this.caseData = this.caseData.bind(this);
     this.submitData = this.submitData.bind(this);
+    this.submitDatas = this.submitDatas.bind(this);
+
     this.handlePayment = this.handlePayment.bind(this);
   }
 
@@ -73,7 +75,6 @@ class App extends Component {
       .send({ from: this.state.accounts[0] })
       .then(async transaction => {
         const bcData = await transaction.events.NewData.returnValues
-        console.log(bcData);
         await saveData(bcData.title, bcData.caseID, value, bcData.dataHash, bcData.location)
           .catch(error => {
             console.log(`ERROR: save data to database failed`);
@@ -84,6 +85,31 @@ class App extends Component {
         return error;
       });
       await this.fetchCases();
+  }
+
+  async submitDatas(actions, caseId, values) {
+    var hashes = [];
+    for(var i = 0; i < actions.length; i++){
+      hashes.push(this.state.web3.utils.sha3(values[i]));
+    }
+    await this.state.contract.methods
+      .fillDatas(actions, caseId, hashes)
+      .send({ from: this.state.accounts[0] })
+      .then(async transaction => {
+        const events = await transaction.events.NewData;
+        events.forEach(async (e, i) => {
+          const bcData = e.returnValues;
+          await saveData(bcData.title, bcData.caseID, values[i], bcData.dataHash, bcData.location)
+           .catch(error => {
+            console.log(`ERROR: save data to database failed`);
+           });
+        })
+      })
+      .catch(error => {
+        console.log("ERROR: submit data to blockchain failed");
+        return error;
+      });
+    await this.fetchCases();
   }
 
   async handlePayment(caseId, value) {
@@ -221,6 +247,7 @@ class App extends Component {
               markData: this.markData,
               caseData: this.caseData,
               submitData: this.submitData,
+              submitDatas: this.submitDatas,
               handlePayment: this.handlePayment
             }}
           >

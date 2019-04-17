@@ -1,5 +1,3 @@
-import "../css/reset.css";
-import "../css/tachyons.min.css";
 import React, { Component } from "react";
 import Action from "./action.js";
 import { getData } from "../store.js";
@@ -16,12 +14,16 @@ export default class ActionsList extends Component {
   }
 
   submitMoreData() {
-    for (var a in this.props.actions) {
+    var actions = [];
+    var values = [];
+    this.props.actions.forEach(a => {
       var value = this.valuesToSubmit[a.title];
-      if(value !== "") {
-        this.submitData(a.title, value);
+      if(value) {
+        actions.push(a.title)
+        values.push(value);
       }
-    }
+    })
+    this.props.contractContext.submitDatas(actions, this.props.case.id, values);
   }
 
   submitData(title, value) {
@@ -47,7 +49,7 @@ export default class ActionsList extends Component {
             submitData={this.submitData.bind(this)}
           />
         ))}
-        {this.props.actions.length > 0 ? (
+        {this.props.actions.length > 1 ? (
           <button
             className="helvetica w-20 f6 ml3 br1 ba bg-white"
             onClick={() => this.submitMoreData()}

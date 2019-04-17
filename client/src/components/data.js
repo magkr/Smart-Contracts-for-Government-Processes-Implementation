@@ -26,9 +26,9 @@ export default class Data extends Component {
     return (
       <div>
         <h2 className="f6 mb1 b">Data:</h2>
-        <p className="f6 mb1">{this.state.value}</p>
+        <p className="f6 mb1 word-wrap">{this.state.value}</p>
         <h2 className="f6 mb1 b">Hash:</h2>
-        <p className="f6 mb1 measure-narrow">{this.state.hash}</p>
+        <p className="f6 mb1 measure-narrow word-wrap">{this.state.hash}</p>
       </div>
     );
   }

@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import "../css/reset.css";
-import "../css/tachyons.min.css";
 import { ContractConsumer } from "../utils/contractcontext.js";
 
 class CaseList extends Component {
