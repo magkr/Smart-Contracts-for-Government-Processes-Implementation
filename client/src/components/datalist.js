@@ -90,6 +90,7 @@ export default class DataList extends Component {
   getButton(d) {
     if (
       this.props.contractContext.role === 1 &&
+      this.props.case.status !== "3" &&
       d.status === this.utils.asciiToHex("done")
     ) {
       return (
