@@ -204,10 +204,13 @@ contract CaseHandler is RBAC, Graph {
 
   function _stadfast(uint32 _caseID) internal {
     require(cases[_caseID].status == CaseStatus.COUNCIL && !complaints[_caseID].isMarked);
+    _cascade(_getIdx(complaints[_caseID].data), cases[_caseID], Status.UNSTABLE, Status.DONE);
     Case storage c = cases[_caseID];
     c.status = CaseStatus.ACTIVE;
-    //EMIT EVENT
-  }
+    if(c.dataMapping[lastVtx].status == Status.DONE) {
+      c.status = CaseStatus.READYFORPAYMENT;
+    }
+   }
 
   function _homesend(uint32 _caseID) internal {
     require(cases[_caseID].status == CaseStatus.COUNCIL && complaints[_caseID].isMarked);

@@ -99,10 +99,10 @@ class Case extends Component {
 
   handleComplaint(){
     if(this.state.marked) {
-      this.props.contractContext.contract.methods.homesend(this.props.case.id).send({ from: this.props.contractContext.accounts[0] });
+      this.props.contractContext.homesend(this.props.case.id);
     }
     else {
-      this.props.contractContext.contract.methods.stadfast(this.props.case.id).send({ from: this.props.contractContext.accounts[0] });
+      this.props.contractContext.stadfast(this.props.case.id);
     }
     this.setState({ marked: false })
   }

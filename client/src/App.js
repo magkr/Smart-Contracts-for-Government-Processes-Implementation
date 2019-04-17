@@ -28,6 +28,8 @@ class App extends Component {
     this.caseData = this.caseData.bind(this);
     this.submitData = this.submitData.bind(this);
     this.handlePayment = this.handlePayment.bind(this);
+    this.homesend = this.homesend.bind(this);
+    this.stadfast = this.stadfast.bind(this);
   }
 
   fetchCases() {
@@ -139,6 +141,16 @@ class App extends Component {
     else return {};
   }
 
+  async stadfast(id){
+    await this.state.contract.methods.stadfast(id).send({ from: this.state.accounts[0] });
+    await this.fetchCases();
+  }
+
+  async homesend(id){
+    await this.state.contract.methods.homesend(id).send({ from: this.state.accounts[0] });
+    await this.fetchCases();
+  }
+
   update() {
     if (!this.state.web3 || !this.state.contract) return;
     this.state.web3.eth.getAccounts().then(acc => {
@@ -221,7 +233,9 @@ class App extends Component {
               markData: this.markData,
               caseData: this.caseData,
               submitData: this.submitData,
-              handlePayment: this.handlePayment
+              handlePayment: this.handlePayment,
+              homesend: this.homesend,
+              stadfast: this.stadfast
             }}
           >
             <CaseOverview account={this.state.accounts[0]} cases={ this.state.cases } role={this.state.role} />
