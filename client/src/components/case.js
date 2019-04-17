@@ -136,7 +136,7 @@ class Case extends Component {
       <div>
         <div className="w-100 flex justify-center">
           {this.dataList()}
-          {this.props.case.status === "3" ? (
+          {this.props.case.status === "2" ? (
             <div>
               <input
                 className="helvetica w-80"
@@ -160,11 +160,11 @@ class Case extends Component {
         )}
       </div>
       <HistoryView
-          cid={this.props.case.id}
+          id={this.props.case.id}
           history={this.state.history}
           contractContext={this.props.contractContext}
         />
-    </div>
+      </div>
     );
   }
 
