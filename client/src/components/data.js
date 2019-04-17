@@ -13,6 +13,13 @@ export default class Data extends Component {
     this.update();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location ) {
+      this.update();
+    }
+  }
+
+
   async update() {
     var response = await getData(this.props.location);
     await this.setState({
