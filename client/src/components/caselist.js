@@ -25,10 +25,10 @@ class CaseList extends Component {
     } catch (err) {}
   }
 
-  setCouncil() {
+  async setCouncil() {
     try {
-      this.props.contractContext.addRole(this.state.newAddr);
-      this.setState({
+      await this.props.contractContext.contract.methods.addRole(this.state.newAddr).send({from: this.props.contractContext.accounts[0]});
+      await this.setState({
         newAddr: ""
       });
     } catch (err) {}
@@ -107,6 +107,25 @@ class CaseList extends Component {
     );
   }
 
+  setCouncilField() {
+    return (
+      <li className="dt w-100 bb b--black-05 pa2 flex flex-column justify-between items-start">
+        <input
+          className="w-100 dtc v-mid helvetica "
+          type="text"
+          value={this.state.newAddr}
+          onChange={this.updateAddr}
+        />
+        <button
+          className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica mv2"
+          onClick={() => this.setCouncil()}
+        >
+          Sæt ny addresse
+        </button>
+      </li>
+    );
+  }
+
   render() {
     return (
       <ContractConsumer>
@@ -115,6 +134,7 @@ class CaseList extends Component {
             <ul className="w-100">
               {context.cases ? this.caseList() : null}
               {context.role === 1 ? this.addCaseField() : null}
+              {context.role === 2 ? this.setCouncilField() : null}
             </ul>
           );
         }}

@@ -58,9 +58,10 @@ class Case extends Component {
       // const c = await t
       //this.props.contractContext.contract.methods.getComplaint(this.props.case.id).call().then(r => console.log(r));
       await this.props.contractContext.caseData(this.props.case).then(res => {
+        var actions = (this.props.contractContext.role === 0) ? res.actions.filter(a => a.type !== "1") : res.actions;
         this.setState({
             data: res.data,
-            actions: res.actions,
+            actions: actions,
             isLoading: false,
             address: add,
             marked: res.marked
@@ -140,7 +141,7 @@ class Case extends Component {
       <div>
         <div className="w-100 flex justify-center">
           {this.dataList()}
-          {this.props.case.status === "3" ? ( // MAGNUS HJÆLP (opdater og prettify)
+          {this.props.case.status === "3" ? (
             <div>
               <input
                 className="helvetica w-80"
@@ -157,13 +158,14 @@ class Case extends Component {
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
+              actionss={this.state.actionss}
               data={this.state.history}
               case={this.props.case}
             />
         )}
       </div>
       <HistoryView
-          id={this.props.case.id}
+          cid={this.props.case.id}
           history={this.state.history}
           contractContext={this.props.contractContext}
         />
@@ -173,10 +175,21 @@ class Case extends Component {
 
   citizenInterface(data) {
     return (
-      <ResolutionView
-        id={this.props.case.id}
-        contractContext={this.props.contractContext}
-      />
+      <div>
+        <div className="w-100 flex justify-center">
+          {this.dataList()}
+          <ActionsList
+            contractContext={this.props.contractContext}
+            actions={this.state.actions}
+            data={this.state.history}
+            case={this.props.case}
+          />
+        </div>
+        <ResolutionView
+          id={this.props.case.id}
+          contractContext={this.props.contractContext}
+        />
+      </div>
     );
   }
 

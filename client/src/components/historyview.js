@@ -25,7 +25,7 @@ export default class HistoryView extends Component {
         .NewData(
           {
             filter: {
-              caseID: this.props.id
+              caseID: this.props.cid
             }, // Using an array means OR: e.g. 20 or 23
             fromBlock: 0,
             toBlock: "latest"
@@ -56,13 +56,12 @@ export default class HistoryView extends Component {
   }
 
   render() {
-    console.log(this.state.history);
     return (
       <div className="pa2 helvetica mt2">
         <h2 className="b f4">Historik:</h2>
-        {this.state.history.map(d => {
+        {this.state.history.map((d, idx) => {
           return (
-            <div key={d.dataHash} className="pa1 ma1 flex flex-column justify-around bg-near-white">
+            <div key={idx} className="pa1 ma1 flex flex-column justify-around bg-near-white">
               { dataEvent(d, this.props.contractContext.web3) }
             </div>
           );

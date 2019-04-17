@@ -7,59 +7,32 @@ import { getData } from "../store.js";
 export default class ActionsList extends Component {
   constructor(props) {
     super(props);
-    var values = {};
-    this.props.actions.map(a => (values = { ...values, [a]: "" }));
-    this.state = {
-      //prevValues: values,
-      values: values
-    };
-    console.log(this.state);
+    this.valuesToSubmit = {};
+    this.submitMoreData = this.submitMoreData.bind(this);
   }
 
-  updateValue(e, a){
-    this.setState({ values: { ... this.state.values, [a]: e.target.value } });
-  }
-
-  componentDidMount() {
-    //this.findValues();
-  }
-
-  async findValues() {
-    this.props.data.forEach(async a => {
-      console.log(a);
-      for (var k in this.props.data) {
-
-        if (this.props.data[k].title === a) {
-          let response = await getData(this.props.data[k].location);
-          console.log(response);
-          await this.setState({
-            //prevValues: { ... this.state.prevValues, [a]: response.data.value },
-            value: { ... this.state.values, [a]: response.data.value }
-          });
-          return;
-        }
-      }
-    });
+  addValueToSubmit(title, value) {
+    this.valuesToSubmit[title] = value;
   }
 
   submitMoreData() {
-    for (var k in this.state.values) {
-      if(this.state.values[k] != "") {
-        this.submitData(k);
+    for (var a in this.props.actions) {
+      var value = this.valuesToSubmit[a.title];
+      if(value !== "") {
+        this.submitData(a.title, value);
       }
     }
   }
 
-  submitData(a) {
+  submitData(title, value) {
     this.props.contractContext.submitData(
-      a,
+      title,
       this.props.case.id,
-      this.state.values[a]
+      value
     );
   }
 
   render() {
-    console.log(this.state.values);
     return (
       <div className="w-50">
         <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">
@@ -67,19 +40,17 @@ export default class ActionsList extends Component {
         </h2>
         {this.props.actions.map(a => (
           <Action
-            key={a}
+            key={a.title}
             action={a}
             contractContext={this.props.contractContext}
-            update={this.updateValue.bind(this)}
-            //prev={this.state.prevValues[a]}
-            value={this.state.values[a]}
+            addValueToSubmit={this.addValueToSubmit.bind(this)}
             submitData={this.submitData.bind(this)}
           />
         ))}
         {this.props.actions.length > 0 ? (
           <button
             className="helvetica w-20 f6 ml3 br1 ba bg-white"
-            onClick={this.submitMoreData.bind(this)}
+            onClick={() => this.submitMoreData()}
           >
             Indsend udfyldte
           </button>

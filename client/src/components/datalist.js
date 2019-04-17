@@ -61,18 +61,17 @@ export default class DataList extends Component {
 
   async setSelected(d) {
 
-    if (this.state.selected === d.title) {
+    if (this.state.selected === d) {
       this.setState({
         selected: ""
       });
-      await this.props.dontEditData(d.title);
-      return;
+      await this.props.dontEditData(d);
     } else {
       await this.props.dontEditData(this.state.selected);
       this.setState({
-        selected: d.title
+        selected: d
       });
-      await this.props.editData(d.title);
+      await this.props.editData(d);
     }
   }
 
@@ -96,9 +95,9 @@ export default class DataList extends Component {
       return (
         <button
           className="helvetica f6 br1 ba bg-white fr mr3"
-          onClick={e => this.setSelected(d)}
+          onClick={ e => this.setSelected(d)}
         >
-          {this.state.selected === d.title ? "Fortryd" : "Rediger"}
+          {this.state.selected.title === d.title ? "Fortryd" : "Rediger"}
         </button>
       );
     }

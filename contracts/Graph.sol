@@ -3,7 +3,7 @@ pragma solidity 0.5.0;
 
 contract Graph {
   /* enum DataType { INT, TEXT, FILE, BOOL } */
-  enum NodeType { EXTRA, RESOLUTION, NORMAL }
+  enum NodeType { NORMAL, RESOLUTION, DOC }
   bytes32 resolvingResolution;
   bytes32 lastVtx;
   bytes32 root = "root";
@@ -12,10 +12,10 @@ contract Graph {
 
   struct DataNode {
     /* DataType dataType; */
-    /* NodeType nodeType; */
     bytes32 title;
     bytes32 phase;
     bool resolution;
+    NodeType nodeType;
   }
 
   DataNode[] vxs;
@@ -28,9 +28,9 @@ contract Graph {
     return titleToID[title]-1;
   }
 
-  function _addVertex(bytes32 _title, bytes32 _phase, bool _resolution) internal {
+  function _addVertex(bytes32 _title, bytes32 _phase, bool _resolution, NodeType _type) internal {
     // if title exists, throw error
-    vxs.push(DataNode(_title, _phase, _resolution));
+    vxs.push(DataNode(_title, _phase, _resolution, _type));
     titleToID[_title] = vxs.length;
   }
 

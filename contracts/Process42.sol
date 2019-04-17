@@ -37,12 +37,12 @@ contract Process42 is ProcessInterface {
   }
 
   function metering() private {
-    _addVertex("Arbejdstider","Udmaaling", false);
-    _addVertex("Familieforhold", "Udmaaling", false);
-    _addVertex("Arbejdsfleksibilitet", "Udmaaling", false);
-    _addVertex("Bevilligede timer", "Udmaaling", false);
-    _addVertex("Sparede udgifter", "Udmaaling", false);
-    _addVertex("Udmaaling", "Udmaaling", true);
+    _addVertex("Arbejdstider","Udmaaling", false, NodeType.DOC);
+    _addVertex("Familieforhold", "Udmaaling", false, NodeType.NORMAL);
+    _addVertex("Arbejdsfleksibilitet", "Udmaaling", false, NodeType.NORMAL);
+    _addVertex("Bevilligede timer", "Udmaaling", false, NodeType.NORMAL);
+    _addVertex("Sparede udgifter", "Udmaaling", false, NodeType.NORMAL);
+    _addVertex("Udmaaling", "Udmaaling", true, NodeType.RESOLUTION);
 
     _addEdge(root,"Arbejdstider");
     _addEdge(root,"Familieforhold");
@@ -59,28 +59,30 @@ contract Process42 is ProcessInterface {
   }
 
   function test() private {
-    _addVertex("Normal","Resolution", false);
-    _addVertex("Resolution", "Resolution", true);
-    _addVertex("Final", "Final", true);
+    _addVertex("Normal","Resolution", false, NodeType.DOC);
+    _addVertex("Resolution", "Resolution", true, NodeType.RESOLUTION);
+    _addVertex("Documentation", "Final", false, NodeType.DOC);
+    _addVertex("Final", "Final", true, NodeType.RESOLUTION);
 
 
     _addEdge(root,"Normal");
     _addEdge("Normal","Resolution");
 
-    _addEdge("Resolution","Final");
+    _addEdge("Resolution","Documentation");
+    _addEdge("Documentation","Final");
     _addEdge("Final",end);
 
   }
 
   function beregningsgrundlag() private {
-    _addVertex("Indkomstoplysninger", "Beregningsgrundlag", false);
-    _addVertex("Skatteoplysninger", "Beregningsgrundlag", false);
-    _addVertex("Pensionsoplysninger", "Beregningsgrundlag", false);
+    _addVertex("Indkomstoplysninger", "Beregningsgrundlag", false, NodeType.DOC);
+    _addVertex("Skatteoplysninger", "Beregningsgrundlag", false, NodeType.DOC);
+    _addVertex("Pensionsoplysninger", "Beregningsgrundlag", false, NodeType.DOC);
 
-    _addVertex("Beregning af ydelse", "Beregningsgrundlag", false);
-    _addVertex("Pensionsselskabs info", "Beregningsgrundlag", false);
+    _addVertex("Beregning af ydelse", "Beregningsgrundlag", false, NodeType.NORMAL);
+    _addVertex("Pensionsselskabs info", "Beregningsgrundlag", false, NodeType.NORMAL);
 
-    _addVertex("Beregningsgrundlag", "Beregningsgrundlag", true);
+    _addVertex("Beregningsgrundlag", "Beregningsgrundlag", true, NodeType.RESOLUTION);
 
     _addEdge("Udmaaling","Indkomstoplysninger");
     _addEdge("Udmaaling","Skatteoplysninger");
@@ -96,8 +98,8 @@ contract Process42 is ProcessInterface {
   }
 
   function udbetaling() private {
-    _addVertex("Borgerdokumentation", "Udbetaling", false);
-    _addVertex("Udbetaling", "Udbetaling", true);
+    _addVertex("Borgerdokumentation", "Udbetaling", false, NodeType.DOC);
+    _addVertex("Udbetaling", "Udbetaling", true, NodeType.RESOLUTION);
 
     _addEdge("Beregningsgrundlag","Borgerdokumentation");
     _addEdge("Borgerdokumentation","Udbetaling");

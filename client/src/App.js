@@ -106,17 +106,19 @@ class App extends Component {
       .call()
       .then(data => {
         data["phases"].forEach((phase, idx) => {
-          if (!phaseStruct[phase]) phaseStruct[phase] = [];
-          phaseStruct[phase].push({
+          var d = {
             id: data["ids"][idx],
             title: data["titles"][idx],
             status: data["statuss"][idx],
             ready: data["isReady"][idx],
-            phase: data["phases"][idx]
-          });
-          if(data["statuss"][idx] === this.state.web3.utils.asciiToHex("marked")) marked = true;
-          if (data["isReady"][idx]) {
-            actions.push(data["titles"][idx]);
+            phase: data["phases"][idx],
+            type: data["types"][idx],
+          }
+          if (!phaseStruct[phase]) phaseStruct[phase] = [];
+          phaseStruct[phase].push(d);
+          if(d.status === this.state.web3.utils.asciiToHex("marked")) marked = true;
+          if (d.ready) {
+             actions.push(d);
           }
         });
       });

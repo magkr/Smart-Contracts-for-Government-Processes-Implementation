@@ -96,17 +96,19 @@ contract CaseHandler is RBAC, Graph {
     return caseToAddress[caseID];
   }
 
-  function _getCase(uint caseID) internal view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, bytes32[] memory phases, bool[] memory isReady) {
+  function _getCase(uint caseID) internal view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
     titles = new bytes32[](vxs.length);
     ids = new uint[](vxs.length);
     statuss = new bytes32[](vxs.length);
     phases = new bytes32[](vxs.length);
     isReady = new bool[](vxs.length);
+    types = new uint[](vxs.length);
     Case storage c = cases[caseID];
 
     for(uint i = 0; i < vxs.length; i++){
       titles[i] = vxs[i].title;
       phases[i] = vxs[i].phase;
+      types[i] = uint(vxs[i].nodeType);
       ids[i] = c.dataMapping[vxs[i].title].id;
       statuss[i] = _getStatusString(c.dataMapping[vxs[i].title].status);
       isReady[i] = _isReady(vxs[i].title, c);
@@ -114,13 +116,12 @@ contract CaseHandler is RBAC, Graph {
   }
 
   function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
-
     if(cases[_caseID].status == CaseStatus.ACTIVE) return _activeFillData(_title, _caseID, _dataHash);
     else if(cases[_caseID].status == CaseStatus.COMPLAINT) return _complainFillData(_title, _caseID, _dataHash);
   }
 
   function _activeFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
-    require(cases[_caseID].status == CaseStatus.ACTIVE );
+    require(cases[_caseID].status == CaseStatus.ACTIVE);
     require(_allowed(_title, cases[_caseID]));
     Case storage c = cases[_caseID];
 
@@ -224,14 +225,6 @@ contract CaseHandler is RBAC, Graph {
     _cascade(_getIdx(_title), c, Status.DONE, Status.UNSTABLE);
     complaints[_caseID] = Complaint(_title, _caseID, false);
   }
-
-  /*
-  function _cut(bytes32[] memory arr, uint count) internal pure returns (bytes32[] memory) {
-    bytes32[] memory res = new bytes32[](count);
-    for (uint i = 0; i < count; i++) { res[i] = arr[i]; }
-    return res;
-  }
-  */
 
   function _getStatusString(Status status) internal pure returns(bytes32) {
     if (status == Status.DONE) return "done";

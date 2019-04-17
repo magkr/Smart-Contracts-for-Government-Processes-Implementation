@@ -13,11 +13,13 @@ contract ProcessInterface is TransferHandler {
     return _addressFromCase(caseID);
   }
 
-  function getCase(uint caseID) public view onlyAdmin returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, bytes32[] memory phases, bool[] memory isReady) {
+  function getCase(uint caseID) public view onlyAdmin returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
     return _getCase(caseID);
   }
 
-  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public onlyRole(MUNICIPALITY) returns (uint id) {
+  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public returns (uint id) {
+    if (vxs[_getIdx(_title)].nodeType == NodeType.DOC) require((caseToAddress[_caseID] == msg.sender) || hasRole(msg.sender, MUNICIPALITY));
+    else require(hasRole(msg.sender, MUNICIPALITY));
     return _fillData(_title, _caseID, _dataHash);
   }
 
