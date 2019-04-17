@@ -31,6 +31,11 @@ contract ProcessInterface is TransferHandler {
     return _myCases();
   }
 
+  function councilCases() public view returns (uint32[] memory ids, CaseStatus[] memory sts) {
+    return _councilCases();
+  }
+
+
   function markData(bytes32 _title, uint32 _caseID) public onlyRole(COUNCIL) {
     return _markData(_title, _caseID);
   }

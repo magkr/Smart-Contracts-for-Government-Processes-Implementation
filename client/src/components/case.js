@@ -51,7 +51,7 @@ class Case extends Component {
 
 
   async update() {
-    if (this.props.case) {
+    if (this.props.case.id) {
 
       await this.setState({ isLoading: true });
       const add = await this.props.contractContext.contract.methods.addressFromCase(this.props.case.id).call();

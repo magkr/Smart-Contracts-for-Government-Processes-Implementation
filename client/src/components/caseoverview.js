@@ -49,7 +49,7 @@ class CaseOverview extends Component {
             </ContractConsumer>
           </div>
           <div className="fl w-80">
-            {this.prevAccount === this.props.account && this.state.selected !== -1 ? (
+            {c.id ? (
               <ContractConsumer>
                 {value => (
                   <Case

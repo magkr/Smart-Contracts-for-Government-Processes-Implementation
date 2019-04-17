@@ -59,7 +59,7 @@ contract Process42 is ProcessInterface {
   }
 
   function test() private {
-    _addVertex("Normal","Resolution", false, NodeType.DOC);
+    _addVertex("Normal","Resolution", false, NodeType.NORMAL);
     _addVertex("Resolution", "Resolution", true, NodeType.RESOLUTION);
     _addVertex("Documentation", "Final", false, NodeType.DOC);
     _addVertex("Final", "Final", true, NodeType.RESOLUTION);
