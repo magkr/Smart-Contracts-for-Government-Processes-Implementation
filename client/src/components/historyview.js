@@ -14,6 +14,12 @@ export default class HistoryView extends Component {
     this.update();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.update();
+    }
+  }
+
   update(){
     if (
       this.props.contractContext.web3 &&

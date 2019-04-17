@@ -181,7 +181,7 @@ class Case extends Component {
           />
         </div>
         <ResolutionView
-          id={this.props.case.id}
+          case={this.props.case}
           contractContext={this.props.contractContext}
         />
       </div>

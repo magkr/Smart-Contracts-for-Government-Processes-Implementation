@@ -238,7 +238,7 @@ contract CaseHandler is RBAC, Graph {
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;
     for(uint i = 0; i < vxs.length; i++) {
-      if (vxs[i].phase == _title) c.dataMapping[vxs[i].title].status = Status.COMPLAINED;
+      if (vxs[i].phase == vxs[_getIdx(_title)].phase) c.dataMapping[vxs[i].title].status = Status.COMPLAINED;
     }
     _cascade(_getIdx(_title), c, Status.DONE, Status.UNSTABLE);
     complaints[_caseID] = Complaint(_title, _caseID, false);
