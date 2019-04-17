@@ -4,6 +4,7 @@ import { dataEvent } from "./common.js";
 export default class ResolutionView extends Component {
   constructor(props) {
     super(props);
+    this.newestRes = {};
     this.state = {
       resolutions: []
     };
@@ -39,8 +40,10 @@ export default class ResolutionView extends Component {
           }
         )
         .on("data", async e => {
+          var newRes = e.returnValues;
+          this.newestRes[newRes.title] = newRes.dataHash;
           await this.setState({
-            resolutions: [e.returnValues, ...this.state.resolutions]
+            resolutions: [newRes, ...this.state.resolutions]
           });
         })
         .on("changed", e => {
@@ -53,6 +56,8 @@ export default class ResolutionView extends Component {
   }
 
   button(r) {
+    if (this.props.case.status !== "0" && this.props.case.status !== "2") return null;
+    if (this.newestRes[r.title] !== r.dataHash) return null;
     return (
       <button className="helvetica w-20 f6 ml3 br1 ba bg-white h2" onClick={() => this.props.contractContext.complain(r)}>
         Klag!

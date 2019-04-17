@@ -55,15 +55,13 @@ const axios = require("axios");
       headers: { "Content-Type": "application/json" },
       data
     });
-    console.log(response);
     return response;
   }
 
   export async function getData(id) {
     try {
       return await axios.get(`http://localhost:8888/${id}`);
-      // console.log(`Get data [id: ${id}]`);
     } catch (error) {
-      console.error(`Get data error [hash: ${id}] : ${id}`);
+      console.log(`Get data error [location: ${id}]`);
     }
   }

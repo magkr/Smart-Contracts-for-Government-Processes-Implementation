@@ -9,7 +9,7 @@ export default class Data extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount(prevProps) {
     this.update();
   }
 
@@ -22,10 +22,17 @@ export default class Data extends Component {
 
   async update() {
     var response = await getData(this.props.location);
-    await this.setState({
-      hash: response.data.hash,
-      value: response.data.value
-    });
+    if (response) {
+      await this.setState({
+        hash: response.data.hash,
+        value: response.data.value
+      });
+    } else {
+      await this.setState({
+        hash: "not found in database",
+        value: "not found in database"
+      });
+    }
   }
 
   render() {

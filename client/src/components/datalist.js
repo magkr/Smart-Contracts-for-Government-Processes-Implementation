@@ -87,7 +87,7 @@ export default class DataList extends Component {
     });
 
     if(max === toHex("done") && min !== toHex("done")) {
-      return "bg-near-white";
+      return "bg-washed-green";
     } else {
       return this.getColor(max);
     }

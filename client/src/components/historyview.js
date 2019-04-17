@@ -14,8 +14,11 @@ export default class HistoryView extends Component {
     this.update();
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
+  componentDidUpdate = async (prevProps) => {
+    if (this.props.case.id !== prevProps.case.id) {
+      await this.setState({
+        history: []
+      });
       this.update();
     }
   }
@@ -29,7 +32,7 @@ export default class HistoryView extends Component {
         .NewData(
           {
             filter: {
-              caseID: this.props.cid
+              caseID: this.props.case.id
             }, // Using an array means OR: e.g. 20 or 23
             fromBlock: 0,
             toBlock: "latest"

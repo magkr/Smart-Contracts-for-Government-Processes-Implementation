@@ -17,6 +17,7 @@ export default class Action extends Component {
       prevValue: response.data.value,
       value: response.data.value
     });
+    this.props.addValueToSubmit(this.props.action.title, response.data.value);
   }
 
   async update(e) {
