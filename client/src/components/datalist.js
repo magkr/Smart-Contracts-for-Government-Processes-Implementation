@@ -55,39 +55,42 @@ export default class DataList extends Component {
     }
   }
 
-  getColorPhase(phase) {
-    var unstable = false;
-    var allGreen = true;
-    var marked = false;
-    this.props.data[phase].forEach(d => {
-      var c = this.getColor(d.status);
-      switch (c) {
-        case "bg-dark-red":
-          return "bg-dark-red";
-          break;
-        case "bg-light-red":
-          marked = true;
-          allGreen = false;
-          break;
-        case "bg-light-yellow":
-          unstable = true;
-          allGreen = false;
-          break;
-        case "bg-near-white":
-          allGreen = false;
-          break;
-        default:
-          break;
-      }
-    })
-    if(marked) {
-      return "bg-light-red";
-    } else if(unstable) {
-      return "bg-light-yellow";
-    } else if (allGreen) {
-      return "bg-green"
+  getNumber(status) {
+    const toHex = this.utils.asciiToHex;
+    switch (status) {
+      case toHex("undone"):
+        return 0;
+      case toHex("done"):
+        return 1;
+      case toHex("unstable"):
+        return 2;
+      case toHex("marked"):
+        return 3;
+      case toHex("complained"):
+        return 4;
+      default:
+        return -1;
     }
-    return "bg-near-white";
+  }
+
+  getColorPhase(phase) {
+    const toHex = this.utils.asciiToHex;
+    var max = toHex("undone");
+    var min = toHex("complained");
+    this.props.data[phase].forEach(d => {
+      if (this.getNumber(d.status) > this.getNumber(max)) {
+        max = d.status;
+      }
+      if (this.getNumber(d.status) < this.getNumber(min)) {
+        min = d.status;
+      }
+    });
+
+    if(max === toHex("done") && min !== toHex("done")) {
+      return "bg-near-white";
+    } else {
+      return this.getColor(max);
+    }
   }
 
   async setSelected(d) {
