@@ -14,7 +14,16 @@ export default class ResolutionView extends Component {
     this.update();
   }
 
-  async update() {
+  componentDidUpdate = async (prevProps) => {
+    if (this.props.id !== prevProps.id) {
+      await this.setState({
+        resolutions: []
+      });
+      this.update();
+    }
+  }
+
+  update() {
     if (
       this.props.contractContext.web3 &&
       this.props.contractContext.contract
@@ -69,9 +78,9 @@ export default class ResolutionView extends Component {
     return (
       <div className="pa2 helvetica mt2">
         <h2 className="b f4">Afgørelser:</h2>
-        {this.state.resolutions.map(r => {
+        {this.state.resolutions.map((r,idx) => {
           return (
-            <div key={r.title} className="pa1 ma1 flex justify-between bg-near-white">
+            <div key={idx} className="pa1 ma1 flex justify-between bg-near-white">
               { dataEvent(r, this.props.contractContext.web3)}
               <div className="flex justify-end items-center w-40 pr3">
               {this.props.contractContext.role === 0 ? this.button(r) : null }

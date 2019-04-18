@@ -44,6 +44,7 @@ class App extends Component {
   }
 
   complain(r) {
+    console.log(r);
     this.state.contract.methods
       .complain(r.title, r.caseID)
       .send({ from: this.state.accounts[0] })

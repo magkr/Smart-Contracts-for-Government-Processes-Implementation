@@ -48,7 +48,6 @@ const axios = require("axios");
       hash: hash,
       location: location
     };
-    console.log(data);
     var response = await axios({
       method: "PUT",
       url: `http://localhost:8888/${data.location}`,

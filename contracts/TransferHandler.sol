@@ -13,7 +13,17 @@ contract TransferHandler is DataHandler {
     emit Transfer(success, msg.value, _caseID, caseToAddress[_caseID]);
     if(success) {
       cases[_caseID].status = CaseStatus.ACTIVE;
-      _cascade(_getIdx(resolvingResolution), cases[_caseID], Status.DONE, Status.UNDONE);
+      _cascadeClear(_getIdx(resolvingResolution), cases[_caseID]);
+    }
+  }
+
+  function _cascadeClear(uint v, Case storage c) internal {
+    for (uint i = 0; i < adj[v].length; i++) {
+      uint a = adj[v][i];
+      if (c.dataMapping[vxs[a].title].status == Status.DONE) {
+        c.dataMapping[vxs[a].title] = Data(vxs[a].title, 0, c.id, 0, Status.UNDONE);
+        _cascadeClear(a, c);
+      }
     }
   }
 }

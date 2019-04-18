@@ -143,26 +143,26 @@ class Case extends Component {
               <div className="bg-washed-yellow pa2">
                 <h2 className="b f5 mb1">Udbetaling:</h2>
                 <div className="flex justify-between items-center">
-                <input
-                  className="w-80 f6"
-                  type="number"
-                  onChange={this.updateInput}
-                />
-                <button
-                  className="f6 br1 ph2 ba bg-white"
-                  onClick={() =>
-                    this.props.contractContext.handlePayment(
-                      this.props.case.id,
-                      this.value
-                    )
-                  }
-                >
-                  Send
-                </button>
+                  <input
+                    className="w-80 f6"
+                    type="number"
+                    onChange={this.updateInput}
+                  />
+                  <button
+                    className="f6 br1 ph2 ba bg-white"
+                    onClick={() =>
+                      this.props.contractContext.handlePayment(
+                        this.props.case.id,
+                        this.value
+                      )
+                    }
+                  >
+                    Send
+                  </button>
                 </div>
               </div>
             </div>
-          ) : (
+          ) : this.props.case.status !== "3" ? (
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
@@ -170,7 +170,7 @@ class Case extends Component {
               data={this.state.history}
               case={this.props.case}
             />
-          )}
+          ) : null}
         </div>
         <HistoryView
           id={this.props.case.id}
@@ -186,12 +186,14 @@ class Case extends Component {
       <div>
         <div className="w-100 flex justify-center">
           {this.dataList()}
-          <ActionsList
-            contractContext={this.props.contractContext}
-            actions={this.state.actions}
-            data={this.state.history}
-            case={this.props.case}
-          />
+          {this.props.case.status === "0" ? (
+            <ActionsList
+              contractContext={this.props.contractContext}
+              actions={this.state.actions}
+              data={this.state.history}
+              case={this.props.case}
+            />
+          ) : null}
         </div>
         <ResolutionView
           case={this.props.case}

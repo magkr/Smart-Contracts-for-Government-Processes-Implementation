@@ -79,7 +79,6 @@ export default class DataList extends Component {
         min = d.status;
       }
     });
-    console.log(max, min);
     if (max === "1" && min !== "1") {
       return "bg-washed-green";
     } else {
