@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getData } from "../store.js";
+import Data2 from "./data2.js";
 
 // const Row = (title, id, hash) => {
 //   if (true) return null;
@@ -35,7 +35,7 @@ export default class DataOverview extends Component {
               <div className="pa1 w-10">{d.id}</div>
               <div className="pa1 w-25">{d.hash}</div>
               <div className="pa1 w-25">data her</div>
-              <div className="pa1 w-25">her skal vi vise data</div>
+              <Data2 location={d.id} />
             </div>
           );
         })}
