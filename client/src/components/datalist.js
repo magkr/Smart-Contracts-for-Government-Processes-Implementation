@@ -13,24 +13,21 @@ export default class DataList extends Component {
     this.getColor = this.getColor.bind(this);
   }
 
-
-
   componentDidMount() {
     this.setState({ struct: this.props.data });
   }
 
   getStatus(status) {
-    const toHex = this.utils.asciiToHex;
     switch (status) {
-      case toHex("done"):
-        return "Færdiggjort";
-      case toHex("undone"):
+      case "0":
         return "Ikke gjort";
-      case toHex("marked"):
-        return "Markeret";
-      case toHex("unstable"):
+      case "1":
+        return "Færdiggjort";
+      case "2":
         return "Afventer";
-      case toHex("complained"):
+      case "3":
+        return "Markeret";
+      case "4":
         return "Under klage";
       default:
         return "Ukendt";
@@ -38,55 +35,52 @@ export default class DataList extends Component {
   }
 
   getColor(status) {
-    const toHex = this.utils.asciiToHex;
     switch (status) {
-      case toHex("done"):
-        return "bg-green";
-      case toHex("undone"):
+      case "0":
         return "bg-near-white";
-      case toHex("marked"):
-        return "bg-light-red";
-      case toHex("unstable"):
+      case "1":
+        return "bg-green";
+      case "2":
         return "bg-light-yellow";
-      case toHex("complained"):
+      case "3":
+        return "bg-light-red";
+      case "4":
         return "bg-dark-red";
       default:
         return "bg-near-white";
     }
   }
-
-  getNumber(status) {
-    const toHex = this.utils.asciiToHex;
-    switch (status) {
-      case toHex("undone"):
-        return 0;
-      case toHex("done"):
-        return 1;
-      case toHex("unstable"):
-        return 2;
-      case toHex("marked"):
-        return 3;
-      case toHex("complained"):
-        return 4;
-      default:
-        return -1;
-    }
-  }
+  //
+  // getNumber(status) {
+  //   switch (status) {
+  //     case toHex("undone"):
+  //       return 0;
+  //     case toHex("done"):
+  //       return 1;
+  //     case toHex("unstable"):
+  //       return 2;
+  //     case toHex("marked"):
+  //       return 3;
+  //     case toHex("complained"):
+  //       return 4;
+  //     default:
+  //       return -1;
+  //   }
+  // }
 
   getColorPhase(phase) {
-    const toHex = this.utils.asciiToHex;
-    var max = toHex("undone");
-    var min = toHex("complained");
+    var max = 0;
+    var min = 4;
     this.props.data[phase].forEach(d => {
-      if (this.getNumber(d.status) > this.getNumber(max)) {
+      if (d.status > max) {
         max = d.status;
       }
-      if (this.getNumber(d.status) < this.getNumber(min)) {
+      if (d.status < min) {
         min = d.status;
       }
     });
-
-    if(max === toHex("done") && min !== toHex("done")) {
+    console.log(max, min);
+    if (max === "1" && min !== "1") {
       return "bg-washed-green";
     } else {
       return this.getColor(max);
@@ -94,7 +88,6 @@ export default class DataList extends Component {
   }
 
   async setSelected(d) {
-
     if (this.state.selected === d) {
       this.setState({
         selected: ""
@@ -125,12 +118,12 @@ export default class DataList extends Component {
     if (
       this.props.contractContext.role === 1 &&
       this.props.case.status !== "3" &&
-      d.status === this.utils.asciiToHex("done")
+      d.status === "1"
     ) {
       return (
         <button
           className="helvetica f6 br1 ba bg-white fr mr3"
-          onClick={ e => this.setSelected(d)}
+          onClick={e => this.setSelected(d)}
         >
           {this.state.selected.title === d.title ? "Fortryd" : "Rediger"}
         </button>
@@ -138,8 +131,8 @@ export default class DataList extends Component {
     }
     if (
       this.props.contractContext.role === 2 &&
-      d.status !== this.utils.asciiToHex("undone") &&
-      d.status !== this.utils.asciiToHex("marked")
+      d.status !== "0" &&
+      d.status !== "3"
     ) {
       return (
         <button
@@ -191,7 +184,7 @@ export default class DataList extends Component {
                           </h2>
                           <div>{this.getButton(d)}</div>
                         </div>
-                        {d.status !== this.utils.asciiToHex("undone") ? (
+                        {d.status !== "0" ? (
                           <Data location={d.id} />
                         ) : null}
                         <h2 className="f6 mb1">

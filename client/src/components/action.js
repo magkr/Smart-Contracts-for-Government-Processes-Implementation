@@ -29,7 +29,7 @@ export default class Action extends Component {
   }
 
   buttonText() {
-    if (this.props.action.type === "1" && this.props.action.status === this.props.contractContext.web3.utils.asciiToHex("complained")) {
+    if (this.props.action.type === "1" && this.props.action.status === "4") {
       return this.state.value === this.state.prevValue && this.state.value !== "" ? "Stadfæst" : "Ændre afgørelse";
     } else {
       return this.state.value === this.state.prevValue && this.state.value !== "" ? "Behold" : "Indsend";

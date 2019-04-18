@@ -1,8 +1,8 @@
 pragma solidity 0.5.0;
 
-import {ComplainHandler} from "./ComplainHandler.sol";
+import {DataHandler} from "./DataHandler.sol";
 
-contract TransferHandler is ComplainHandler {
+contract TransferHandler is DataHandler {
 
   event Transfer(bool success, uint amount, uint32 caseID, address receiver);
 

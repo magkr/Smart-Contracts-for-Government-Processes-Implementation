@@ -13,7 +13,7 @@ contract ProcessInterface is TransferHandler {
     return _addressFromCase(caseID);
   }
 
-  function getCase(uint caseID) public view onlyAdmin returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory dataHashes, bytes32[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
+  function getCase(uint caseID) public view onlyAdmin returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory dataHashes, Status[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
     return _getCase(caseID);
   }
 

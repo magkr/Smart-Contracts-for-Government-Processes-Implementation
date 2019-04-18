@@ -144,7 +144,7 @@ class App extends Component {
           }
           if (!phaseStruct[phase]) phaseStruct[phase] = [];
           phaseStruct[phase].push(d);
-          if(d.status === this.state.web3.utils.asciiToHex("marked")) marked = true;
+          if(d.status === "3") marked = true;
           if (d.ready) {
              actions.push(d);
           }
