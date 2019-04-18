@@ -108,18 +108,18 @@ contract CaseHandler is RBAC, Graph {
     Case storage c = cases[caseID];
 
     for(uint i = 0; i < vxs.length; i++){
-      Data storage d = c.dataMapping[vxs[i].title];
       titles[i] = vxs[i].title;
       phases[i] = vxs[i].phase;
       types[i] = uint(vxs[i].nodeType);
-      ids[i] = d.id;
-      dataHashes[i] = d.dataHash;
-      statuss[i] = _getStatusString(d.status);
+      ids[i] = c.dataMapping[vxs[i].title].id;
+      dataHashes[i] = c.dataMapping[vxs[i].title].dataHash;
+      statuss[i] = _getStatusString(c.dataMapping[vxs[i].title].status);
       isReady[i] = _isReady(vxs[i].title, c);
     }
   }
 
   function _fillDatas(bytes32[] memory _titles, uint32 _caseID, bytes32[] memory _dataHashes) internal returns (uint[] memory ids) {
+    require(cases[_caseID].status == CaseStatus.ACTIVE || cases[_caseID].status == CaseStatus.COMPLAINT);
     ids = new uint[](_titles.length);
     if(cases[_caseID].status == CaseStatus.ACTIVE) {
       for(uint i = 0; i < _titles.length; i++) {
@@ -187,10 +187,10 @@ contract CaseHandler is RBAC, Graph {
     return true;
   }
 
-  function _isReady(bytes32 title, Case storage c) private view returns (bool) {
-    if(c.dataMapping[title].status == Status.DONE) return false;
-    for(uint r = 0; r < req[_getIdx(title)].length; r++) {
-      uint reqID = req[_getIdx(title)][r];
+  function _isReady(bytes32 v, Case storage c) private view returns (bool) {
+    if(c.dataMapping[v].status == Status.DONE) return false;
+    for(uint r = 0; r < req[_getIdx(v)].length; r++) {
+      uint reqID = req[_getIdx(v)][r];
       if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
     }
     return true;

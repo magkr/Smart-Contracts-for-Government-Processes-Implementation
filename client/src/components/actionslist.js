@@ -18,28 +18,31 @@ export default class ActionsList extends Component {
     var values = [];
     this.props.actions.forEach(a => {
       var value = this.valuesToSubmit[a.title];
-      if(value) {
-        actions.push(a.title)
+      if (value) {
+        actions.push(a.title);
         values.push(value);
       }
-    })
+    });
     this.props.contractContext.submitDatas(actions, this.props.case.id, values);
   }
 
   submitData(title, value) {
-    this.props.contractContext.submitData(
-      title,
-      this.props.case.id,
-      value
+    this.props.contractContext.submitData(title, this.props.case.id, value);
+  }
+
+  noActionsMessage() {
+    return (
+      <div>
+        <p className="flex justify-center items-center h2 helvetica pa1 ma2 f5 tc">
+          Afventer Ankestyrelsen
+        </p>
+      </div>
     );
   }
 
-  render() {
+  listOfActions() {
     return (
-      <div className="w-50">
-        <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">
-          Muligheder:
-        </h2>
+      <div>
         {this.props.actions.map(a => (
           <Action
             key={a.title}
@@ -57,6 +60,19 @@ export default class ActionsList extends Component {
             Indsend udfyldte
           </button>
         ) : null}
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div className="w-50">
+        <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">
+          Muligheder:
+        </h2>
+        {this.props.case.status === "3"
+          ? this.noActionsMessage()
+          : this.listOfActions()}
       </div>
     );
   }

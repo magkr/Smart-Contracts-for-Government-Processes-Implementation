@@ -125,6 +125,10 @@ class Case extends Component {
             ) : null}
           </div>
         </div>
+        <DataOverview
+          contractContext={this.props.contractContext}
+          datas={this.state.datalist}
+        />
       </div>
     );
   }
@@ -217,10 +221,6 @@ class Case extends Component {
               {this.caseStatusText(this.props.case.status)}
             </h2>
             {this.getInterface()}
-            <DataOverview
-              contractContext={this.props.contractContext}
-              datas={this.state.datalist}
-            />
           </div>
         )}
       </div>

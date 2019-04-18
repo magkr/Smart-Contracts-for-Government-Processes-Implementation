@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { getData } from "../store.js";
 
-
 export default class Action extends Component {
   constructor(props) {
     super(props);
@@ -10,18 +9,21 @@ export default class Action extends Component {
     };
   }
 
-  componentDidMount = async () =>  {
-    if (this.props.action.id < this.props.contractContext.web3.utils.asciiToHex(1)) return;
+  componentDidMount = async () => {
+    if (
+      this.props.action.id < this.props.contractContext.web3.utils.asciiToHex(1)
+    )
+      return;
     var response = await getData(this.props.action.id);
     await this.setState({
-      prevValue: response.data.value,
-      value: response.data.value
+      prevValue: response.value,
+      value: response.value
     });
-    this.props.addValueToSubmit(this.props.action.title, response.data.value);
-  }
+    this.props.addValueToSubmit(this.props.action.title, response.value);
+  };
 
   async update(e) {
-    var val = e.target.value
+    var val = e.target.value;
     await this.setState({
       value: val
     });
@@ -29,10 +31,20 @@ export default class Action extends Component {
   }
 
   buttonText() {
-    if (this.props.action.type === "1" && this.props.action.status === this.props.contractContext.web3.utils.asciiToHex("complained")) {
-      return this.state.value === this.state.prevValue && this.state.value !== "" ? "Stadfæst" : "Ændre afgørelse";
+    if (
+      this.props.action.type === "1" &&
+      this.props.action.status ===
+        this.props.contractContext.web3.utils.asciiToHex("complained")
+    ) {
+      return this.state.value === this.state.prevValue &&
+        this.state.value !== ""
+        ? "Stadfæst"
+        : "Ændre afgørelse";
     } else {
-      return this.state.value === this.state.prevValue && this.state.value !== "" ? "Behold" : "Indsend";
+      return this.state.value === this.state.prevValue &&
+        this.state.value !== ""
+        ? "Behold"
+        : "Indsend";
     }
   }
 
@@ -48,11 +60,13 @@ export default class Action extends Component {
             className="helvetica w-80"
             type="text"
             value={this.state.value}
-            onChange={(e) => this.update(e)}
+            onChange={e => this.update(e)}
           />
           <button
             className="helvetica w-20 f6 ml3 br1 ba bg-white"
-            onClick={() => this.props.submitData(this.props.action.title, this.state.value)}
+            onClick={() =>
+              this.props.submitData(this.props.action.title, this.state.value)
+            }
           >
             {this.buttonText()}
           </button>
