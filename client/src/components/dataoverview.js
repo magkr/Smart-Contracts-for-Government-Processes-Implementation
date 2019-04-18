@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Data2 from "./data2.js";
+import Row from "./row.js";
 
 // const Row = (title, id, hash) => {
 //   if (true) return null;
@@ -28,15 +28,13 @@ export default class DataOverview extends Component {
         {this.props.datas.map(d => {
           if (d.id < 1) return null;
           return (
-            <div className="flex word-wrap w-100">
-              <div className="pa1 w-15">
-                {this.props.contractContext.web3.utils.hexToUtf8(d.title)}
-              </div>
-              <div className="pa1 w-10">{d.id}</div>
-              <div className="pa1 w-25">{d.hash}</div>
-              <div className="pa1 w-25">data her</div>
-              <Data2 location={d.id} />
-            </div>
+            <Row
+              key={d.id}
+              location={d.id}
+              title={d.title}
+              hash={d.hash}
+              contractContext={this.props.contractContext}
+            />
           );
         })}
       </div>
