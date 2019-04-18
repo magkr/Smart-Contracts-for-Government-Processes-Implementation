@@ -5,31 +5,48 @@ class CaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newAddr: ""
+      newAddr: "",
+      placeholder: "Indtast addresse her"
     };
     this.newCase = this.newCase.bind(this);
   }
 
   updateAddr = e => {
-    this.setState({ newAddr: e.target.value });
+    this.setState({ placeholder: "Indtast addresse her", newAddr: e.target.value });
   };
 
   newCase() {
-    try {
-      this.props.contractContext.newCase(this.state.newAddr);
+    if (this.props.contractContext.web3.utils.isAddress(this.state.newAddr)) {
+      try {
+        this.props.contractContext.newCase(this.state.newAddr);
+        this.setState({
+          newAddr: ""
+        });
+      } catch (err) {}
+    } else {
       this.setState({
-        newAddr: ""
+        newAddr: "",
+        placeholder: "Addressen var ikke gyldig"
       });
-    } catch (err) {}
+    }
   }
 
   async setCouncil() {
-    try {
-      await this.props.contractContext.contract.methods.addRole(this.state.newAddr).send({from: this.props.contractContext.accounts[0]});
-      await this.setState({
-        newAddr: ""
+    if (this.props.contractContext.web3.utils.isAddress(this.state.newAddr)) {
+      try {
+        await this.props.contractContext.contract.methods
+          .addRole(this.state.newAddr)
+          .send({ from: this.props.contractContext.accounts[0] });
+        await this.setState({
+          newAddr: ""
+        });
+      } catch (err) {}
+    } else {
+      this.setState({
+        newAddr: "",
+        placeholder: "Addressen var ikke gyldig"
       });
-    } catch (err) {}
+    }
   }
 
   caseStatusBG(status) {
@@ -48,7 +65,7 @@ class CaseList extends Component {
   caseStatusText(status) {
     switch (parseInt(status)) {
       case 0:
-        return "Aktiv"
+        return "Aktiv";
       case 1:
         return "Under klage";
       case 2:
@@ -61,12 +78,15 @@ class CaseList extends Component {
   }
 
   caseList() {
-    const cs = this.props.contractContext.cases
-    if (!cs.ids) return null
+    const cs = this.props.contractContext.cases;
+    if (!cs.ids) return null;
     return cs.ids.map((id, idx) => (
       <li
         key={id}
-        className={"dt w-100 bb b--black-05 pv2 flex justify-between items-center " + this.caseStatusBG(cs.sts[idx])}
+        className={
+          "dt w-100 bb b--black-05 pv2 flex justify-between items-center " +
+          this.caseStatusBG(cs.sts[idx])
+        }
       >
         <div className="w-two-thirds dtc v-mid pl3">
           <h2 className="f6 ph1 fw4 mt0 mb0 black-60 helvetica">
@@ -92,6 +112,7 @@ class CaseList extends Component {
         <input
           className="w-100 dtc v-mid helvetica "
           type="text"
+          placeholder={this.state.placeholder}
           value={this.state.newAddr}
           onChange={this.updateAddr}
         />
@@ -111,6 +132,7 @@ class CaseList extends Component {
         <input
           className="w-100 dtc v-mid helvetica "
           type="text"
+          placeholder={this.state.placeholder}
           value={this.state.newAddr}
           onChange={this.updateAddr}
         />
