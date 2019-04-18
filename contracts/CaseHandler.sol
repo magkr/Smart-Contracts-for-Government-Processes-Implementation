@@ -97,9 +97,10 @@ contract CaseHandler is RBAC, Graph {
     return caseToAddress[caseID];
   }
 
-  function _getCase(uint caseID) internal view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
+  function _getCase(uint caseID) internal view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory dataHashes, bytes32[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
     titles = new bytes32[](vxs.length);
     ids = new uint[](vxs.length);
+    dataHashes = new bytes32[](vxs.length);
     statuss = new bytes32[](vxs.length);
     phases = new bytes32[](vxs.length);
     isReady = new bool[](vxs.length);
@@ -107,11 +108,13 @@ contract CaseHandler is RBAC, Graph {
     Case storage c = cases[caseID];
 
     for(uint i = 0; i < vxs.length; i++){
+      Data storage d = c.dataMapping[vxs[i].title];
       titles[i] = vxs[i].title;
       phases[i] = vxs[i].phase;
       types[i] = uint(vxs[i].nodeType);
-      ids[i] = c.dataMapping[vxs[i].title].id;
-      statuss[i] = _getStatusString(c.dataMapping[vxs[i].title].status);
+      ids[i] = d.id;
+      dataHashes[i] = d.dataHash;
+      statuss[i] = _getStatusString(d.status);
       isReady[i] = _isReady(vxs[i].title, c);
     }
   }
@@ -184,10 +187,10 @@ contract CaseHandler is RBAC, Graph {
     return true;
   }
 
-  function _isReady(bytes32 v, Case storage c) private view returns (bool) {
-    if(c.dataMapping[v].status == Status.DONE) return false;
-    for(uint r = 0; r < req[_getIdx(v)].length; r++) {
-      uint reqID = req[_getIdx(v)][r];
+  function _isReady(bytes32 title, Case storage c) private view returns (bool) {
+    if(c.dataMapping[title].status == Status.DONE) return false;
+    for(uint r = 0; r < req[_getIdx(title)].length; r++) {
+      uint reqID = req[_getIdx(title)][r];
       if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
     }
     return true;
