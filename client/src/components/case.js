@@ -28,14 +28,14 @@ class Case extends Component {
   componentWillReceiveProps(props) {
     this.setState({
       history: []
-    })
+    });
     this.update();
   }
 
   caseStatusText(status) {
     switch (parseInt(status)) {
       case 0:
-        return "Aktiv"
+        return "Aktiv";
       case 1:
         return "Under klage";
       case 2:
@@ -47,21 +47,24 @@ class Case extends Component {
     }
   }
 
-
   async update() {
     if (this.props.case.id) {
-
       await this.setState({ isLoading: true });
-      const add = await this.props.contractContext.contract.methods.addressFromCase(this.props.case.id).call();
+      const add = await this.props.contractContext.contract.methods
+        .addressFromCase(this.props.case.id)
+        .call();
       await this.props.contractContext.caseData(this.props.case).then(res => {
-        var actions = (this.props.contractContext.role === 0) ? res.actions.filter(a => a.type === "2") : res.actions;
+        var actions =
+          this.props.contractContext.role === 0
+            ? res.actions.filter(a => a.type === "2")
+            : res.actions;
         this.setState({
-            data: res.data,
-            actions: actions,
-            isLoading: false,
-            address: add,
-            marked: res.marked
-          });
+          data: res.data,
+          actions: actions,
+          isLoading: false,
+          address: add,
+          marked: res.marked
+        });
       });
     }
   }
@@ -92,17 +95,16 @@ class Case extends Component {
         dontEditData={this.dontEditData}
         case={this.props.case}
       />
-    )
+    );
   }
 
-  handleComplaint(){
-    if(this.state.marked) {
+  handleComplaint() {
+    if (this.state.marked) {
       this.props.contractContext.homesend(this.props.case.id);
-    }
-    else {
+    } else {
       this.props.contractContext.stadfast(this.props.case.id);
     }
-    this.setState({ marked: false })
+    this.setState({ marked: false });
   }
 
   councilInterface(data) {
@@ -111,22 +113,22 @@ class Case extends Component {
         <div className="w-100 flex justify-center">
           {this.dataList()}
           <div className="w-50 flex justify-center items-center">
-            {this.props.case.status === "3"
-              ?
-              (<div>
-              <button className="helvetica f6 br1 ba bg-white fr mr3" onClick={() => this.handleComplaint()}>
-                {this.state.marked ? "Hjemvis" : "Stadfæst"}
-              </button>
-            </div>)
-              : null
-            }
-
+            {this.props.case.status === "3" ? (
+              <div>
+                <button
+                  className="helvetica f6 br1 ba bg-white fr mr3"
+                  onClick={() => this.handleComplaint()}
+                >
+                  {this.state.marked ? "Hjemvis" : "Stadfæst"}
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
         <HistoryView
-            id={this.props.case.id}
-            contractContext={this.props.contractContext}
-          />
+          id={this.props.case.id}
+          contractContext={this.props.contractContext}
+        />
       </div>
     );
   }
@@ -134,20 +136,31 @@ class Case extends Component {
   sbhInterface(data) {
     return (
       <div>
-        <div className="w-100 flex justify-center">
+        <div className="w-100 flex justify-center helvetica">
           {this.dataList()}
           {this.props.case.status === "2" ? (
-            <div>
-              <input
-                className="helvetica w-80"
-                type="text"
-                onChange={this.updateInput}
-              />
-            <input
-                className="helvetica w-20 f6 ml3 br1 ba bg-white"
-                onClick={() => this.props.contractContext.handlePayment(this.props.case.id, this.value)}
-                type="submit"
-              />
+            <div className="w-50 pa2">
+              <div className="bg-washed-yellow pa2">
+                <h2 className="b f5 mb1">Udbetaling:</h2>
+                <div className="flex justify-between items-center">
+                <input
+                  className="w-80 f6"
+                  type="number"
+                  onChange={this.updateInput}
+                />
+                <button
+                  className="f6 br1 ph2 ba bg-white"
+                  onClick={() =>
+                    this.props.contractContext.handlePayment(
+                      this.props.case.id,
+                      this.value
+                    )
+                  }
+                >
+                  Send
+                </button>
+                </div>
+              </div>
             </div>
           ) : (
             <ActionsList
@@ -157,9 +170,9 @@ class Case extends Component {
               data={this.state.history}
               case={this.props.case}
             />
-        )}
-      </div>
-      <HistoryView
+          )}
+        </div>
+        <HistoryView
           id={this.props.case.id}
           history={this.state.history}
           contractContext={this.props.contractContext}
@@ -189,9 +202,9 @@ class Case extends Component {
   }
 
   getInterface() {
-    if (this.props.contractContext.role === 0 ) return this.citizenInterface();
-    if (this.props.contractContext.role === 1 ) return this.sbhInterface();
-    if (this.props.contractContext.role === 2 ) return this.councilInterface();
+    if (this.props.contractContext.role === 0) return this.citizenInterface();
+    if (this.props.contractContext.role === 1) return this.sbhInterface();
+    if (this.props.contractContext.role === 2) return this.councilInterface();
     return null;
   }
 
@@ -214,7 +227,7 @@ class Case extends Component {
               <span className="b">Status: </span>
               {this.caseStatusText(this.props.case.status)}
             </h2>
-            { this.getInterface() }
+            {this.getInterface()}
           </div>
         )}
       </div>

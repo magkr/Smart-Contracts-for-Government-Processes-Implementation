@@ -39,10 +39,8 @@ export default class Data extends Component {
     if (!this.state.value) return <h2 className="f6">Loader... </h2>;
     return (
       <div>
-        <h2 className="f6 mb1 b">Data:</h2>
-        <p className="f6 mb1 word-wrap">{this.state.value}</p>
-        <h2 className="f6 mb1 b">Hash:</h2>
-        <p className="f6 mb1 measure-narrow word-wrap">{this.state.hash}</p>
+        <p className="f5 mv1 word-wrap">{this.state.value}</p>
+        <p className="f6 mb1 measure-narrow word-wrap"><b>Hash:</b> {this.state.hash}</p>
       </div>
     );
   }
