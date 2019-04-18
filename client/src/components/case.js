@@ -3,6 +3,8 @@ import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
 import HistoryView from "./historyview.js";
+import DataOverview from "./dataoverview.js";
+// import { saveData, getData } from "./store.js";
 
 class Case extends Component {
   constructor(props) {
@@ -16,9 +18,9 @@ class Case extends Component {
 
   state = {
     data: null,
+    datalist: [],
     actions: [],
-    isLoading: true,
-    history: []
+    isLoading: true
   };
 
   componentDidMount() {
@@ -26,16 +28,13 @@ class Case extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({
-      history: []
-    })
     this.update();
   }
 
   caseStatusText(status) {
     switch (parseInt(status)) {
       case 0:
-        return "Aktiv"
+        return "Aktiv";
       case 1:
         return "Under klage";
       case 2:
@@ -47,21 +46,25 @@ class Case extends Component {
     }
   }
 
-
   async update() {
     if (this.props.case.id) {
-
       await this.setState({ isLoading: true });
-      const add = await this.props.contractContext.contract.methods.addressFromCase(this.props.case.id).call();
+      const add = await this.props.contractContext.contract.methods
+        .addressFromCase(this.props.case.id)
+        .call();
       await this.props.contractContext.caseData(this.props.case).then(res => {
-        var actions = (this.props.contractContext.role === 0) ? res.actions.filter(a => a.type === "2") : res.actions;
+        var actions =
+          this.props.contractContext.role === 0
+            ? res.actions.filter(a => a.type === "2")
+            : res.actions;
         this.setState({
-            data: res.data,
-            actions: actions,
-            isLoading: false,
-            address: add,
-            marked: res.marked
-          });
+          data: res.data,
+          datalist: res.datalist,
+          actions: actions,
+          isLoading: false,
+          address: add,
+          marked: res.marked
+        });
       });
     }
   }
@@ -92,17 +95,16 @@ class Case extends Component {
         dontEditData={this.dontEditData}
         case={this.props.case}
       />
-    )
+    );
   }
 
-  handleComplaint(){
-    if(this.state.marked) {
+  handleComplaint() {
+    if (this.state.marked) {
       this.props.contractContext.homesend(this.props.case.id);
-    }
-    else {
+    } else {
       this.props.contractContext.stadfast(this.props.case.id);
     }
-    this.setState({ marked: false })
+    this.setState({ marked: false });
   }
 
   councilInterface(data) {
@@ -111,22 +113,18 @@ class Case extends Component {
         <div className="w-100 flex justify-center">
           {this.dataList()}
           <div className="w-50 flex justify-center items-center">
-            {this.props.case.status === "3"
-              ?
-              (<div>
-              <button className="helvetica f6 br1 ba bg-white fr mr3" onClick={() => this.handleComplaint()}>
-                {this.state.marked ? "Hjemvis" : "Stadfæst"}
-              </button>
-            </div>)
-              : null
-            }
-
+            {this.props.case.status === "3" ? (
+              <div>
+                <button
+                  className="helvetica f6 br1 ba bg-white fr mr3"
+                  onClick={() => this.handleComplaint()}
+                >
+                  {this.state.marked ? "Hjemvis" : "Stadfæst"}
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
-        <HistoryView
-            id={this.props.case.id}
-            contractContext={this.props.contractContext}
-          />
       </div>
     );
   }
@@ -143,9 +141,14 @@ class Case extends Component {
                 type="text"
                 onChange={this.updateInput}
               />
-            <input
+              <input
                 className="helvetica w-20 f6 ml3 br1 ba bg-white"
-                onClick={() => this.props.contractContext.handlePayment(this.props.case.id, this.value)}
+                onClick={() =>
+                  this.props.contractContext.handlePayment(
+                    this.props.case.id,
+                    this.value
+                  )
+                }
                 type="submit"
               />
             </div>
@@ -153,20 +156,19 @@ class Case extends Component {
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
-              actionss={this.state.actionss}
-              data={this.state.history}
               case={this.props.case}
             />
-        )}
-      </div>
-      <HistoryView
-          id={this.props.case.id}
-          history={this.state.history}
-          contractContext={this.props.contractContext}
-        />
+          )}
+        </div>
       </div>
     );
   }
+
+  // <HistoryView
+  //     id={this.props.case.id}
+  //     history={this.state.history}
+  //     contractContext={this.props.contractContext}
+  //   />
 
   citizenInterface(data) {
     return (
@@ -189,9 +191,9 @@ class Case extends Component {
   }
 
   getInterface() {
-    if (this.props.contractContext.role === 0 ) return this.citizenInterface();
-    if (this.props.contractContext.role === 1 ) return this.sbhInterface();
-    if (this.props.contractContext.role === 2 ) return this.councilInterface();
+    if (this.props.contractContext.role === 0) return this.citizenInterface();
+    if (this.props.contractContext.role === 1) return this.sbhInterface();
+    if (this.props.contractContext.role === 2) return this.councilInterface();
     return null;
   }
 
@@ -214,7 +216,11 @@ class Case extends Component {
               <span className="b">Status: </span>
               {this.caseStatusText(this.props.case.status)}
             </h2>
-            { this.getInterface() }
+            {this.getInterface()}
+            <DataOverview
+              contractContext={this.props.contractContext}
+              datas={this.state.datalist}
+            />
           </div>
         )}
       </div>

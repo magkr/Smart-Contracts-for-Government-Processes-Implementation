@@ -1,4 +1,7 @@
+.word-wrap {
+  word-break: break-word;
+}
 
-.word-wrap{
-  word-break: break-all;
+.w-15 {
+  width: 15%;
 }

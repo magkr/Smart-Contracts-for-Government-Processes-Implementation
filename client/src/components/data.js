@@ -14,18 +14,17 @@ export default class Data extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location ) {
+    if (this.props.location !== prevProps.location) {
       this.update();
     }
   }
-
 
   async update() {
     var response = await getData(this.props.location);
     if (response) {
       await this.setState({
-        hash: response.data.hash,
-        value: response.data.value
+        hash: response.hash,
+        value: response.value
       });
     } else {
       await this.setState({
