@@ -20,7 +20,7 @@ export default class Data extends Component {
   }
 
   async update() {
-    var response = await getData(this.props.location);
+    var response = await getData(this.props.caseid, this.props.location);
     if (response) {
       await this.setState({
         hash: response.hash,

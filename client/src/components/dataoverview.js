@@ -35,6 +35,7 @@ export default class DataOverview extends Component {
                 location={d.id}
                 title={d.title}
                 hash={d.hash}
+                caseid={d.caseID}
                 contractContext={this.props.contractContext}
               />
             );

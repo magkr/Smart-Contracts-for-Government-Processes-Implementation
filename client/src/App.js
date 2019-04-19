@@ -4,7 +4,7 @@ import CaseOverview from "./components/caseoverview.js";
 import { Council } from "./components/council.js";
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from "./utils/contractcontext.js";
-import { saveData, getData } from "./store.js";
+import { saveData, getData, zip } from "./store.js";
 
 import "./App.css";
 
@@ -141,6 +141,7 @@ class App extends Component {
       .then(data => {
         data["phases"].forEach(async (phase, idx) => {
           var d = {
+            caseID: c.id,
             id: data["ids"][idx],
             hash: data["dataHashes"][idx],
             title: data["titles"][idx],
@@ -154,9 +155,10 @@ class App extends Component {
           datalist.push(d);
           if (d.status === this.state.web3.utils.asciiToHex("marked"))
             marked = true;
-          if (d.ready) {
-            actions.push(d);
-          }
+          // if (d.ready) {
+          //   actions.push(d);
+          // }
+          actions.push(d);
         });
       });
     return {

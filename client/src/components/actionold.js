@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getData, zip } from "../store.js";
 
-export default class Action extends Component {
+export default class ActionOld extends Component {
   constructor(props) {
     super(props);
     this.utils = this.props.contractContext.web3.utils;

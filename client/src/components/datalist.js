@@ -13,8 +13,6 @@ export default class DataList extends Component {
     this.getColor = this.getColor.bind(this);
   }
 
-
-
   componentDidMount() {
     this.setState({ struct: this.props.data });
   }
@@ -86,7 +84,7 @@ export default class DataList extends Component {
       }
     });
 
-    if(max === toHex("done") && min !== toHex("done")) {
+    if (max === toHex("done") && min !== toHex("done")) {
       return "bg-washed-green";
     } else {
       return this.getColor(max);
@@ -94,7 +92,6 @@ export default class DataList extends Component {
   }
 
   async setSelected(d) {
-
     if (this.state.selected === d) {
       this.setState({
         selected: ""
@@ -130,7 +127,7 @@ export default class DataList extends Component {
       return (
         <button
           className="helvetica f6 br1 ba bg-white fr mr3"
-          onClick={ e => this.setSelected(d)}
+          onClick={e => this.setSelected(d)}
         >
           {this.state.selected.title === d.title ? "Fortryd" : "Rediger"}
         </button>
@@ -192,7 +189,7 @@ export default class DataList extends Component {
                           <div>{this.getButton(d)}</div>
                         </div>
                         {d.status !== this.utils.asciiToHex("undone") ? (
-                          <Data location={d.id} />
+                          <Data location={d.id} caseid={d.caseID} />
                         ) : null}
                         <h2 className="f6 mb1">
                           <b>Status: </b>

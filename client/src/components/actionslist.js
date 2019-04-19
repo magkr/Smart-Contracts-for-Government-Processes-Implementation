@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Action from "./action.js";
-import { getData } from "../store.js";
 
 export default class ActionsList extends Component {
   constructor(props) {
@@ -26,10 +25,6 @@ export default class ActionsList extends Component {
     this.props.contractContext.submitDatas(actions, this.props.case.id, values);
   }
 
-  submitData(title, value) {
-    this.props.contractContext.submitData(title, this.props.case.id, value);
-  }
-
   noActionsMessage() {
     return (
       <div>
@@ -49,7 +44,6 @@ export default class ActionsList extends Component {
             action={a}
             contractContext={this.props.contractContext}
             addValueToSubmit={this.addValueToSubmit.bind(this)}
-            submitData={this.submitData.bind(this)}
           />
         ))}
         {this.props.actions.length > 1 ? (
