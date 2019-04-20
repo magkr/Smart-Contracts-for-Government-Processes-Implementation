@@ -155,10 +155,9 @@ class App extends Component {
           datalist.push(d);
           if (d.status === this.state.web3.utils.asciiToHex("marked"))
             marked = true;
-          // if (d.ready) {
-          //   actions.push(d);
-          // }
-          actions.push(d);
+          if (d.ready) {
+            actions.push(d);
+          }
         });
       });
     return {

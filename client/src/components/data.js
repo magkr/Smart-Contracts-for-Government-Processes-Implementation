@@ -20,6 +20,7 @@ export default class Data extends Component {
   }
 
   async update() {
+    if (this.props.location < this.props.utils.asciiToHex(1)) return;
     var response = await getData(this.props.caseid, this.props.location);
     if (response) {
       await this.setState({
@@ -35,6 +36,7 @@ export default class Data extends Component {
   }
 
   render() {
+    if (this.props.location < this.props.utils.asciiToHex(1)) return null;
     if (!this.state.value) return <h2 className="f6">Loader... </h2>;
     return (
       <div>

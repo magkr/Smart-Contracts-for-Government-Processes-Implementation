@@ -189,7 +189,11 @@ export default class DataList extends Component {
                           <div>{this.getButton(d)}</div>
                         </div>
                         {d.status !== this.utils.asciiToHex("undone") ? (
-                          <Data location={d.id} caseid={d.caseID} />
+                          <Data
+                            utils={this.utils}
+                            location={d.id}
+                            caseid={d.caseID}
+                          />
                         ) : null}
                         <h2 className="f6 mb1">
                           <b>Status: </b>

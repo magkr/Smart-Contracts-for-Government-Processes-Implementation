@@ -23,7 +23,7 @@ export const dataEvent = (e, web3) => {
         <p>{web3.utils.hexToUtf8(e.title)}</p>
       </h3>
       <div className="ph2">
-        <Data location={e.location} caseid={e.caseID} />
+        <Data utils={web3.utils} location={e.location} caseid={e.caseID} />
       </div>
     </div>
   );
