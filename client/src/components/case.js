@@ -23,7 +23,7 @@ class Case extends Component {
     datalist: [],
     actions: [],
     isLoading: true,
-    hasbeenopened: false
+    loadstage: 0
   };
 
   componentDidMount() {
@@ -36,10 +36,23 @@ class Case extends Component {
 
   openZip() {
     zip(this.props.case.id);
+    this.setState({
+      loadstage: 1
+    });
     setTimeout(
       () =>
         this.setState({
-          hasbeenopened: true
+          loadstage: 2
+        }),
+      2400
+    );
+  }
+
+  hashData() {
+    setTimeout(
+      () =>
+        this.setState({
+          loadstage: 3
         }),
       2400
     );
@@ -122,11 +135,26 @@ class Case extends Component {
   }
 
   councilInterface() {
-    if (!this.state.hasbeenopened) {
+    if (this.state.loadstage < 1) {
       return (
         <div className="f6 bg-near-white ba dim pa3 black-60 helvetica ma2">
           {MessageWait("Ny sag fra Syddjurs Kommne", "Modtag sagens filer")}
           {ButtonExampleLoading("Åben filer", () => this.openZip())}
+        </div>
+      );
+    }
+    if (this.state.loadstage < 2) {
+      return (
+        <div className="f6 bg-near-white ba dim pa3 black-60 helvetica ma2">
+          {MessageWait("Ny sag fra Syddjurs Kommne", "Åbner filer")}
+        </div>
+      );
+    }
+    if (this.state.loadstage < 3) {
+      this.hashData();
+      return (
+        <div className="f6 bg-near-white ba dim pa3 black-60 helvetica ma2">
+          {MessageWait("Et øjeblik", "Beregner hashes af den modtagede data")}
         </div>
       );
     }
