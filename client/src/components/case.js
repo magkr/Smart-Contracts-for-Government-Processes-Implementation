@@ -4,6 +4,7 @@ import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
 import HistoryView from "./historyview.js";
 import DataOverview from "./dataoverview.js";
+import MessageWait from "./message.js";
 // import { saveData, getData } from "./store.js";
 
 class Case extends Component {
@@ -20,7 +21,8 @@ class Case extends Component {
     data: null,
     datalist: [],
     actions: [],
-    isLoading: true
+    isLoading: true,
+    hasbeenopened: []
   };
 
   componentDidMount() {
@@ -107,7 +109,22 @@ class Case extends Component {
     this.setState({ marked: false });
   }
 
-  councilInterface(data) {
+  councilInterface() {
+    console.log(!this.state.hasbeenopened[this.props.case.id]);
+    if (!this.state.hasbeenopened[this.props.case.id]) {
+      console.log("message");
+      return (
+        <div>
+          <MessageWait />
+          <button
+            className="helvetica ma2"
+            onClick={() => this.openZip(this.props.case.id)}
+          >
+            Open files
+          </button>
+        </div>
+      );
+    }
     return (
       <div>
         <div className="w-100 flex justify-center">
@@ -131,6 +148,21 @@ class Case extends Component {
         />
       </div>
     );
+  }
+
+  async openZip() {
+    var opened = this.state.hasbeenopened;
+    opened[this.props.case.id] = true;
+    var p = new Promise((resolve, reject) => {
+      setTimeout(
+        this.setState({
+          hasbeenopened: opened
+        }),
+        3000
+      );
+      resolve();
+    });
+    await p;
   }
 
   sbhInterface(data) {
