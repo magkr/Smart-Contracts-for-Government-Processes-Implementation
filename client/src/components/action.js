@@ -56,7 +56,7 @@ export default class Action extends Component {
 
   async sendZip() {
     alert(`Sender data for case ${this.props.action.caseID} til Ankestyrelsen`);
-    setTimeout(() => zip(this.props.action.caseID), 3000);
+    zip(this.props.action.caseID);
   }
 
   async onClick() {
