@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { dataEvent } from "./common.js";
+import DataEvent from "./common.js";
 
 export default class HistoryView extends Component {
 
@@ -69,7 +69,7 @@ export default class HistoryView extends Component {
         {this.state.history.map((d, idx) => {
           return (
             <div key={idx} className="pa1 ma1 flex flex-column bg-near-white">
-              { dataEvent(d, this.props.contractContext.web3) }
+              <DataEvent e={d} web3={this.props.contractContext.web3}/>
             </div>
           );
         })}

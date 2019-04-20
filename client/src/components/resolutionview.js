@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { dataEvent } from "./common.js";
+import DataEvent from "./common.js";
 
 export default class ResolutionView extends Component {
   constructor(props) {
@@ -81,7 +81,7 @@ export default class ResolutionView extends Component {
         {this.state.resolutions.map((r,idx) => {
           return (
             <div key={idx} className="pa1 ma1 flex justify-between bg-near-white">
-              { dataEvent(r, this.props.contractContext.web3)}
+              <DataEvent e={r} web3={this.props.contractContext.web3}/>
               <div className="flex justify-end items-center w-40 pr3">
               {this.props.contractContext.role === 0 ? this.button(r) : null }
               </div>
