@@ -5,10 +5,10 @@ const MessageWait = () => (
   <Message className="helvetica w-100 ma3" icon>
     <Icon className="helvetica w-100" name="circle notched" loading />
     <Message.Content>
-      <Message.Header className="helvetica w-100">
-        Just one second
+      <Message.Header className="helvetica w-100 b">
+        Just one second!
       </Message.Header>
-      We are fetching that content for you.
+      Opening data and calculating hases... Please press 'Open files'.
     </Message.Content>
   </Message>
 );
