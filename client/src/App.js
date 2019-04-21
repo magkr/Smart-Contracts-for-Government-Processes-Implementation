@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import Process42 from "./contracts/Process42.json";
 import CaseOverview from "./components/caseoverview.js";
-import { Council } from "./components/council.js";
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from "./utils/contractcontext.js";
-import { saveData, getData, zip } from "./store.js";
+import { saveData } from "./store.js";
 
 import "./App.css";
 
@@ -75,13 +74,18 @@ class App extends Component {
       .fillData(action, caseId, hash)
       .send({ from: this.state.accounts[0] })
       .then(async transaction => {
-        const newData = await transaction.events.NewData
-        if(newData) {
-          const bcData = newData.returnValues
-          await saveData(bcData.title, bcData.caseID, value, bcData.dataHash, bcData.location)
-            .catch(error => {
-              console.log(`ERROR: save data to database failed`);
-            });
+        const newData = await transaction.events.NewData;
+        if (newData) {
+          const bcData = newData.returnValues;
+          await saveData(
+            bcData.title,
+            bcData.caseID,
+            value,
+            bcData.dataHash,
+            bcData.location
+          ).catch(error => {
+            console.log(`ERROR: save data to database failed`);
+          });
         }
       })
       .catch(error => {
@@ -102,18 +106,20 @@ class App extends Component {
       .send({ from: this.state.accounts[0] })
       .then(async transaction => {
         const events = await transaction.events.NewData;
-        events.forEach(async (e, i) => {
-          const bcData = e.returnValues;
-          await saveData(
-            bcData.title,
-            bcData.caseID,
-            values[i],
-            bcData.dataHash,
-            bcData.location
-          ).catch(error => {
-            console.log(`ERROR: save data to database failed`);
+        if (events) {
+          events.forEach(async (e, i) => {
+            const bcData = e.returnValues;
+            await saveData(
+              bcData.title,
+              bcData.caseID,
+              values[i],
+              bcData.dataHash,
+              bcData.location
+            ).catch(error => {
+              console.log(`ERROR: save data to database failed`);
+            });
           });
-        });
+        }
       })
       .catch(error => {
         console.log("ERROR: submit data to blockchain failed");
@@ -153,7 +159,7 @@ class App extends Component {
           if (!phaseStruct[phase]) phaseStruct[phase] = [];
           phaseStruct[phase].push(d);
           datalist.push(d);
-          if(d.status === "3") marked = true;
+          if (d.status === "3") marked = true;
           if (d.ready) {
             actions.push(d);
           }
@@ -186,9 +192,6 @@ class App extends Component {
         .call({ from: account })
     )
       return 2;
-    console.log(await this.state.contract.methods
-      .hasRole(account, "council")
-      .call({ from: account }));
 
     return -1;
   }
@@ -229,7 +232,6 @@ class App extends Component {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
         this.role(acc[0]).then(async role => {
-          console.log(role);
           await this.setState({
             cases: await this.getCases(acc[0], role),
             accounts: acc,

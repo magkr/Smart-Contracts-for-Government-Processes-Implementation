@@ -125,21 +125,22 @@ class Case extends Component {
     );
   }
 
-  handleComplaint() {
+  async handleComplaint() {
     if (this.state.marked) {
-      this.props.contractContext.homesend(this.props.case.id);
+      await this.props.contractContext.homesend(this.props.case.id);
     } else {
-      this.props.contractContext.stadfast(this.props.case.id);
+      await this.props.contractContext.stadfast(this.props.case.id);
     }
-    this.setState({ marked: false });
   }
 
   councilInterface() {
     if (this.state.loadstage < 1) {
       return (
-        <div className="f6 bg-near-white ba dim pa3 black-60 helvetica ma2">
+        <div className="f6 bg-near-white ba pa3 black-60 helvetica ma2">
           {MessageWait("Ny sag fra Syddjurs Kommne", "Modtag sagens filer")}
+          <div className="dim">
           {ButtonExampleLoading("Åben filer", () => this.openZip())}
+          </div>
         </div>
       );
     }

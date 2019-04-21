@@ -36,19 +36,19 @@ export default class Row extends Component {
   }
 
   color() {
-    return this.state.hash !== this.props.hash ? "dark-red" : "light-green";
+    return this.state.hash !== this.props.hash ? "bg-washed-red" : "bg-washed-green";
   }
 
   render() {
     return (
       <div className="flex word-wrap w-100">
-        <div className="pa1 w-15">
+        <div className="pa1 w-15 bg-near-white mv1">
           {this.props.contractContext.web3.utils.hexToUtf8(this.props.title)}
         </div>
-        <div className="pa1 w-10">{this.props.location}</div>
-        <div className="pa1 w-25">{this.props.hash}</div>
-        <div className={"pa1 w-25 " + this.color()}>{this.state.hash}</div>
-        <div className="pa1 w-25">{this.state.value}</div>
+        <div className="pa1 w-10 bg-near-white ma1">{this.props.location}</div>
+        <div className="pa1 w-25 bg-near-white mv1">{this.props.hash}</div>
+        <div className={"pa1 w-25 ma1 " + this.color()}>{this.state.hash}</div>
+        <div className="pa1 w-25 bg-near-white mv1">{this.state.value}</div>
       </div>
     );
   }
