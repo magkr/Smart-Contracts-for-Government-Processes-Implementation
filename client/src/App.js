@@ -186,6 +186,10 @@ class App extends Component {
         .call({ from: account })
     )
       return 2;
+    console.log(await this.state.contract.methods
+      .hasRole(account, "council")
+      .call({ from: account }));
+
     return -1;
   }
 
@@ -225,6 +229,7 @@ class App extends Component {
       // Check if account has changed
       if (this.state.accounts[0] !== acc[0]) {
         this.role(acc[0]).then(async role => {
+          console.log(role);
           await this.setState({
             cases: await this.getCases(acc[0], role),
             accounts: acc,

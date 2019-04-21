@@ -14,7 +14,7 @@ export default class Action extends Component {
   erKlageAfgørelse() {
     return (
       this.props.action.type === "1" &&
-      this.props.action.status === this.props.action.status === "4"
+      this.props.action.status === "4"
     );
   }
 
@@ -55,7 +55,7 @@ export default class Action extends Component {
   }
 
   async sendZip() {
-    alert(`Sender data for case ${this.props.action.caseID} til Ankestyrelsen`);
+    alert(`Sender data for sag ${this.props.action.caseID} til Ankestyrelsen`);
     zip(this.props.action.caseID);
   }
 

@@ -172,7 +172,7 @@ class Case extends Component {
                   {this.state.marked ? "Hjemvis" : "Stadfæst"}
                 </button>
               </div>
-            ) : null}
+            ) : <div className="w-50" />}
           </div>
         </div>
         <DataOverview
@@ -248,7 +248,7 @@ class Case extends Component {
               data={this.state.history}
               case={this.props.case}
             />
-          ) : null}
+          ) : <div className="w-50" />}
         </div>
         <ResolutionView
           case={this.props.case}
@@ -269,7 +269,7 @@ class Case extends Component {
     return (
       <div className="w-100 flex flex-column items-left justify-around ph5">
         {this.state.isLoading ? (
-          <h2 className="f4 helvetica tc pa2 mt2 mr2">Loading...</h2>
+          <h2 className="f4 helvetica tc pa2 mt2 mr2">Loader...</h2>
         ) : (
           <div>
             <h2 className="f4 helvetica tl pa2 mt2 mr2">

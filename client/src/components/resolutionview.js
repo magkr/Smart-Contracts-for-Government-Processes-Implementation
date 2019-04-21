@@ -68,7 +68,7 @@ export default class ResolutionView extends Component {
     if (this.props.case.status !== "0" && this.props.case.status !== "2") return null;
     if (this.newestRes[r.title] !== r.dataHash) return null;
     return (
-      <button className="helvetica w-20 f6 ml3 br1 ba bg-white h2" onClick={() => this.props.contractContext.complain(r)}>
+      <button className="helvetica w-20 f6 ml3 br1 ba bg-white" onClick={() => this.props.contractContext.complain(r)}>
         Klag!
       </button>
     );

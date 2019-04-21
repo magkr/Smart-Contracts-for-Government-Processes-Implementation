@@ -12,7 +12,8 @@
     "react-scripts": "2.1.1",
     "semantic-ui-react": "^0.86.0",
     "simple-dumb-server": "^1.0.0",
-    "web3": "1.0.0-beta.48"
+    "web3": "1.0.0-beta.48",
+    "zip-a-folder": "0.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
