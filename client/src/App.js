@@ -77,14 +77,18 @@ class App extends Component {
       .fillData(action, caseId, hash)
       .send({ from: this.state.accounts[0] })
       .then(async transaction => {
-        const bcData = await transaction.events.NewData.returnValues
-        await saveData(bcData.title, bcData.caseID, value, bcData.dataHash, bcData.location)
-          .catch(error => {
-            console.log(`ERROR: save data to database failed`);
-          });
+        const newData = await transaction.events.NewData
+        if(newData) {
+          const bcData = newData.returnValues
+          await saveData(bcData.title, bcData.caseID, value, bcData.dataHash, bcData.location)
+            .catch(error => {
+              console.log(`ERROR: save data to database failed`);
+            });
+        }
       })
       .catch(error => {
         console.log("ERROR: submit data to blockchain failed");
+        console.log(error);
         return error;
       });
       await this.fetchCases();
