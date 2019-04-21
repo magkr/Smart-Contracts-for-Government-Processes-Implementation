@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getData, zip } from "../store.js";
 
-export default class Action extends Component {
+export default class ActionOld extends Component {
   constructor(props) {
     super(props);
     this.utils = this.props.contractContext.web3.utils;
@@ -14,7 +14,7 @@ export default class Action extends Component {
   erKlageAfgørelse() {
     return (
       this.props.action.type === "1" &&
-      this.props.action.status === this.props.action.status === "4"
+      this.props.action.status === this.utils.asciiToHex("complained")
     );
   }
 

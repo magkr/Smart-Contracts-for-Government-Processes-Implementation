@@ -104,7 +104,6 @@ contract CaseHandler is RBAC, Graph {
     Case storage c = cases[caseID];
 
     for(uint i = 0; i < vxs.length; i++){
-      Data storage d = c.dataMapping[vxs[i].title];
       titles[i] = vxs[i].title;
       phases[i] = vxs[i].phase;
       types[i] = uint(vxs[i].nodeType);
@@ -124,10 +123,10 @@ contract CaseHandler is RBAC, Graph {
     return true;
   }
 
-  function _isReady(bytes32 title, Case storage c) private view returns (bool) {
-    if(c.dataMapping[title].status == Status.DONE) return false;
-    for(uint r = 0; r < req[_getIdx(title)].length; r++) {
-      uint reqID = req[_getIdx(title)][r];
+  function _isReady(bytes32 v, Case storage c) private view returns (bool) {
+    if(c.dataMapping[v].status == Status.DONE) return false;
+    for(uint r = 0; r < req[_getIdx(v)].length; r++) {
+      uint reqID = req[_getIdx(v)][r];
       if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
     }
     return true;

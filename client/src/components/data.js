@@ -14,18 +14,18 @@ export default class Data extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location ) {
+    if (this.props.location !== prevProps.location) {
       this.update();
     }
   }
 
-
   async update() {
-    var response = await getData(this.props.location);
+    if (this.props.location < this.props.utils.asciiToHex(1)) return;
+    var response = await getData(this.props.caseid, this.props.location);
     if (response) {
       await this.setState({
-        hash: response.data.hash,
-        value: response.data.value
+        hash: response.hash,
+        value: response.value
       });
     } else {
       await this.setState({
@@ -36,6 +36,7 @@ export default class Data extends Component {
   }
 
   render() {
+    if (this.props.location < this.props.utils.asciiToHex(1)) return null;
     if (!this.state.value) return <h2 className="f6">Loader... </h2>;
     return (
       <div>

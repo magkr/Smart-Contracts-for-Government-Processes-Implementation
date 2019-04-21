@@ -3,6 +3,9 @@ import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
 import HistoryView from "./historyview.js";
+import DataOverview from "./dataoverview.js";
+import MessageWait from "./message.js";
+// import { saveData, getData } from "./store.js";
 
 class Case extends Component {
   constructor(props) {
@@ -16,9 +19,10 @@ class Case extends Component {
 
   state = {
     data: null,
+    datalist: [],
     actions: [],
     isLoading: true,
-    history: []
+    hasbeenopened: []
   };
 
   componentDidMount() {
@@ -26,9 +30,6 @@ class Case extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({
-      history: []
-    });
     this.update();
   }
 
@@ -60,6 +61,7 @@ class Case extends Component {
             : res.actions;
         this.setState({
           data: res.data,
+          datalist: res.datalist,
           actions: actions,
           isLoading: false,
           address: add,
@@ -107,7 +109,22 @@ class Case extends Component {
     this.setState({ marked: false });
   }
 
-  councilInterface(data) {
+  councilInterface() {
+    console.log(!this.state.hasbeenopened[this.props.case.id]);
+    if (!this.state.hasbeenopened[this.props.case.id]) {
+      console.log("message");
+      return (
+        <div>
+          <MessageWait />
+          <button
+            className="helvetica ma2"
+            onClick={() => this.openZip(this.props.case.id)}
+          >
+            Open files
+          </button>
+        </div>
+      );
+    }
     return (
       <div>
         <div className="w-100 flex justify-center">
@@ -125,12 +142,27 @@ class Case extends Component {
             ) : null}
           </div>
         </div>
-        <HistoryView
-          id={this.props.case.id}
+        <DataOverview
           contractContext={this.props.contractContext}
+          datas={this.state.datalist}
         />
       </div>
     );
+  }
+
+  async openZip() {
+    var opened = this.state.hasbeenopened;
+    opened[this.props.case.id] = true;
+    var p = new Promise((resolve, reject) => {
+      setTimeout(
+        this.setState({
+          hasbeenopened: opened
+        }),
+        3000
+      );
+      resolve();
+    });
+    await p;
   }
 
   sbhInterface(data) {
@@ -166,20 +198,25 @@ class Case extends Component {
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
-              actionss={this.state.actionss}
-              data={this.state.history}
               case={this.props.case}
             />
-          ) : null}
+          ) : (
+            <div className="w-50" />
+          )}
         </div>
         <HistoryView
           id={this.props.case.id}
-          history={this.state.history}
           contractContext={this.props.contractContext}
         />
       </div>
     );
   }
+
+  // <HistoryView
+  //     id={this.props.case.id}
+  //     history={this.state.history}
+  //     contractContext={this.props.contractContext}
+  //   />
 
   citizenInterface(data) {
     return (

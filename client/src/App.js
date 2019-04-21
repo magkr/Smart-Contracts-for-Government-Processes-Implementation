@@ -4,8 +4,7 @@ import CaseOverview from "./components/caseoverview.js";
 import { Council } from "./components/council.js";
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from "./utils/contractcontext.js";
-import { saveData } from "./store.js";
-
+import { saveData, getData, zip } from "./store.js";
 
 import "./App.css";
 
@@ -35,12 +34,11 @@ class App extends Component {
   }
 
   fetchCases() {
-    this.getCases(this.state.accounts[0], this.state.role)
-      .then(list => {
-        this.setState({
-          cases: list
-        });
+    this.getCases(this.state.accounts[0], this.state.role).then(list => {
+      this.setState({
+        cases: list
       });
+    });
   }
 
   complain(r) {
@@ -91,12 +89,12 @@ class App extends Component {
         console.log(error);
         return error;
       });
-      await this.fetchCases();
+    await this.fetchCases();
   }
 
   async submitDatas(actions, caseId, values) {
     var hashes = [];
-    for(var i = 0; i < actions.length; i++){
+    for (var i = 0; i < actions.length; i++) {
       hashes.push(this.state.web3.utils.sha3(values[i]));
     }
     await this.state.contract.methods
@@ -106,11 +104,16 @@ class App extends Component {
         const events = await transaction.events.NewData;
         events.forEach(async (e, i) => {
           const bcData = e.returnValues;
-          await saveData(bcData.title, bcData.caseID, values[i], bcData.dataHash, bcData.location)
-           .catch(error => {
+          await saveData(
+            bcData.title,
+            bcData.caseID,
+            values[i],
+            bcData.dataHash,
+            bcData.location
+          ).catch(error => {
             console.log(`ERROR: save data to database failed`);
-           });
-        })
+          });
+        });
       })
       .catch(error => {
         console.log("ERROR: submit data to blockchain failed");
@@ -120,10 +123,7 @@ class App extends Component {
   }
 
   async handlePayment(caseId, value) {
-    let money = this.state.web3.utils.toWei(
-      value,
-      "ether"
-    );
+    let money = this.state.web3.utils.toWei(value, "ether");
     await this.state.contract.methods
       .sendEther(caseId)
       .send({ from: this.state.accounts[0], value: money });
@@ -133,52 +133,89 @@ class App extends Component {
   async caseData(c) {
     const actions = [];
     const phaseStruct = {};
+    const datalist = [];
     var marked = false;
     await this.state.contract.methods
       .getCase(c.id)
       .call()
       .then(data => {
-        data["phases"].forEach((phase, idx) => {
+        data["phases"].forEach(async (phase, idx) => {
           var d = {
+            caseID: c.id,
             id: data["ids"][idx],
+            hash: data["dataHashes"][idx],
             title: data["titles"][idx],
             status: data["statuss"][idx],
             ready: data["isReady"][idx],
             phase: data["phases"][idx],
-            type: data["types"][idx],
-          }
+            type: data["types"][idx]
+          };
           if (!phaseStruct[phase]) phaseStruct[phase] = [];
           phaseStruct[phase].push(d);
+          datalist.push(d);
           if(d.status === "3") marked = true;
           if (d.ready) {
-             actions.push(d);
+            actions.push(d);
           }
         });
       });
-    return { data: phaseStruct, actions: actions, marked: marked };
+    return {
+      datalist: datalist,
+      data: phaseStruct,
+      actions: actions,
+      marked: marked
+    };
   }
 
   async role(account) {
-    if (await this.state.contract.methods.hasRole(account, "citizen").call({from: account})) return 0;
-    if (await this.state.contract.methods.hasRole(account, "municipality").call({from: account})) return 1;
-    if (await this.state.contract.methods.hasRole(account, "council").call({from: account})) return 2;
+    if (
+      await this.state.contract.methods
+        .hasRole(account, "citizen")
+        .call({ from: account })
+    )
+      return 0;
+    if (
+      await this.state.contract.methods
+        .hasRole(account, "municipality")
+        .call({ from: account })
+    )
+      return 1;
+    if (
+      await this.state.contract.methods
+        .hasRole(account, "council")
+        .call({ from: account })
+    )
+      return 2;
     return -1;
   }
 
   async getCases(account, role) {
-    if (role === 0) return await this.state.contract.methods.myCases().call({from: account});
-    if (role === 1) return await this.state.contract.methods.allCases().call({from: account});
-    if (role === 2) return await this.state.contract.methods.councilCases().call({from: account});
+    if (role === 0)
+      return await this.state.contract.methods
+        .myCases()
+        .call({ from: account });
+    if (role === 1)
+      return await this.state.contract.methods
+        .allCases()
+        .call({ from: account });
+    if (role === 2)
+      return await this.state.contract.methods
+        .councilCases()
+        .call({ from: account });
     else return {};
   }
 
-  async stadfast(id){
-    await this.state.contract.methods.stadfast(id).send({ from: this.state.accounts[0] });
+  async stadfast(id) {
+    await this.state.contract.methods
+      .stadfast(id)
+      .send({ from: this.state.accounts[0] });
     await this.fetchCases();
   }
 
-  async homesend(id){
-    await this.state.contract.methods.homesend(id).send({ from: this.state.accounts[0] });
+  async homesend(id) {
+    await this.state.contract.methods
+      .homesend(id)
+      .send({ from: this.state.accounts[0] });
     await this.fetchCases();
   }
 
@@ -216,7 +253,7 @@ class App extends Component {
       );
 
       await this.setState({ web3, accounts: accounts, contract: p });
-      await this.setState({ role: await this.role(accounts[0])});
+      await this.setState({ role: await this.role(accounts[0]) });
       this.fetchCases();
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -228,7 +265,6 @@ class App extends Component {
         // getZombiesByOwner(userAccount)
         // .then(displayZombies);
       }, 100);
-
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -238,7 +274,6 @@ class App extends Component {
     }
   };
 
-
   render() {
     if (!this.state.web3 || !this.state.contract || !this.state.accounts) {
       return (
@@ -246,9 +281,13 @@ class App extends Component {
           Loader Web3, kontoer, og kontrakt...
         </div>
       );
-    }
-    else if (this.state.role === -1) {
-      return <div className="helvetica tc pa4">'Velkommen til Process 42 hos Syddjurs Kommunes. Din konto er ukendt og kan ikke udføre nogle handlinger.'</div>;
+    } else if (this.state.role === -1) {
+      return (
+        <div className="helvetica tc pa4">
+          'Velkommen til Process 42 hos Syddjurs Kommunes. Din konto er ukendt
+          og kan ikke udføre nogle handlinger.'
+        </div>
+      );
     } else {
       return (
         <div className="App">
@@ -270,7 +309,11 @@ class App extends Component {
               stadfast: this.stadfast
             }}
           >
-            <CaseOverview account={this.state.accounts[0]} cases={ this.state.cases } role={this.state.role} />
+            <CaseOverview
+              account={this.state.accounts[0]}
+              cases={this.state.cases}
+              role={this.state.role}
+            />
           </ContractProvider>
         </div>
       );

@@ -184,7 +184,11 @@ export default class DataList extends Component {
                           <div>{this.getButton(d)}</div>
                         </div>
                         {d.status !== "0" ? (
-                          <Data location={d.id} />
+                          <Data
+                            utils={this.utils}
+                            location={d.id}
+                            caseid={d.caseID}
+                          />
                         ) : null}
                         <h2 className="f6 mb1">
                           <b>Status: </b>

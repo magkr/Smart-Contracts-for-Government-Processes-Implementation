@@ -22,7 +22,7 @@ export default class DataEvent extends Component {
           {this.props.web3.utils.hexToUtf8(this.props.e.title)}
         </h3>
         <div className="ph2">
-          {this.state.viewed ? <Data location={this.props.e.location} /> : null}
+          {this.state.viewed ? <Data utils={this.props.web3.utils} location={this.props.e.location} caseid={this.props.e.caseID} /> : null}
         </div>
       </div>
     );

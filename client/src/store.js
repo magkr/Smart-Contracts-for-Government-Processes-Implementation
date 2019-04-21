@@ -1,66 +1,49 @@
 const axios = require("axios");
 
-// var i = 0;
-//
-// (async function() {
-//     let i = axios.get(`http://localhost:8888/nextIdx`);
-//
-//     console.log("result", i);
-// })();
+export async function saveData(action, caseID, value, hash, location) {
+  var data = {
+    action: action,
+    caseID: caseID,
+    value: value,
+    hash: hash,
+    location: location
+  };
 
-
-  // async getIdx() {
-  //   return axios.get(`http://localhost:8888/nextIdx`);
-  // }
-  //
-  // async saveDataWithID(data) {
-  //     this.getIdx().then(async id => {
-  //       await axios({
-  //           method: "PUT",
-  //           url: `http://localhost:8888/${id}`,
-  //           headers: { 'Content-Type': 'application/json' },
-  //           data: {
-  //             id: id,
-  //             data: data
-  //           }
-  //       });
-  //       return id;
-  //     }).then(async (id) => {
-  //       await axios({
-  //           method: "PUT",
-  //           url: `http://localhost:8888/nextIdx`,
-  //           headers: { 'Content-Type': 'application/json' },
-  //           data: {
-  //             idx: id+1,
-  //           }
-  //       });
-  //       return id
-  //     }).then(id => {
-  //       return id;
-  //     });
-  // }
-
-  export async function saveData(action, caseID, value, hash, location) {
-    var data = {
-      action: action,
-      caseID: caseID,
-      value: value,
-      hash: hash,
-      location: location
-    };
+  try {
     var response = await axios({
       method: "PUT",
-      url: `http://localhost:8888/${data.location}`,
+      url: `http://localhost:8888/`,
       headers: { "Content-Type": "application/json" },
       data
     });
     return response;
+  } catch (error) {
+    console.log(
+      `Save data error [case: ${caseID} - location: ${
+        data.location
+      }] : ${error}`
+    );
   }
+}
 
-  export async function getData(id) {
-    try {
-      return await axios.get(`http://localhost:8888/${id}`);
-    } catch (error) {
-      console.log(`Get data error [location: ${id}]`);
-    }
+export async function getData(caseID, id) {
+  try {
+    var res = await axios.get(`http://localhost:8888/data/${caseID}/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log(
+      `Get data error [case: ${caseID} - location: ${id}] : ${error}`
+    );
+    return null;
   }
+}
+
+export async function zip(casenumber) {
+  console.log("getting data");
+  try {
+    window.open(`http://localhost:8888/case/${casenumber}`);
+  } catch (error) {
+    console.log(`Get case error [case: ${casenumber}]`);
+    return null;
+  }
+}
