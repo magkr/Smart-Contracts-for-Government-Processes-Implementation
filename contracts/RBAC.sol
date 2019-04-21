@@ -27,7 +27,7 @@ contract RBAC {
   event RoleRemoved(address indexed operator, string role);
 
   constructor() public {
-    _addRole(0xAC6B714Bd0b09E6fB4AD2C214E84acC620AC077D, COUNCIL);
+    _addRole(0x3d93406dfc4EcFa64Da0101F7d2B59A4330AA3e6, COUNCIL);
     _addRole(msg.sender, MUNICIPALITY);
   }
 

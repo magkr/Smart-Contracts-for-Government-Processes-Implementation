@@ -104,6 +104,7 @@ contract CaseHandler is RBAC, Graph {
     Case storage c = cases[caseID];
 
     for(uint i = 0; i < vxs.length; i++){
+      Data storage d = c.dataMapping[vxs[i].title];
       titles[i] = vxs[i].title;
       phases[i] = vxs[i].phase;
       types[i] = uint(vxs[i].nodeType);
