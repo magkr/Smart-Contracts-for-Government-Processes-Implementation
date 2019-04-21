@@ -5,3 +5,9 @@
 .w-15 {
   width: 15%;
 }
+
+.border-1 {
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+}

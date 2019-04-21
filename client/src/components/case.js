@@ -4,7 +4,8 @@ import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
 import HistoryView from "./historyview.js";
 import DataOverview from "./dataoverview.js";
-import MessageWait from "./message.js";
+import { MessageWait, ButtonExampleLoading } from "./message.js";
+import { zip } from "../store.js";
 // import { saveData, getData } from "./store.js";
 
 class Case extends Component {
@@ -22,7 +23,7 @@ class Case extends Component {
     datalist: [],
     actions: [],
     isLoading: true,
-    hasbeenopened: []
+    loadstage: 0
   };
 
   componentDidMount() {
@@ -31,6 +32,30 @@ class Case extends Component {
 
   componentWillReceiveProps(props) {
     this.update();
+  }
+
+  openZip() {
+    zip(this.props.case.id);
+    this.setState({
+      loadstage: 1
+    });
+    setTimeout(
+      () =>
+        this.setState({
+          loadstage: 2
+        }),
+      2400
+    );
+  }
+
+  hashData() {
+    setTimeout(
+      () =>
+        this.setState({
+          loadstage: 3
+        }),
+      2400
+    );
   }
 
   caseStatusText(status) {
@@ -110,18 +135,26 @@ class Case extends Component {
   }
 
   councilInterface() {
-    console.log(!this.state.hasbeenopened[this.props.case.id]);
-    if (!this.state.hasbeenopened[this.props.case.id]) {
-      console.log("message");
+    if (this.state.loadstage < 1) {
       return (
-        <div>
-          <MessageWait />
-          <button
-            className="helvetica ma2"
-            onClick={() => this.openZip(this.props.case.id)}
-          >
-            Open files
-          </button>
+        <div className="f6 bg-near-white ba dim pa3 black-60 helvetica ma2">
+          {MessageWait("Ny sag fra Syddjurs Kommne", "Modtag sagens filer")}
+          {ButtonExampleLoading("Åben filer", () => this.openZip())}
+        </div>
+      );
+    }
+    if (this.state.loadstage < 2) {
+      return (
+        <div className="f6 bg-near-white ba dim pa3 black-60 helvetica ma2">
+          {MessageWait("Ny sag fra Syddjurs Kommne", "Åbner filer")}
+        </div>
+      );
+    }
+    if (this.state.loadstage < 3) {
+      this.hashData();
+      return (
+        <div className="f6 bg-near-white ba dim pa3 black-60 helvetica ma2">
+          {MessageWait("Et øjeblik", "Beregner hashes af den modtagede data")}
         </div>
       );
     }
@@ -148,21 +181,6 @@ class Case extends Component {
         />
       </div>
     );
-  }
-
-  async openZip() {
-    var opened = this.state.hasbeenopened;
-    opened[this.props.case.id] = true;
-    var p = new Promise((resolve, reject) => {
-      setTimeout(
-        this.setState({
-          hasbeenopened: opened
-        }),
-        3000
-      );
-      resolve();
-    });
-    await p;
   }
 
   sbhInterface(data) {
