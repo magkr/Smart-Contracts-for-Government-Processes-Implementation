@@ -51,6 +51,7 @@ contract ComplainHandler is CaseHandler {
   }
 
   function _complain(bytes32 _title, uint32 _caseID) internal {
+    require(vxs[_getIdx(_title)].resolution);
     require(cases[_caseID].status != CaseStatus.COMPLAINT && cases[_caseID].status != CaseStatus.COUNCIL);
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;
