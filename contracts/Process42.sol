@@ -56,9 +56,9 @@ contract Process42 is ProcessInterface {
     _addVertex("Sparede udgifter", phase, false, NodeType.NORMAL);
     _addVertex("Afgørelse: Udmåling", phase, true, NodeType.RESOLUTION);
 
-    _addEdge("Opstartsbehandling afgørelse","Dokmentation af arbejdstider");
-    _addEdge("Opstartsbehandling afgørelse","Oplys familieforhold");
-    _addEdge("Opstartsbehandling afgørelse","Oplys arbejdsfleksibilitet");
+    _addEdge("Afgørelse: Målgruppevurdering","Dokmentation af arbejdstider");
+    _addEdge("Afgørelse: Målgruppevurdering","Oplys familieforhold");
+    _addEdge("Afgørelse: Målgruppevurdering","Oplys arbejdsfleksibilitet");
 
     _addEdge("Dokmentation af arbejdstider","Bevilligede timer");
     _addEdge("Dokmentation af arbejdstider","Sparede udgifter");
