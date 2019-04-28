@@ -20,9 +20,7 @@ export default class DataEvent extends Component {
         <h3 className="b f5 ph1 pv1">
           {this.props.web3.utils.hexToUtf8(this.props.e.title)}
         </h3>
-        <button className="b--none bg-moon-gray ml1 mb1" onClick={this.toggle.bind(this)}>
-          {this.state.viewed ? "Skjul" : "Vis data"}
-        </button>
+        <h2 onClick={this.toggle.bind(this)} className="f5 o-40 pl1"> {this.state.viewed ? "Skjul" : "Vis"}</h2>
         <div className="ph2">
           {this.state.viewed ? (
             <Data

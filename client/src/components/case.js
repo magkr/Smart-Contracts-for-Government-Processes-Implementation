@@ -56,7 +56,7 @@ class Case extends Component {
         this.setState({
           loadstage: 3
         }),
-      2400
+      4400
     );
   }
 

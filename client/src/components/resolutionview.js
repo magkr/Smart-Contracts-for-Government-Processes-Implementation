@@ -32,7 +32,7 @@ export default class ResolutionView extends Component {
         .NewData(
           {
             filter: {
-              caseID: this.props.case.id, resolution: true
+              caseID: this.props.case.id, dataType: 1
             }, // Using an array means OR: e.g. 20 or 23
             fromBlock: 0,
             toBlock: "latest"

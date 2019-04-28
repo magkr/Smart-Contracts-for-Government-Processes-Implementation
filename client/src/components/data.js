@@ -42,6 +42,7 @@ export default class Data extends Component {
       <div>
         <p className="f5 mv1 word-wrap">{this.state.value}</p>
         <p className="f6 mb1 measure-narrow word-wrap"><b>Hash:</b> {this.state.hash}</p>
+        <p className="f6 mb1"><b>Database lokation:</b> {this.props.location}</p>
       </div>
     );
   }

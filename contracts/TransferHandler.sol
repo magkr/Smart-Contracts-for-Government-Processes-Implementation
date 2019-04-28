@@ -4,7 +4,7 @@ import {DataHandler} from "./DataHandler.sol";
 
 contract TransferHandler is DataHandler {
 
-  event Transfer(bool success, uint amount, uint32 caseID, address receiver, uint date);
+  event Transfer(bool success, uint amount, uint32 indexed caseID, address receiver, uint date);
 
   function _sendEther(uint32 _caseID) internal {
     address payable to = address(uint160(caseToAddress[_caseID]));

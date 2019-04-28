@@ -205,10 +205,24 @@ class App extends Component {
       return await this.state.contract.methods
         .allCases()
         .call({ from: account });
-    if (role === 2)
-      return await this.state.contract.methods
-        .councilCases()
+    if (role === 2) {
+      var list = await this.state.contract.methods
+        .allCases()
         .call({ from: account });
+      //console.log(list);
+        var ids = [];
+        var stss = [];
+      list.sts.map((st,idx) => {
+        if (st === "3") {
+          ids.push(list.ids[idx]);
+          stss.push(st);
+        }
+      })
+      return {ids, sts: stss}
+    }
+      // return await this.state.contract.methods
+      //   .councilCases()
+      //   .call({ from: account });
     else return {};
   }
 
@@ -240,6 +254,7 @@ class App extends Component {
             accounts: acc,
             role: role
           });
+          console.log(this.state.cases);
         });
       }
     });
