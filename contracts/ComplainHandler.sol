@@ -11,9 +11,6 @@ contract ComplainHandler is CaseHandler {
       dataCount++;
       if(complaints[_caseID].data == _title) {
         c.status = CaseStatus.ACTIVE;
-        if(c.dataMapping[lastVtx].status == Status.DONE) {
-          c.status = CaseStatus.READYFORPAYMENT;
-        }
         //TODO emit decision;
       }
       c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
@@ -39,9 +36,6 @@ contract ComplainHandler is CaseHandler {
     _cascade(_getIdx(complaints[_caseID].data), cases[_caseID], Status.UNSTABLE, Status.DONE);
     Case storage c = cases[_caseID];
     c.status = CaseStatus.ACTIVE;
-    if(c.dataMapping[lastVtx].status == Status.DONE) {
-      c.status = CaseStatus.READYFORPAYMENT;
-    }
    }
 
   function _homesend(uint32 _caseID) internal {

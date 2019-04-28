@@ -10,13 +10,10 @@ contract Process42 is ProcessInterface {
     metering();
     calculation();
     payment();
-    resolvingResolution = "Beregningsgrundlag afgørelse";
-    lastVtx = "Udbetaling afgørelse";
-
+    resolvingResolution = "Afgørelse: Beregningsgrundlag";
 
     /* test();
-    resolvingResolution = "Resolution";
-    lastVtx = "Final"; */
+    resolvingResolution = "Resolution"; */
   }
 
   function intro() private {
@@ -92,11 +89,11 @@ contract Process42 is ProcessInterface {
   function payment() private {
     bytes32 phase = "Udbetaling";
     _addVertex("Dokumentation på t.a.", phase, false, NodeType.DOC);
-    _addVertex("Afgørelse: Udbetaling", phase, true, NodeType.RESOLUTION);
+    _addVertex("Udbetaling", phase, true, NodeType.PAYMENT);
 
     _addEdge("Afgørelse: Beregningsgrundlag","Dokumentation på t.a.");
-    _addEdge("Dokumentation på t.a.","Afgørelse: Udbetaling");
-    _addEdge("Afgørelse: Udbetaling", end);
+    _addEdge("Dokumentation på t.a.","Udbetaling");
+    _addEdge("Udbetaling", end);
   }
 
   function test() private {

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
 import ResolutionView from "./resolutionview.js";
+import PaymentView from "./paymentview.js";
+
 import HistoryView from "./historyview.js";
 import DataOverview from "./dataoverview.js";
 import { MessageWait, ButtonExampleLoading } from "./message.js";
@@ -256,6 +258,10 @@ class Case extends Component {
           <div className="w-50" />
         </div>
         <ResolutionView
+          case={this.props.case}
+          contractContext={this.props.contractContext}
+        />
+        <PaymentView
           case={this.props.case}
           contractContext={this.props.contractContext}
         />

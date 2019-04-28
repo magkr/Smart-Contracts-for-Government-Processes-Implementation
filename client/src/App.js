@@ -160,9 +160,9 @@ class App extends Component {
           phaseStruct[phase].push(d);
           datalist.push(d);
           if (d.status === "3") marked = true;
-          if (d.ready) {
-            actions.push(d);
-          }
+          // if (d.ready) {
+          actions.push(d);
+          // }
         });
       });
     return {
