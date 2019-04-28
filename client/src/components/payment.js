@@ -26,7 +26,7 @@ export default class Payment extends Component {
 
   render() {
     return (
-      <div className="w-100 bg-near-white pa2 mv2">
+      <div className="w-100 bg-washed-yellow pa2 mv2">
         <div className="flex items-end helvetica f5">
           {this.utils.hexToUtf8(this.props.action.title)}
         </div>

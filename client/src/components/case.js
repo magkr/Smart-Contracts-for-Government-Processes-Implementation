@@ -193,31 +193,7 @@ class Case extends Component {
       <div>
         <div className="w-100 flex justify-center helvetica">
           {this.dataList()}
-          {this.props.case.status === "2" ? (
-            <div className="w-50 pa2">
-              <div className="bg-washed-yellow pa2">
-                <h2 className="b f5 mb1">Udbetaling:</h2>
-                <div className="flex justify-between items-center">
-                  <input
-                    className="w-80 f6"
-                    type="number"
-                    onChange={this.updateInput}
-                  />
-                  <button
-                    className="f6 br1 ph2 ba bg-white"
-                    onClick={() =>
-                      this.props.contractContext.handlePayment(
-                        this.props.case.id,
-                        this.value
-                      )
-                    }
-                  >
-                    Send
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : this.props.case.status !== "3" ? (
+          {this.props.case.status !== "3" ? (
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
@@ -229,6 +205,10 @@ class Case extends Component {
         </div>
         <HistoryView
           id={this.props.case.id}
+          contractContext={this.props.contractContext}
+        />
+        <PaymentView
+          case={this.props.case}
           contractContext={this.props.contractContext}
         />
       </div>

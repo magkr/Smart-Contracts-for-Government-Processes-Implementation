@@ -68,10 +68,10 @@ export default class PaymentView extends Component {
           return (
             <div
               key={idx}
-              className="pa1 ma1 flex justify-between bg-near-white"
+              className="pa2 ma1 flex justify-between bg-near-white"
             >
-              <div>Du har modtaget en udbetaling på: {r.amount} ETH </div>
-              <div>Dato: {r.date} </div>
+              <div>Udbetaling: {this.props.contractContext.web3.utils.fromWei(r.amount, 'ether')} ETH </div>
+              <div>Dato: {new Date(r.date * 1000).toLocaleString()} </div>
             </div>
           );
         })}
