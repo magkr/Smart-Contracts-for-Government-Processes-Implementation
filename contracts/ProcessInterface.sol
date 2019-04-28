@@ -74,4 +74,10 @@ contract ProcessInterface is TransferHandler {
   function getComplaint(uint32 _caseID) public view returns (bytes32, bool){
     return _getComplaint(_caseID);
   }
+
+  function setCouncil(address c)
+    public
+  {
+    return _addRole(c, COUNCIL);
+  }
 }

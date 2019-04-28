@@ -160,9 +160,9 @@ class App extends Component {
           phaseStruct[phase].push(d);
           datalist.push(d);
           if (d.status === "3") marked = true;
-          if (d.ready) {
+          //if (d.ready) {
             actions.push(d);
-          }
+          //}
         });
       });
     return {
@@ -228,8 +228,11 @@ class App extends Component {
 
   update() {
     if (!this.state.web3 || !this.state.contract) return;
-    this.state.web3.eth.getAccounts().then(acc => {
+    this.state.web3.eth.getAccounts().then(async acc => {
       // Check if account has changed
+      // if(await this.state.contract.methods.hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "council").call({ from: acc[0] })){
+      //   await this.state.contract.methods.setCouncil("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff").send({ from: acc[0] });
+      // }
       if (this.state.accounts[0] !== acc[0]) {
         this.role(acc[0]).then(async role => {
           await this.setState({
@@ -259,6 +262,9 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address
       );
 
+      if(!await p.methods.hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "council").call({ from: accounts[0] })){
+        await p.methods.setCouncil("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff").send({ from: accounts[0] });
+      }
       await this.setState({ web3, accounts: accounts, contract: p });
       await this.setState({ role: await this.role(accounts[0]) });
       this.fetchCases();
