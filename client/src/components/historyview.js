@@ -2,28 +2,34 @@ import React, { Component } from "react";
 import DataEvent from "./common.js";
 
 export default class HistoryView extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      history: []
-    }
+      history: [],
+      open: false
+    };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.update();
   }
 
-  componentDidUpdate = async (prevProps) => {
+  componentDidUpdate = async prevProps => {
     if (this.props.id !== prevProps.id) {
       await this.setState({
         history: []
       });
       this.update();
     }
+  };
+
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    });
   }
 
-  update(){
+  update() {
     if (
       this.props.contractContext.web3 &&
       this.props.contractContext.contract
@@ -64,15 +70,26 @@ export default class HistoryView extends Component {
 
   render() {
     return (
-      <div className="pa2 helvetica mt2">
-        <h2 className="b f4">Historik:</h2>
-        {this.state.history.map((d, idx) => {
-          return (
-            <div key={idx} className="pa1 ma1 flex flex-column bg-near-white">
-              <DataEvent e={d} web3={this.props.contractContext.web3}/>
-            </div>
-          );
-        })}
+      <div className="pa2 helvetica mv4">
+        <div
+          className="flex justify-between items-center bg-near-white pa2"
+          onClick={() => this.toggle()}
+        >
+          <h2 className="b f4">Historik:</h2>
+          <h2 className="f5 o-40"> {this.state.open ? "Skjul" : "Vis"}</h2>
+        </div>
+        {this.state.open
+          ? this.state.history.map((d, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="pa1 ma1 flex flex-column bg-near-white"
+                >
+                  <DataEvent e={d} web3={this.props.contractContext.web3} />
+                </div>
+              );
+            })
+          : null}
       </div>
     );
   }

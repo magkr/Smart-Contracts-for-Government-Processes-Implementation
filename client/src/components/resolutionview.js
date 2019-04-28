@@ -76,7 +76,7 @@ export default class ResolutionView extends Component {
 
   render() {
     return (
-      <div className="pa2 helvetica mt2">
+      <div className="pa2 helvetica mv4">
         <h2 className="b f4">Afgørelser:</h2>
         {this.state.resolutions.map((r,idx) => {
           return (

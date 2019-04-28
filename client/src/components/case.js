@@ -271,7 +271,7 @@ class Case extends Component {
               <span className="b">Addresse: </span>
               {this.state.address}
             </h2>
-            <h2 className="f4 helvetica tl pa2 mt2 mr2">
+            <h2 className="f4 helvetica tl pa2 mt2 mr2 mb4">
               <span className="b">Status: </span>
               {this.caseStatusText(this.props.case.status)}
             </h2>

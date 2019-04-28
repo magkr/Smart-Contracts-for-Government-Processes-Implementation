@@ -4,7 +4,8 @@ export default class PaymentView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      payments: []
+      payments: [],
+      open: false
     };
   }
 
@@ -20,6 +21,13 @@ export default class PaymentView extends Component {
       this.update();
     }
   };
+
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    });
+  }
+
 
   update() {
     if (
@@ -62,19 +70,27 @@ export default class PaymentView extends Component {
 
   render() {
     return (
-      <div className="pa2 helvetica mt2">
-        <h2 className="b f4">Udbetalinger:</h2>
-        {this.state.payments.map((r, idx) => {
-          return (
-            <div
-              key={idx}
-              className="pa2 ma1 flex justify-between bg-near-white"
-            >
-              <div>Udbetaling: {this.props.contractContext.web3.utils.fromWei(r.amount, 'ether')} ETH </div>
-              <div>Dato: {new Date(r.date * 1000).toLocaleString()} </div>
-            </div>
-          );
-        })}
+      <div className="pa2 helvetica mv4">
+        <div
+          className="flex justify-between items-center bg-near-white pa2"
+          onClick={() => this.toggle()}
+        >
+          <h2 className="b f4">Udbetalinger:</h2>
+          <h2 className="f5 o-40"> {this.state.open ? "Skjul" : "Vis"}</h2>
+        </div>
+        {this.state.open
+          ? this.state.payments.map((d, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="pa1 ma1 flex justify-between bg-near-white"
+                >
+                  <div>Udbetaling: {this.props.contractContext.web3.utils.fromWei(d.amount, 'ether')} ETH </div>
+                  <div>Dato: {new Date(d.date * 1000).toLocaleString()} </div>
+                </div>
+              );
+            })
+          : null}
       </div>
     );
   }

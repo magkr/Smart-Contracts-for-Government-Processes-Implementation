@@ -77,7 +77,7 @@ export default class ActionsList extends Component {
   render() {
     return (
       <div className="w-50">
-        <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b tc">
+        <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f4 b tc">
           Muligheder:
         </h2>
         {this.props.case.status === "3"

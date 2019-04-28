@@ -150,7 +150,7 @@ export default class DataList extends Component {
   render() {
     return (
       <div className="w-50">
-        <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f5 b ">
+        <h2 className="flex justify-center items-center h2 helvetica pa1 ma2 f4 b ">
           Faser:
         </h2>
         {Object.keys(this.props.data).map(k => {
@@ -158,14 +158,18 @@ export default class DataList extends Component {
             <div key={k} className="mh3 mv2 ">
               <div
                 className={
-                  "flex justify-around items-center helvetica pa1 f5 " +
+                  "flex items-center helvetica pa1 f5 " +
                   this.getColorPhase(k)
                 }
                 onClick={e => this.setSelectedPhase(k)}
               >
-                <h3 className="b pa1">
+              <div className="w-10"/>
+                <h3 className="b pa1 w-80 tc">
                   {this.props.contractContext.web3.utils.hexToUtf8(k)}
                 </h3>
+                <p className="pa1 w-10 tr o-40">
+                  {this.state.selectedPhase === k ? "Skjul" : "Vis" }
+                </p>
               </div>
               {this.state.selectedPhase === k
                 ? this.props.data[k].map(d => (
