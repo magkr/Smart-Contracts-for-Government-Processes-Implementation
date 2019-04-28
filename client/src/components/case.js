@@ -139,7 +139,7 @@ class Case extends Component {
         <div className="f6 bg-near-white ba pa3 black-60 helvetica ma2">
           {MessageWait("Ny sag fra Syddjurs Kommne", "Modtag sagens filer")}
           <div className="dim">
-          {ButtonExampleLoading("Åben filer", () => this.openZip())}
+            {ButtonExampleLoading("Åben filer", () => this.openZip())}
           </div>
         </div>
       );
@@ -173,7 +173,9 @@ class Case extends Component {
                   {this.state.marked ? "Hjemvis" : "Stadfæst"}
                 </button>
               </div>
-            ) : <div className="w-50" />}
+            ) : (
+              <div className="w-50" />
+            )}
           </div>
         </div>
         <DataOverview
@@ -241,15 +243,17 @@ class Case extends Component {
     return (
       <div>
         <div className="w-100 flex justify-center">
-          {this.dataList()}
-          {this.props.case.status === "0" ? (
+          {this.props.case.status === "0" && this.state.actions.length > 0 ? (
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
               data={this.state.history}
               case={this.props.case}
             />
-          ) : <div className="w-50" />}
+          ) : (
+            <div className="w-50" />
+          )}
+          <div className="w-50" />
         </div>
         <ResolutionView
           case={this.props.case}
