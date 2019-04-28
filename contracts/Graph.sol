@@ -3,9 +3,8 @@ pragma solidity 0.5.0;
 
 contract Graph {
   /* enum DataType { INT, TEXT, FILE, BOOL } */
-  enum NodeType { NORMAL, RESOLUTION, DOC }
+  enum NodeType { NORMAL, RESOLUTION, DOC, PAYMENT }
   bytes32 resolvingResolution;
-  bytes32 lastVtx;
   bytes32 root = "root";
   bytes32 end = "end";
 

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Action from "./action.js";
+import Payment from "./payment.js";
 
 export default class ActionsList extends Component {
   constructor(props) {
@@ -35,17 +36,32 @@ export default class ActionsList extends Component {
     );
   }
 
+  getAction(a) {
+    if (a.type === "3") {
+      return (
+        <Payment
+          key={a.title}
+          action={a}
+          case={this.props.case}
+          contractContext={this.props.contractContext}
+        />
+      );
+    } else {
+      return (
+        <Action
+          key={a.title}
+          action={a}
+          contractContext={this.props.contractContext}
+          addValueToSubmit={this.addValueToSubmit.bind(this)}
+        />
+      );
+    }
+  }
+
   listOfActions() {
     return (
       <div>
-        {this.props.actions.map(a => (
-          <Action
-            key={a.title}
-            action={a}
-            contractContext={this.props.contractContext}
-            addValueToSubmit={this.addValueToSubmit.bind(this)}
-          />
-        ))}
+        {this.props.actions.map(a => this.getAction(a))}
         {this.props.actions.length > 1 ? (
           <button
             className="helvetica w-20 f6 ml3 br1 ba bg-white"

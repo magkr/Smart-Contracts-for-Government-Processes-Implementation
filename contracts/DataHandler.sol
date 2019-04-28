@@ -31,10 +31,6 @@ contract DataHandler is ComplainHandler {
     dataCount++;
     c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
 
-    if(c.dataMapping[lastVtx].status == Status.DONE) {
-      c.status = CaseStatus.READYFORPAYMENT;
-    }
-
     emit NewData(_title,  _dataHash, _caseID, dataCount, vxs[_getIdx(_title)].resolution);
     return dataCount;
   }

@@ -4,15 +4,13 @@ import {DataHandler} from "./DataHandler.sol";
 
 contract TransferHandler is DataHandler {
 
-  event Transfer(bool success, uint amount, uint32 caseID, address receiver);
+  event Transfer(bool success, uint amount, uint32 caseID, address receiver, uint date);
 
   function _sendEther(uint32 _caseID) internal {
-    require(cases[_caseID].status == CaseStatus.READYFORPAYMENT);
     address payable to = address(uint160(caseToAddress[_caseID]));
     bool success = to.send(msg.value);
-    emit Transfer(success, msg.value, _caseID, caseToAddress[_caseID]);
+    emit Transfer(success, msg.value, _caseID, caseToAddress[_caseID], block.timestamp);
     if(success) {
-      cases[_caseID].status = CaseStatus.ACTIVE;
       _cascadeClear(_getIdx(resolvingResolution), cases[_caseID]);
     }
   }

@@ -10,96 +10,90 @@ contract Process42 is ProcessInterface {
     metering();
     calculation();
     payment();
-    resolvingResolution = "Beregningsgrundlag afgørelse";
-    lastVtx = "Udbetaling afgørelse";
-
+    resolvingResolution = "Afgørelse: Beregningsgrundlag";
 
     /* test();
-    resolvingResolution = "Resolution";
-    lastVtx = "Final"; */
+    resolvingResolution = "Resolution"; */
   }
 
   function intro() private {
-    _addVertex("Vejledning","Mundtlig vejledning", false, NodeType.NORMAL);
-    _addVertex("Mundtlig vejledning afgørelse", "Mundtlig vejledning", true, NodeType.RESOLUTION);
+    bytes32 phase = "Vejledning";
+    _addVertex("Vejledning",phase, false, NodeType.NORMAL);
+    _addVertex("Afgørelse: Vejledning", phase, true, NodeType.RESOLUTION);
 
     _addEdge(root, "Vejledning");
 
-    _addEdge("Vejledning","Mundtlig vejledning afgørelse");
+    _addEdge("Vejledning","Afgørelse: Vejledning");
   }
 
   function startup() private {
-    bytes32 phase = "Opstartsbehandling";
+    bytes32 phase = "Målgruppevurdering";
     _addVertex("Dokumentation fra læge", phase, false, NodeType.NORMAL);
     _addVertex("Dokumentation fra forældre", phase, false, NodeType.DOC);
     _addVertex("Andet dokumentation", phase, false, NodeType.NORMAL);
     _addVertex("Partshøring", phase, false, NodeType.NORMAL);
-    _addVertex("Opstartsbehandling afgørelse", phase, true, NodeType.RESOLUTION);
+    _addVertex("Afgørelse: Målgruppevurdering", phase, true, NodeType.RESOLUTION);
 
-    _addEdge("Mundtlig vejledning afgørelse","Dokumentation fra læge");
-    _addEdge("Mundtlig vejledning afgørelse","Dokumentation fra forældre");
-    _addEdge("Mundtlig vejledning afgørelse","Andet dokumentation");
+    _addEdge("Afgørelse: Vejledning","Dokumentation fra læge");
+    _addEdge("Afgørelse: Vejledning","Dokumentation fra forældre");
+    _addEdge("Afgørelse: Vejledning","Andet dokumentation");
 
     _addEdge("Dokumentation fra læge", "Partshøring");
     _addEdge("Dokumentation fra forældre", "Partshøring");
     _addEdge("Andet dokumentation", "Partshøring");
-    _addEdge("Partshøring", "Opstartsbehandling afgørelse");
+    _addEdge("Partshøring", "Afgørelse: Målgruppevurdering");
   }
 
   function metering() private {
     bytes32 phase = "Udmåling";
-    _addVertex("Arbejdstider", phase, false, NodeType.DOC);
-    _addVertex("Familieforhold", phase, false, NodeType.NORMAL);
-    _addVertex("Arbejdsfleksibilitet", phase, false, NodeType.NORMAL);
+    _addVertex("Dokmentation af arbejdstider", phase, false, NodeType.DOC);
+    _addVertex("Oplys familieforhold", phase, false, NodeType.DOC);
+    _addVertex("Oplys arbejdsfleksibilitet", phase, false, NodeType.DOC);
     _addVertex("Bevilligede timer", phase, false, NodeType.NORMAL);
     _addVertex("Sparede udgifter", phase, false, NodeType.NORMAL);
-    _addVertex("Udmåling afgørelse", phase, true, NodeType.RESOLUTION);
+    _addVertex("Afgørelse: Udmåling", phase, true, NodeType.RESOLUTION);
 
-    _addEdge("Opstartsbehandling afgørelse","Arbejdstider");
-    _addEdge("Opstartsbehandling afgørelse","Familieforhold");
-    _addEdge("Opstartsbehandling afgørelse","Arbejdsfleksibilitet");
+    _addEdge("Afgørelse: Målgruppevurdering","Dokmentation af arbejdstider");
+    _addEdge("Afgørelse: Målgruppevurdering","Oplys familieforhold");
+    _addEdge("Afgørelse: Målgruppevurdering","Oplys arbejdsfleksibilitet");
 
-    _addEdge("Arbejdstider","Bevilligede timer");
-    _addEdge("Arbejdstider","Sparede udgifter");
-    _addEdge("Familieforhold","Bevilligede timer");
-    _addEdge("Familieforhold","Sparede udgifter");
-    _addEdge("Arbejdsfleksibilitet","Bevilligede timer");
-    _addEdge("Arbejdsfleksibilitet","Sparede udgifter");
-    _addEdge("Bevilligede timer", "Udmåling afgørelse");
-    _addEdge("Sparede udgifter", "Udmåling afgørelse");
+    _addEdge("Dokmentation af arbejdstider","Bevilligede timer");
+    _addEdge("Dokmentation af arbejdstider","Sparede udgifter");
+
+    _addEdge("Oplys familieforhold","Bevilligede timer");
+    _addEdge("Oplys familieforhold","Sparede udgifter");
+
+    _addEdge("Oplys arbejdsfleksibilitet","Bevilligede timer");
+    _addEdge("Oplys arbejdsfleksibilitet","Sparede udgifter");
+
+    _addEdge("Bevilligede timer", "Afgørelse: Udmåling");
+    _addEdge("Sparede udgifter", "Afgørelse: Udmåling");
   }
 
   function calculation() private {
     bytes32 phase = "Beregningsgrundlag";
     _addVertex("Indkomstoplysninger", phase, false, NodeType.DOC);
-    _addVertex("Skatteoplysninger", phase, false, NodeType.DOC);
     _addVertex("Pensionsoplysninger", phase, false, NodeType.DOC);
+    _addVertex("Beregningsgrundlag", phase, false, NodeType.NORMAL);
+    _addVertex("Afgørelse: Beregningsgrundlag", phase, true, NodeType.RESOLUTION);
 
-    _addVertex("Beregning af ydelse", phase, false, NodeType.NORMAL);
-    _addVertex("Pensionsselskabs info", phase, false, NodeType.NORMAL);
+    _addEdge("Afgørelse: Udmåling","Indkomstoplysninger");
+    _addEdge("Afgørelse: Udmåling","Pensionsoplysninger");
 
-    _addVertex("Beregningsgrundlag afgørelse", phase, true, NodeType.RESOLUTION);
+    _addEdge("Indkomstoplysninger", "Beregningsgrundlag");
+    _addEdge("Pensionsoplysninger", "Beregningsgrundlag");
 
-    _addEdge("Udmåling afgørelse","Indkomstoplysninger");
-    _addEdge("Udmåling afgørelse","Skatteoplysninger");
-    _addEdge("Udmåling afgørelse","Pensionsoplysninger");
-
-    _addEdge("Indkomstoplysninger", "Beregning af ydelse");
-    _addEdge("Skatteoplysninger", "Beregning af ydelse");
-    _addEdge("Pensionsoplysninger", "Beregning af ydelse");
-    _addEdge("Pensionsoplysninger", "Pensionsselskabs info");
-
-    _addEdge("Beregning af ydelse", "Beregningsgrundlag afgørelse");
-    _addEdge("Pensionsselskabs info", "Beregningsgrundlag afgørelse");
+    _addEdge("Beregningsgrundlag", "Afgørelse: Beregningsgrundlag");
   }
 
   function payment() private {
-    _addVertex("Borgerdokumentation", "Udbetaling", false, NodeType.DOC);
-    _addVertex("Udbetaling afgørelse", "Udbetaling", true, NodeType.RESOLUTION);
+    bytes32 phase = "Udbetaling";
+    _addVertex("Dokumentation på t.a.", phase, false, NodeType.DOC);
+    _addVertex("Udbetaling", phase, true, NodeType.PAYMENT);
 
-    _addEdge("Beregningsgrundlag afgørelse","Borgerdokumentation");
-    _addEdge("Borgerdokumentation","Udbetaling afgørelse");
-    _addEdge("Udbetaling afgørelse", end);
+    _addEdge("Afgørelse: Beregningsgrundlag","Dokumentation på t.a.");
+    _addEdge("Dokumentation på t.a.","Udbetaling");
+    _addEdge("Udbetaling", end);
   }
 
   function test() private {
