@@ -13,7 +13,6 @@ contract Graph {
     /* DataType dataType; */
     bytes32 title;
     bytes32 phase;
-    bool resolution;
     NodeType nodeType;
   }
 
@@ -27,9 +26,9 @@ contract Graph {
     return titleToID[title]-1;
   }
 
-  function _addVertex(bytes32 _title, bytes32 _phase, bool _resolution, NodeType _type) internal {
+  function _addVertex(bytes32 _title, bytes32 _phase, NodeType _type) internal {
     // if title exists, throw error
-    vxs.push(DataNode(_title, _phase, _resolution, _type));
+    vxs.push(DataNode(_title, _phase, _type));
     titleToID[_title] = vxs.length;
   }
 

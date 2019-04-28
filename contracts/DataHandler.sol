@@ -31,7 +31,7 @@ contract DataHandler is ComplainHandler {
     dataCount++;
     c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
 
-    emit NewData(_title,  _dataHash, _caseID, dataCount, vxs[_getIdx(_title)].resolution);
+    emit NewData(_title,  _dataHash, _caseID, dataCount, uint(vxs[_getIdx(_title)].nodeType));
     return dataCount;
   }
 
