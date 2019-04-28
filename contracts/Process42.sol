@@ -18,8 +18,8 @@ contract Process42 is ProcessInterface {
 
   function intro() private {
     bytes32 phase = "Vejledning";
-    _addVertex("Vejledning",phase, false, NodeType.NORMAL);
-    _addVertex("Afgørelse: Vejledning", phase, true, NodeType.RESOLUTION);
+    _addVertex("Vejledning",phase, NodeType.NORMAL);
+    _addVertex("Afgørelse: Vejledning", phase, NodeType.RESOLUTION);
 
     _addEdge(root, "Vejledning");
 
@@ -28,11 +28,11 @@ contract Process42 is ProcessInterface {
 
   function startup() private {
     bytes32 phase = "Målgruppevurdering";
-    _addVertex("Dokumentation fra læge", phase, false, NodeType.NORMAL);
-    _addVertex("Dokumentation fra forældre", phase, false, NodeType.DOC);
-    _addVertex("Andet dokumentation", phase, false, NodeType.NORMAL);
-    _addVertex("Partshøring", phase, false, NodeType.NORMAL);
-    _addVertex("Afgørelse: Målgruppevurdering", phase, true, NodeType.RESOLUTION);
+    _addVertex("Dokumentation fra læge", phase, NodeType.NORMAL);
+    _addVertex("Dokumentation fra forældre", phase, NodeType.DOC);
+    _addVertex("Andet dokumentation", phase, NodeType.NORMAL);
+    _addVertex("Partshøring", phase, NodeType.NORMAL);
+    _addVertex("Afgørelse: Målgruppevurdering", phase, NodeType.RESOLUTION);
 
     _addEdge("Afgørelse: Vejledning","Dokumentation fra læge");
     _addEdge("Afgørelse: Vejledning","Dokumentation fra forældre");
@@ -46,12 +46,12 @@ contract Process42 is ProcessInterface {
 
   function metering() private {
     bytes32 phase = "Udmåling";
-    _addVertex("Dokmentation af arbejdstider", phase, false, NodeType.DOC);
-    _addVertex("Oplys familieforhold", phase, false, NodeType.DOC);
-    _addVertex("Oplys arbejdsfleksibilitet", phase, false, NodeType.DOC);
-    _addVertex("Bevilligede timer", phase, false, NodeType.NORMAL);
-    _addVertex("Sparede udgifter", phase, false, NodeType.NORMAL);
-    _addVertex("Afgørelse: Udmåling", phase, true, NodeType.RESOLUTION);
+    _addVertex("Dokmentation af arbejdstider", phase, NodeType.DOC);
+    _addVertex("Oplys familieforhold", phase, NodeType.DOC);
+    _addVertex("Oplys arbejdsfleksibilitet", phase, NodeType.DOC);
+    _addVertex("Bevilligede timer", phase, NodeType.NORMAL);
+    _addVertex("Sparede udgifter", phase, NodeType.NORMAL);
+    _addVertex("Afgørelse: Udmåling", phase, NodeType.RESOLUTION);
 
     _addEdge("Afgørelse: Målgruppevurdering","Dokmentation af arbejdstider");
     _addEdge("Afgørelse: Målgruppevurdering","Oplys familieforhold");
@@ -72,10 +72,10 @@ contract Process42 is ProcessInterface {
 
   function calculation() private {
     bytes32 phase = "Beregningsgrundlag";
-    _addVertex("Indkomstoplysninger", phase, false, NodeType.DOC);
-    _addVertex("Pensionsoplysninger", phase, false, NodeType.DOC);
-    _addVertex("Beregningsgrundlag", phase, false, NodeType.NORMAL);
-    _addVertex("Afgørelse: Beregningsgrundlag", phase, true, NodeType.RESOLUTION);
+    _addVertex("Indkomstoplysninger", phase, NodeType.DOC);
+    _addVertex("Pensionsoplysninger", phase, NodeType.DOC);
+    _addVertex("Beregningsgrundlag", phase, NodeType.NORMAL);
+    _addVertex("Afgørelse: Beregningsgrundlag", phase, NodeType.RESOLUTION);
 
     _addEdge("Afgørelse: Udmåling","Indkomstoplysninger");
     _addEdge("Afgørelse: Udmåling","Pensionsoplysninger");
@@ -88,8 +88,8 @@ contract Process42 is ProcessInterface {
 
   function payment() private {
     bytes32 phase = "Udbetaling";
-    _addVertex("Dokumentation på t.a.", phase, false, NodeType.DOC);
-    _addVertex("Udbetaling", phase, true, NodeType.PAYMENT);
+    _addVertex("Dokumentation på t.a.", phase, NodeType.DOC);
+    _addVertex("Udbetaling", phase, NodeType.PAYMENT);
 
     _addEdge("Afgørelse: Beregningsgrundlag","Dokumentation på t.a.");
     _addEdge("Dokumentation på t.a.","Udbetaling");
@@ -97,10 +97,10 @@ contract Process42 is ProcessInterface {
   }
 
   function test() private {
-    _addVertex("Normal","Resolution", false, NodeType.NORMAL);
-    _addVertex("Resolution", "Resolution", true, NodeType.RESOLUTION);
-    _addVertex("Documentation", "Final", false, NodeType.DOC);
-    _addVertex("Final", "Final", true, NodeType.RESOLUTION);
+    _addVertex("Normal","Resolution", NodeType.NORMAL);
+    _addVertex("Resolution", "Resolution", NodeType.RESOLUTION);
+    _addVertex("Documentation", "Final", NodeType.DOC);
+    _addVertex("Final", "Final", NodeType.RESOLUTION);
 
 
     _addEdge(root,"Normal");

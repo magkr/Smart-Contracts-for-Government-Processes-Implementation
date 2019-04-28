@@ -14,7 +14,7 @@ contract ComplainHandler is CaseHandler {
         //TODO emit decision;
       }
       c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
-      emit NewData(_title,  _dataHash, _caseID, dataCount, vxs[_getIdx(_title)].resolution);
+      emit NewData(_title,  _dataHash, _caseID, dataCount, uint(vxs[_getIdx(_title)].nodeType));
 
       return dataCount;
     } else {
@@ -45,7 +45,7 @@ contract ComplainHandler is CaseHandler {
   }
 
   function _complain(bytes32 _title, uint32 _caseID) internal {
-    require(vxs[_getIdx(_title)].resolution);
+    require(vxs[_getIdx(_title)].nodeType == NodeType.RESOLUTION);
     require(cases[_caseID].status != CaseStatus.COMPLAINT && cases[_caseID].status != CaseStatus.COUNCIL);
     Case storage c = cases[_caseID];
     c.status = CaseStatus.COMPLAINT;

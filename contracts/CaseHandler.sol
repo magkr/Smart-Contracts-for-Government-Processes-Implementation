@@ -12,7 +12,7 @@ contract CaseHandler is RBAC, Graph {
 
   enum CaseStatus { ACTIVE, COMPLAINT, READYFORPAYMENT, COUNCIL }
   enum Status { UNDONE, DONE, UNSTABLE, MARKED, COMPLAINED }
-  event NewData(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location, bool indexed resolution); // should be a dataType instead of bool?
+  event NewData(bytes32 title, bytes32 dataHash, uint32 indexed caseID, uint location, uint indexed dataType ); // should be a dataType instead of bool?
 
   struct Case {
     uint32 id;
