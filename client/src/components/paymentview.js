@@ -70,7 +70,7 @@ export default class PaymentView extends Component {
               key={idx}
               className="pa1 ma1 flex justify-between bg-near-white"
             >
-              <div>Du har modtaget en udbetaling på: {r.value} ETH </div>
+              <div>Du har modtaget en udbetaling på: {r.amount} ETH </div>
               <div>Dato: {r.date} </div>
             </div>
           );
