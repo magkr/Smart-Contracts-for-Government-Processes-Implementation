@@ -5,7 +5,7 @@ import {RBAC} from './RBAC.sol';
 
 contract CaseHandler is RBAC, Graph {
   Case[] cases;
-  uint public dataCount;
+  uint32 public dataCount;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
   mapping (uint32 => Complaint) complaints;
@@ -21,10 +21,9 @@ contract CaseHandler is RBAC, Graph {
   }
 
   struct Data {
-    bytes32 name;
     bytes32 dataHash;
     uint32 caseID;
-    uint id;
+    uint32 id;
     Status status;
   }
 
@@ -93,9 +92,9 @@ contract CaseHandler is RBAC, Graph {
     return caseToAddress[caseID];
   }
 
-  function _getCase(uint caseID) internal view returns(bytes32[] memory titles, uint[] memory ids, bytes32[] memory dataHashes, Status[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
+  function _getCase(uint32 caseID) internal view returns(bytes32[] memory titles, uint32[] memory ids, bytes32[] memory dataHashes, Status[] memory statuss, uint[] memory types, bytes32[] memory phases, bool[] memory isReady) {
     titles = new bytes32[](vxs.length);
-    ids = new uint[](vxs.length);
+    ids = new uint32[](vxs.length);
     dataHashes = new bytes32[](vxs.length);
     statuss = new Status[](vxs.length);
     phases = new bytes32[](vxs.length);

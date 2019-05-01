@@ -4,7 +4,7 @@ import {CaseHandler} from './CaseHandler.sol';
 
 contract ComplainHandler is CaseHandler {
 
-  function _complainFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint id) {
+  function _complainFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint32 id) {
     require(cases[_caseID].status == CaseStatus.COMPLAINT);
     Case storage c = cases[_caseID];
     if(c.dataMapping[_title].dataHash != _dataHash) {

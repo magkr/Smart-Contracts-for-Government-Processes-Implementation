@@ -180,6 +180,10 @@ class Case extends Component {
             )}
           </div>
         </div>
+        <HistoryView
+          id={this.props.case.id}
+          contractContext={this.props.contractContext}
+        />
         <DataOverview
           contractContext={this.props.contractContext}
           datas={this.state.datalist}
