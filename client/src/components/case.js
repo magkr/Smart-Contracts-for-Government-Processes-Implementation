@@ -207,14 +207,15 @@ class Case extends Component {
             <div className="w-50" />
           )}
         </div>
-        <HistoryView
-          id={this.props.case.id}
-          contractContext={this.props.contractContext}
-        />
         <PaymentView
           case={this.props.case}
           contractContext={this.props.contractContext}
         />
+        <HistoryView
+          id={this.props.case.id}
+          contractContext={this.props.contractContext}
+        />
+
       </div>
     );
   }
@@ -241,11 +242,11 @@ class Case extends Component {
           )}
           <div className="w-50" />
         </div>
-        <ResolutionView
+        <PaymentView
           case={this.props.case}
           contractContext={this.props.contractContext}
         />
-        <PaymentView
+        <ResolutionView
           case={this.props.case}
           contractContext={this.props.contractContext}
         />

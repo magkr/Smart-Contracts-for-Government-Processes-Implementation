@@ -4,26 +4,12 @@ import {CaseHandler} from './CaseHandler.sol';
 
 contract ComplainHandler is CaseHandler {
 
-  function _complainFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint32 id) {
-    require(cases[_caseID].status == CaseStatus.COMPLAINT);
-    Case storage c = cases[_caseID];
-    if(c.dataMapping[_title].dataHash != _dataHash) {
-      dataCount++;
-      if(complaints[_caseID].data == _title) {
-        c.status = CaseStatus.ACTIVE;
-        //TODO emit decision;
-      }
-      c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
-      emit NewData(_title,  _dataHash, _caseID, dataCount, uint(vxs[_getIdx(_title)].nodeType));
+  mapping (uint32 => Complaint) complaints;
 
-      return dataCount;
-    } else {
-      c.dataMapping[_title].status = Status.DONE;
-      if(complaints[_caseID].data == _title) {
-        c.status = CaseStatus.COUNCIL;
-      }
-      return c.dataMapping[_title].id;
-    }
+  struct Complaint {
+    bytes32 data;
+    uint32 caseID;
+    bool isMarked;
   }
 
   function _getComplaint(uint32 _caseID) internal view returns (bytes32, bool){
@@ -44,6 +30,14 @@ contract ComplainHandler is CaseHandler {
     c.status = CaseStatus.COMPLAINT;
   }
 
+  function _markData(bytes32 _title, uint32 _caseID) internal {
+    require(cases[_caseID].status == CaseStatus.COUNCIL);
+    Case storage c = cases[_caseID];
+    c.dataMapping[_title].status = Status.MARKED;
+    complaints[_caseID].isMarked = true;
+    _cascade(_getIdx(_title), c, Status.DONE, Status.UNSTABLE);
+  }
+
   function _complain(bytes32 _title, uint32 _caseID) internal {
     require(vxs[_getIdx(_title)].nodeType == NodeType.RESOLUTION);
     require(cases[_caseID].status != CaseStatus.COMPLAINT && cases[_caseID].status != CaseStatus.COUNCIL);
@@ -56,5 +50,14 @@ contract ComplainHandler is CaseHandler {
     complaints[_caseID] = Complaint(_title, _caseID, false);
   }
 
+  function _cascade(uint v, Case storage c, Status from, Status to) internal {
+    for (uint i = 0; i < adj[v].length; i++) {
+      uint a = adj[v][i];
+      if (c.dataMapping[vxs[a].title].status == from) {
+        c.dataMapping[vxs[a].title].status = to;
+        _cascade(a, c, from, to);
+      }
+    }
+  }
 
 }

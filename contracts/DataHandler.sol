@@ -4,17 +4,25 @@ import {ComplainHandler} from './ComplainHandler.sol';
 
 contract DataHandler is ComplainHandler {
 
-  function _fillDatas(bytes32[] memory _titles, uint32 _caseID, bytes32[] memory _dataHashes) internal returns (uint32[] memory ids) {
-    ids = new uint32[](_titles.length);
-    if(cases[_caseID].status == CaseStatus.ACTIVE) {
-      for(uint i = 0; i < _titles.length; i++) {
-        ids[i] = _activeFillData(_titles[i], _caseID, _dataHashes[i]);
+  function _complainFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint32 id) {
+    require(cases[_caseID].status == CaseStatus.COMPLAINT);
+    Case storage c = cases[_caseID];
+    if(c.dataMapping[_title].dataHash != _dataHash) {
+      dataCount++;
+      if(complaints[_caseID].data == _title) {
+        c.status = CaseStatus.ACTIVE;
+        //TODO emit decision;
       }
-    }
-    else if(cases[_caseID].status == CaseStatus.COMPLAINT) {
-      for(uint i = 0; i < _titles.length; i++) {
-        ids[i] = _complainFillData(_titles[i], _caseID, _dataHashes[i]);
+      c.dataMapping[_title] = Data(_dataHash, _caseID, dataCount, Status.DONE);
+      emit NewData(_title,  _dataHash, _caseID, dataCount, uint(vxs[_getIdx(_title)].nodeType));
+
+      return dataCount;
+    } else {
+      c.dataMapping[_title].status = Status.DONE;
+      if(complaints[_caseID].data == _title) {
+        c.status = CaseStatus.COUNCIL;
       }
+      return c.dataMapping[_title].id;
     }
   }
 
@@ -29,18 +37,10 @@ contract DataHandler is ComplainHandler {
     Case storage c = cases[_caseID];
 
     dataCount++;
-    c.dataMapping[_title] = Data(_title, _dataHash, _caseID, dataCount, Status.DONE);
+    c.dataMapping[_title] = Data(_dataHash, _caseID, dataCount, Status.DONE);
 
     emit NewData(_title,  _dataHash, _caseID, dataCount, uint(vxs[_getIdx(_title)].nodeType));
     return dataCount;
-  }
-
-  function _markData(bytes32 _title, uint32 _caseID) internal {
-    require(cases[_caseID].status == CaseStatus.COUNCIL);
-    Case storage c = cases[_caseID];
-    c.dataMapping[_title].status = Status.MARKED;
-    complaints[_caseID].isMarked = true;
-    _cascade(_getIdx(_title), c, Status.DONE, Status.UNSTABLE);
   }
 
 }

@@ -8,7 +8,6 @@ contract CaseHandler is RBAC, Graph {
   uint32 public dataCount;
   mapping (uint32 => address) caseToAddress;
   mapping (address => uint32) caseCount;  // TODO INCREMENT THIS
-  mapping (uint32 => Complaint) complaints;
 
   enum CaseStatus { ACTIVE, COMPLAINT, READYFORPAYMENT, COUNCIL }
   enum Status { UNDONE, DONE, UNSTABLE, MARKED, COMPLAINED }
@@ -27,12 +26,6 @@ contract CaseHandler is RBAC, Graph {
     Status status;
   }
 
-  struct Complaint {
-    bytes32 data;
-    uint caseID;
-    bool isMarked;
-  }
-
 
   function _addCase(address user) internal {
     // if case exist, throw error
@@ -45,7 +38,6 @@ contract CaseHandler is RBAC, Graph {
   }
 
   function _myCases() internal view returns (uint32[] memory cs, CaseStatus[] memory statuss) {
-    /* if (msg.sender == ANKESTYRELSE) RETURN COMPLAINs */
     cs = new uint32[](caseCount[msg.sender]);
     statuss = new CaseStatus[](caseCount[msg.sender]);
     uint32 counter = 0;
@@ -66,25 +58,6 @@ contract CaseHandler is RBAC, Graph {
     for(uint32 i = 0; i < cases.length; i++){
         cs[i] = cases[i].id;
         statuss[i] = cases[i].status;
-    }
-  }
-
-  function _councilCases() internal view returns (uint32[] memory cs, CaseStatus[] memory statuss) {
-    uint count = 0;
-
-    for(uint32 i = 0; i < cases.length; i++){
-      if (cases[i].status == CaseStatus.COUNCIL)
-        count++;
-    }
-
-    cs = new uint32[](count);
-    statuss = new CaseStatus[](count);
-
-    for(uint32 i = 0; i < cases.length; i++){
-      if (cases[i].status == CaseStatus.COUNCIL) {
-        cs[i] = cases[i].id;
-        statuss[i] = cases[i].status;
-      }
     }
   }
 
@@ -115,31 +88,17 @@ contract CaseHandler is RBAC, Graph {
   }
 
 
+  function _isReady(bytes32 v, Case storage c) private view returns (bool) {
+    if(c.dataMapping[v].status == Status.DONE) return false;
+    return _allowed(v, c);
+  }
+
   function _allowed(bytes32 v, Case storage c) internal view returns (bool) {
     for(uint r = 0; r < req[_getIdx(v)].length; r++) {
       uint reqID = req[_getIdx(v)][r];
       if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
     }
     return true;
-  }
-
-  function _isReady(bytes32 v, Case storage c) private view returns (bool) {
-    if(c.dataMapping[v].status == Status.DONE) return false;
-    for(uint r = 0; r < req[_getIdx(v)].length; r++) {
-      uint reqID = req[_getIdx(v)][r];
-      if (c.dataMapping[vxs[reqID].title].status != Status.DONE) return false;
-    }
-    return true;
-  }
-
-  function _cascade(uint v, Case storage c, Status from, Status to) internal {
-    for (uint i = 0; i < adj[v].length; i++) {
-      uint a = adj[v][i];
-      if (c.dataMapping[vxs[a].title].status == from) {
-        c.dataMapping[vxs[a].title].status = to;
-        _cascade(a, c, from, to);
-      }
-    }
   }
 
 }

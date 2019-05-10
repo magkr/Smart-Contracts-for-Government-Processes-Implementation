@@ -17,15 +17,19 @@ contract ProcessInterface is TransferHandler {
     return _getCase(caseID);
   }
 
-  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public returns (uint id) {
+  function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public returns (uint32 id) {
     if (vxs[_getIdx(_title)].nodeType == NodeType.DOC) require((caseToAddress[_caseID] == msg.sender) || hasRole(msg.sender, MUNICIPALITY));
     else require(hasRole(msg.sender, MUNICIPALITY));
     return _fillData(_title, _caseID, _dataHash);
   }
 
   function fillDatas(bytes32[] memory _titles, uint32 _caseID, bytes32[] memory _dataHashes) public returns (uint32[] memory ids) {
-    require(hasRole(msg.sender, MUNICIPALITY));
-    return _fillDatas(_titles, _caseID, _dataHashes);
+    ids = new uint32[](_titles.length);
+    if(cases[_caseID].status == CaseStatus.ACTIVE) {
+      for(uint i = 0; i < _titles.length; i++) {
+        ids[i] = fillData(_titles[i], _caseID, _dataHashes[i]);
+      }
+    }
   }
 
   function allCases() public view onlyAdmin returns (uint32[] memory ids,  CaseStatus[] memory sts) {
@@ -36,13 +40,16 @@ contract ProcessInterface is TransferHandler {
     return _myCases();
   }
 
-  function councilCases() public view returns (uint32[] memory ids, CaseStatus[] memory sts) {
-    return _councilCases();
-  }
-
-
   function markData(bytes32 _title, uint32 _caseID) public onlyRole(COUNCIL) {
     return _markData(_title, _caseID);
+  }
+
+  function stadfast(uint32 _caseID) public onlyRole(COUNCIL) { //RATIFY
+    return _stadfast(_caseID);
+  }
+
+  function homesend(uint32 _caseID) public onlyRole(COUNCIL) { //REDO
+    return _homesend(_caseID);
   }
 
   function complain(bytes32 _title, uint32 _caseID) public onlyRole(CITIZEN) {
@@ -53,31 +60,7 @@ contract ProcessInterface is TransferHandler {
     return _sendEther(_caseID);
   }
 
-  function addRole(address _operator, string memory _role) public onlyAdmin {
-    require(hasRole(msg.sender, _role));
-    return _addRole(_operator, _role);
-  }
-
-  function removeRole(address _operator, string memory _role) public onlyAdmin {
-    require(hasRole(msg.sender, _role) && msg.sender != _operator);
-    return _removeRole(_operator, _role);
-  }
-
-  function stadfast(uint32 _caseID) public onlyRole(COUNCIL) {
-    return _stadfast(_caseID);
-  }
-
-  function homesend(uint32 _caseID) public onlyRole(COUNCIL) {
-    return _homesend(_caseID);
-  }
-
-  function getComplaint(uint32 _caseID) public view returns (bytes32, bool){
-    return _getComplaint(_caseID);
-  }
-
-  function setCouncil(address c)
-    public
-  {
+  function setCouncil(address c) public {
     return _addRole(c, COUNCIL);
   }
 }

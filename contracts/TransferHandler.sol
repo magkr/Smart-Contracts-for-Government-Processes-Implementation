@@ -19,7 +19,7 @@ contract TransferHandler is DataHandler {
     for (uint i = 0; i < adj[v].length; i++) {
       uint a = adj[v][i];
       if (c.dataMapping[vxs[a].title].status == Status.DONE) {
-        c.dataMapping[vxs[a].title] = Data(vxs[a].title, 0, c.id, 0, Status.UNDONE);
+        c.dataMapping[vxs[a].title] = Data(0, c.id, 0, Status.UNDONE);
         _cascadeClear(a, c);
       }
     }

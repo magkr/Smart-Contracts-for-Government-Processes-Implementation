@@ -161,7 +161,7 @@ class App extends Component {
           datalist.push(d);
           if (d.status === "3") marked = true;
           if (d.ready) {
-          actions.push(d);
+            actions.push(d);
           }
         });
       });
@@ -197,33 +197,24 @@ class App extends Component {
   }
 
   async getCases(account, role) {
+    if (role === -1) return {};
     if (role === 0)
       return await this.state.contract.methods
         .myCases()
         .call({ from: account });
-    if (role === 1)
-      return await this.state.contract.methods
-        .allCases()
-        .call({ from: account });
-    if (role === 2) {
-      var list = await this.state.contract.methods
-        .allCases()
-        .call({ from: account });
-      //console.log(list);
-        var ids = [];
-        var stss = [];
-      list.sts.map((st,idx) => {
-        if (st === "3") {
-          ids.push(list.ids[idx]);
-          stss.push(st);
-        }
-      })
-      return {ids, sts: stss}
-    }
-      // return await this.state.contract.methods
-      //   .councilCases()
-      //   .call({ from: account });
-    else return {};
+    var list = await this.state.contract.methods
+      .allCases()
+      .call({ from: account });
+    if (role === 1) return list;
+    var ids = [];
+    var stss = [];
+    list.sts.map((st, idx) => {
+      if (st === "3") {
+        ids.push(list.ids[idx]);
+        stss.push(st);
+      }
+    });
+    return { ids, sts: stss };
   }
 
   async stadfast(id) {
@@ -277,8 +268,14 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address
       );
 
-      if(!await p.methods.hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "council").call({ from: accounts[0] })){
-        await p.methods.setCouncil("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff").send({ from: accounts[0] });
+      if (
+        !(await p.methods
+          .hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "council")
+          .call({ from: accounts[0] }))
+      ) {
+        await p.methods
+          .setCouncil("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff")
+          .send({ from: accounts[0] });
       }
       await this.setState({ web3, accounts: accounts, contract: p });
       await this.setState({ role: await this.role(accounts[0]) });
