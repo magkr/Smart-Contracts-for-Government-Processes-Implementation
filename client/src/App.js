@@ -20,7 +20,7 @@ class App extends Component {
     super();
     this.update = this.update.bind(this);
     this.newCase = this.newCase.bind(this);
-    this.complain = this.complain.bind(this);
+    this.appeal = this.appeal.bind(this);
     this.fetchCases = this.fetchCases.bind(this);
     this.markData = this.markData.bind(this);
     this.caseData = this.caseData.bind(this);
@@ -28,8 +28,8 @@ class App extends Component {
     this.submitDatas = this.submitDatas.bind(this);
 
     this.handlePayment = this.handlePayment.bind(this);
-    this.homesend = this.homesend.bind(this);
-    this.stadfast = this.stadfast.bind(this);
+    this.redo = this.redo.bind(this);
+    this.ratify = this.ratify.bind(this);
   }
 
   fetchCases() {
@@ -40,21 +40,23 @@ class App extends Component {
     });
   }
 
-  complain(r) {
+  appeal(r) {
     console.log(r);
     this.state.contract.methods
-      .complain(r.title, r.caseID)
+      .appeal(r.title, r.caseID)
       .send({ from: this.state.accounts[0] })
       .then(() => {
         this.fetchCases();
       });
   }
 
-  newCase(add) {
+  async newCase(add) {
+    console.log(this.state.contract);
     this.state.contract.methods
       .addCase(add)
       .send({ from: this.state.accounts[0] })
       .then(() => {
+        console.log(43);
         this.fetchCases();
       });
   }
@@ -188,7 +190,7 @@ class App extends Component {
       return 1;
     if (
       await this.state.contract.methods
-        .hasRole(account, "council")
+        .hasRole(account, "appealsboard")
         .call({ from: account })
     )
       return 2;
@@ -209,7 +211,7 @@ class App extends Component {
     var ids = [];
     var stss = [];
     list.sts.map((st, idx) => {
-      if (st === "3") {
+      if (st === "2") {
         ids.push(list.ids[idx]);
         stss.push(st);
       }
@@ -217,16 +219,16 @@ class App extends Component {
     return { ids, sts: stss };
   }
 
-  async stadfast(id) {
+  async ratify(id) {
     await this.state.contract.methods
-      .stadfast(id)
+      .ratify(id)
       .send({ from: this.state.accounts[0] });
     await this.fetchCases();
   }
 
-  async homesend(id) {
+  async redo(id) {
     await this.state.contract.methods
-      .homesend(id)
+      .redo(id)
       .send({ from: this.state.accounts[0] });
     await this.fetchCases();
   }
@@ -235,9 +237,6 @@ class App extends Component {
     if (!this.state.web3 || !this.state.contract) return;
     this.state.web3.eth.getAccounts().then(async acc => {
       // Check if account has changed
-      // if(await this.state.contract.methods.hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "council").call({ from: acc[0] })){
-      //   await this.state.contract.methods.setCouncil("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff").send({ from: acc[0] });
-      // }
       if (this.state.accounts[0] !== acc[0]) {
         this.role(acc[0]).then(async role => {
           await this.setState({
@@ -270,11 +269,11 @@ class App extends Component {
 
       if (
         !(await p.methods
-          .hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "council")
+          .hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "appealsboard")
           .call({ from: accounts[0] }))
       ) {
         await p.methods
-          .setCouncil("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff")
+          .setAppealsBoard("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff")
           .send({ from: accounts[0] });
       }
       await this.setState({ web3, accounts: accounts, contract: p });
@@ -287,8 +286,6 @@ class App extends Component {
       this.accountInterval = setInterval(() => {
         this.update();
         // Call a function to update the UI with the new account
-        // getZombiesByOwner(userAccount)
-        // .then(displayZombies);
       }, 100);
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -323,15 +320,15 @@ class App extends Component {
               accounts: this.state.accounts,
               cases: this.state.cases,
               newCase: this.newCase,
-              complain: this.complain,
+              appeal: this.appeal,
               role: this.state.role,
               markData: this.markData,
               caseData: this.caseData,
               submitData: this.submitData,
               submitDatas: this.submitDatas,
               handlePayment: this.handlePayment,
-              homesend: this.homesend,
-              stadfast: this.stadfast
+              redo: this.redo,
+              ratify: this.ratify
             }}
           >
             <CaseOverview

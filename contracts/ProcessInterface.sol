@@ -18,7 +18,7 @@ contract ProcessInterface is TransferHandler {
   }
 
   function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public returns (uint32 id) {
-    if (vxs[_getIdx(_title)].nodeType == NodeType.DOC) require((caseToAddress[_caseID] == msg.sender) || hasRole(msg.sender, MUNICIPALITY));
+    if (activities[_getIdx(_title)].aType == ActivityType.DOC) require((caseToAddress[_caseID] == msg.sender) || hasRole(msg.sender, MUNICIPALITY));
     else require(hasRole(msg.sender, MUNICIPALITY));
     return _fillData(_title, _caseID, _dataHash);
   }
@@ -40,27 +40,27 @@ contract ProcessInterface is TransferHandler {
     return _myCases();
   }
 
-  function markData(bytes32 _title, uint32 _caseID) public onlyRole(COUNCIL) {
+  function markData(bytes32 _title, uint32 _caseID) public onlyRole(APPEALSBOARD) {
     return _markData(_title, _caseID);
   }
 
-  function stadfast(uint32 _caseID) public onlyRole(COUNCIL) { //RATIFY
-    return _stadfast(_caseID);
+  function ratify(uint32 _caseID) public onlyRole(APPEALSBOARD) {
+    return _ratify(_caseID);
   }
 
-  function homesend(uint32 _caseID) public onlyRole(COUNCIL) { //REDO
-    return _homesend(_caseID);
+  function redo(uint32 _caseID) public onlyRole(APPEALSBOARD) {
+    return _redo(_caseID);
   }
 
-  function complain(bytes32 _title, uint32 _caseID) public onlyRole(CITIZEN) {
-    return _complain(_title, _caseID);
+  function appeal(bytes32 _title, uint32 _caseID) public onlyRole(CITIZEN) {
+    return _appeal(_title, _caseID);
   }
 
   function sendEther(uint32 _caseID) public payable onlyRole(MUNICIPALITY) {
     return _sendEther(_caseID);
   }
 
-  function setCouncil(address c) public {
-    return _addRole(c, COUNCIL);
+  function setAppealsBoard(address c) public {
+    return _addRole(c, APPEALSBOARD);
   }
 }

@@ -18,6 +18,7 @@ class CaseList extends Component {
   newCase() {
     if (this.props.contractContext.web3.utils.isAddress(this.state.newAddr)) {
       try {
+        console.log(32);
         this.props.contractContext.newCase(this.state.newAddr);
         this.setState({
           newAddr: ""
@@ -31,7 +32,7 @@ class CaseList extends Component {
     }
   }
 
-  async setCouncil() {
+  async setAppealsBoard() {
     if (this.props.contractContext.web3.utils.isAddress(this.state.newAddr)) {
       try {
         await this.props.contractContext.contract.methods
@@ -54,8 +55,6 @@ class CaseList extends Component {
       case 1:
         return "bg-washed-red";
       case 2:
-        return "bg-washed-yellow";
-      case 3:
         return "bg-washed-blue";
       default:
         return "bg-washed-green";
@@ -69,8 +68,6 @@ class CaseList extends Component {
       case 1:
         return "Under klage";
       case 2:
-        return "Klar til udbetaling";
-      case 3:
         return "Hos ankestyrelsen";
       default:
         return "Fejl";
@@ -126,7 +123,7 @@ class CaseList extends Component {
     );
   }
 
-  setCouncilField() {
+  setAppealsBoardField() {
     return (
       <li className="dt w-100 bb b--black-05 pa2 flex flex-column justify-between items-start">
         <input
@@ -138,7 +135,7 @@ class CaseList extends Component {
         />
         <button
           className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60 helvetica mv2"
-          onClick={() => this.setCouncil()}
+          onClick={() => this.setAppealsBoard()}
         >
           Sæt ny addresse
         </button>
@@ -154,7 +151,7 @@ class CaseList extends Component {
             <ul className="w-100">
               {context.cases ? this.caseList() : null}
               {context.role === 1 ? this.addCaseField() : null}
-              {context.role === 2 ? this.setCouncilField() : null}
+              {context.role === 2 ? this.setAppealsBoardField() : null}
             </ul>
           );
         }}

@@ -1,34 +1,37 @@
 pragma solidity 0.5.0;
 
-import {ComplainHandler} from './ComplainHandler.sol';
+import {AppealHandler} from './AppealHandler.sol';
 
-contract DataHandler is ComplainHandler {
+contract DataHandler is AppealHandler {
 
-  function _complainFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint32 id) {
-    require(cases[_caseID].status == CaseStatus.COMPLAINT);
+  function _appealFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint32 id) {
+    require(cases[_caseID].status == CaseStatus.APPEALED);
     Case storage c = cases[_caseID];
     if(c.dataMapping[_title].dataHash != _dataHash) {
-      dataCount++;
-      if(complaints[_caseID].data == _title) {
+
+      if(appeals[_caseID].data == _title) {
         c.status = CaseStatus.ACTIVE;
-        //TODO emit decision;
       }
+
+      dataCount++;
       c.dataMapping[_title] = Data(_dataHash, _caseID, dataCount, Status.DONE);
-      emit NewData(_title,  _dataHash, _caseID, dataCount, uint(vxs[_getIdx(_title)].nodeType));
+      emit NewData(_title,  _dataHash, _caseID, dataCount, uint(activities[_getIdx(_title)].aType));
 
       return dataCount;
     } else {
+
       c.dataMapping[_title].status = Status.DONE;
-      if(complaints[_caseID].data == _title) {
-        c.status = CaseStatus.COUNCIL;
+      if(appeals[_caseID].data == _title) {
+        c.status = CaseStatus.APPEALSBOARD;
       }
+
       return c.dataMapping[_title].id;
     }
   }
 
   function _fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint32 id) {
     if(cases[_caseID].status == CaseStatus.ACTIVE) return _activeFillData(_title, _caseID, _dataHash);
-    else if(cases[_caseID].status == CaseStatus.COMPLAINT) return _complainFillData(_title, _caseID, _dataHash);
+    else if(cases[_caseID].status == CaseStatus.APPEALED) return _appealFillData(_title, _caseID, _dataHash);
   }
 
   function _activeFillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) internal returns (uint32 id) {
@@ -39,7 +42,7 @@ contract DataHandler is ComplainHandler {
     dataCount++;
     c.dataMapping[_title] = Data(_dataHash, _caseID, dataCount, Status.DONE);
 
-    emit NewData(_title,  _dataHash, _caseID, dataCount, uint(vxs[_getIdx(_title)].nodeType));
+    emit NewData(_title,  _dataHash, _caseID, dataCount, uint(activities[_getIdx(_title)].aType));
     return dataCount;
   }
 

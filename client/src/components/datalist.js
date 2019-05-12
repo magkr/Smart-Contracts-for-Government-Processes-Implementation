@@ -50,23 +50,6 @@ export default class DataList extends Component {
         return "bg-near-white";
     }
   }
-  //
-  // getNumber(status) {
-  //   switch (status) {
-  //     case toHex("undone"):
-  //       return 0;
-  //     case toHex("done"):
-  //       return 1;
-  //     case toHex("unstable"):
-  //       return 2;
-  //     case toHex("marked"):
-  //       return 3;
-  //     case toHex("complained"):
-  //       return 4;
-  //     default:
-  //       return -1;
-  //   }
-  // }
 
   getColorPhase(phase) {
     var max = 0;
@@ -116,7 +99,7 @@ export default class DataList extends Component {
   getButton(d) {
     if (
       this.props.contractContext.role === 1 &&
-      this.props.case.status !== "3" &&
+      this.props.case.status !== "2" &&
       d.status === "1"
     ) {
       return (

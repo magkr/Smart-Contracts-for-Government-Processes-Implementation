@@ -11,7 +11,7 @@ export default class Action extends Component {
     this.onClick = this.onClick.bind(this);
   }
 
-  erKlageAfgørelse() {
+  isAppealDecision() {
     return (
       this.props.action.type === "1" &&
       this.props.action.status === "4"
@@ -49,7 +49,7 @@ export default class Action extends Component {
     var unchangedValue =
       this.state.value === this.state.prevValue && this.state.value !== "";
 
-    if (this.erKlageAfgørelse())
+    if (this.isAppealDecision())
       return unchangedValue ? "Stadfæst" : "Ændre afgørelse";
     else return unchangedValue ? "Behold" : "Indsend";
   }
@@ -67,7 +67,7 @@ export default class Action extends Component {
         this.state.value
       )
       .then(() => {
-        if (this.erKlageAfgørelse()) this.sendZip();
+        if (this.isAppealDecision()) this.sendZip();
       });
   }
 

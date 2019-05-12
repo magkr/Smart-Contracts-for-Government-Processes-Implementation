@@ -10,107 +10,84 @@ contract Process42 is ProcessInterface {
     metering();
     calculation();
     payment();
-    resolvingResolution = "Afgørelse: Beregningsgrundlag";
-
-    /* test();
-    resolvingResolution = "Resolution"; */
+    paymentGate = "Afgørelse: Beregningsgrundlag";
   }
 
   function intro() private {
     bytes32 phase = "Vejledning";
-    _addVertex("Vejledning",phase, NodeType.NORMAL);
-    _addVertex("Afgørelse: Vejledning", phase, NodeType.RESOLUTION);
-
-    _addEdge(root, "Vejledning");
-
-    _addEdge("Vejledning","Afgørelse: Vejledning");
+    _addActivity("Vejledning",phase, ActivityType.NORMAL);
+    _addActivity("Afgørelse: Vejledning", phase, ActivityType.DECISION);
+    _addDependency(root, "Vejledning");
+    _addDependency("Vejledning","Afgørelse: Vejledning");
   }
 
   function startup() private {
     bytes32 phase = "Målgruppevurdering";
-    _addVertex("Dokumentation fra læge", phase, NodeType.NORMAL);
-    _addVertex("Dokumentation fra forældre", phase, NodeType.DOC);
-    _addVertex("Andet dokumentation", phase, NodeType.NORMAL);
-    _addVertex("Partshøring", phase, NodeType.NORMAL);
-    _addVertex("Afgørelse: Målgruppevurdering", phase, NodeType.RESOLUTION);
+    _addActivity("Dokumentation fra læge", phase, ActivityType.NORMAL);
+    _addActivity("Dokumentation fra forældre", phase, ActivityType.DOC);
+    _addActivity("Andet dokumentation", phase, ActivityType.NORMAL);
+    _addActivity("Partshøring", phase, ActivityType.NORMAL);
+    _addActivity("Afgørelse: Målgruppevurdering", phase, ActivityType.DECISION);
 
-    _addEdge("Afgørelse: Vejledning","Dokumentation fra læge");
-    _addEdge("Afgørelse: Vejledning","Dokumentation fra forældre");
-    _addEdge("Afgørelse: Vejledning","Andet dokumentation");
+    _addDependency("Afgørelse: Vejledning","Dokumentation fra læge");
+    _addDependency("Afgørelse: Vejledning","Dokumentation fra forældre");
+    _addDependency("Afgørelse: Vejledning","Andet dokumentation");
 
-    _addEdge("Dokumentation fra læge", "Partshøring");
-    _addEdge("Dokumentation fra forældre", "Partshøring");
-    _addEdge("Andet dokumentation", "Partshøring");
-    _addEdge("Partshøring", "Afgørelse: Målgruppevurdering");
+    _addDependency("Dokumentation fra læge", "Partshøring");
+    _addDependency("Dokumentation fra forældre", "Partshøring");
+    _addDependency("Andet dokumentation", "Partshøring");
+    _addDependency("Partshøring", "Afgørelse: Målgruppevurdering");
   }
 
   function metering() private {
     bytes32 phase = "Udmåling";
-    _addVertex("Dokmentation af arbejdstider", phase, NodeType.DOC);
-    _addVertex("Oplys familieforhold", phase, NodeType.DOC);
-    _addVertex("Oplys arbejdsfleksibilitet", phase, NodeType.DOC);
-    _addVertex("Bevilligede timer", phase, NodeType.NORMAL);
-    _addVertex("Sparede udgifter", phase, NodeType.NORMAL);
-    _addVertex("Afgørelse: Udmåling", phase, NodeType.RESOLUTION);
+    _addActivity("Dokmentation af arbejdstider", phase, ActivityType.DOC);
+    _addActivity("Oplys familieforhold", phase, ActivityType.DOC);
+    _addActivity("Oplys arbejdsfleksibilitet", phase, ActivityType.DOC);
+    _addActivity("Bevilligede timer", phase, ActivityType.NORMAL);
+    _addActivity("Sparede udgifter", phase, ActivityType.NORMAL);
+    _addActivity("Afgørelse: Udmåling", phase, ActivityType.DECISION);
 
-    _addEdge("Afgørelse: Målgruppevurdering","Dokmentation af arbejdstider");
-    _addEdge("Afgørelse: Målgruppevurdering","Oplys familieforhold");
-    _addEdge("Afgørelse: Målgruppevurdering","Oplys arbejdsfleksibilitet");
+    _addDependency("Afgørelse: Målgruppevurdering","Dokmentation af arbejdstider");
+    _addDependency("Afgørelse: Målgruppevurdering","Oplys familieforhold");
+    _addDependency("Afgørelse: Målgruppevurdering","Oplys arbejdsfleksibilitet");
 
-    _addEdge("Dokmentation af arbejdstider","Bevilligede timer");
-    _addEdge("Dokmentation af arbejdstider","Sparede udgifter");
+    _addDependency("Dokmentation af arbejdstider","Bevilligede timer");
+    _addDependency("Dokmentation af arbejdstider","Sparede udgifter");
 
-    _addEdge("Oplys familieforhold","Bevilligede timer");
-    _addEdge("Oplys familieforhold","Sparede udgifter");
+    _addDependency("Oplys familieforhold","Bevilligede timer");
+    _addDependency("Oplys familieforhold","Sparede udgifter");
 
-    _addEdge("Oplys arbejdsfleksibilitet","Bevilligede timer");
-    _addEdge("Oplys arbejdsfleksibilitet","Sparede udgifter");
+    _addDependency("Oplys arbejdsfleksibilitet","Bevilligede timer");
+    _addDependency("Oplys arbejdsfleksibilitet","Sparede udgifter");
 
-    _addEdge("Bevilligede timer", "Afgørelse: Udmåling");
-    _addEdge("Sparede udgifter", "Afgørelse: Udmåling");
+    _addDependency("Bevilligede timer", "Afgørelse: Udmåling");
+    _addDependency("Sparede udgifter", "Afgørelse: Udmåling");
   }
 
   function calculation() private {
     bytes32 phase = "Beregningsgrundlag";
-    _addVertex("Indkomstoplysninger", phase, NodeType.DOC);
-    _addVertex("Pensionsoplysninger", phase, NodeType.DOC);
-    _addVertex("Beregningsgrundlag", phase, NodeType.NORMAL);
-    _addVertex("Afgørelse: Beregningsgrundlag", phase, NodeType.RESOLUTION);
+    _addActivity("Indkomstoplysninger", phase, ActivityType.DOC);
+    _addActivity("Pensionsoplysninger", phase, ActivityType.DOC);
+    _addActivity("Beregningsgrundlag", phase, ActivityType.NORMAL);
+    _addActivity("Afgørelse: Beregningsgrundlag", phase, ActivityType.DECISION);
 
-    _addEdge("Afgørelse: Udmåling","Indkomstoplysninger");
-    _addEdge("Afgørelse: Udmåling","Pensionsoplysninger");
+    _addDependency("Afgørelse: Udmåling","Indkomstoplysninger");
+    _addDependency("Afgørelse: Udmåling","Pensionsoplysninger");
 
-    _addEdge("Indkomstoplysninger", "Beregningsgrundlag");
-    _addEdge("Pensionsoplysninger", "Beregningsgrundlag");
+    _addDependency("Indkomstoplysninger", "Beregningsgrundlag");
+    _addDependency("Pensionsoplysninger", "Beregningsgrundlag");
 
-    _addEdge("Beregningsgrundlag", "Afgørelse: Beregningsgrundlag");
+    _addDependency("Beregningsgrundlag", "Afgørelse: Beregningsgrundlag");
   }
 
   function payment() private {
     bytes32 phase = "Udbetaling";
-    _addVertex("Dokumentation på t.a.", phase, NodeType.DOC);
-    _addVertex("Udbetaling", phase, NodeType.PAYMENT);
+    _addActivity("Dokumentation på t.a.", phase, ActivityType.DOC);
+    _addActivity("Udbetaling", phase, ActivityType.PAYMENT);
 
-    _addEdge("Afgørelse: Beregningsgrundlag","Dokumentation på t.a.");
-    _addEdge("Dokumentation på t.a.","Udbetaling");
-    _addEdge("Udbetaling", end);
+    _addDependency("Afgørelse: Beregningsgrundlag","Dokumentation på t.a.");
+    _addDependency("Dokumentation på t.a.","Udbetaling");
+    _addDependency("Udbetaling", end);
   }
-
-  function test() private {
-    _addVertex("Normal","Resolution", NodeType.NORMAL);
-    _addVertex("Resolution", "Resolution", NodeType.RESOLUTION);
-    _addVertex("Documentation", "Final", NodeType.DOC);
-    _addVertex("Final", "Final", NodeType.RESOLUTION);
-
-
-    _addEdge(root,"Normal");
-    _addEdge("Normal","Resolution");
-
-    _addEdge("Resolution","Documentation");
-    _addEdge("Documentation","Final");
-    _addEdge("Final",end);
-
-  }
-
-
 }

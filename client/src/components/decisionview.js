@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import DataEvent from "./common.js";
 
-export default class ResolutionView extends Component {
+export default class DecisionView extends Component {
   constructor(props) {
     super(props);
     this.newestRes = {};
     this.state = {
-      resolutions: []
+      decisions: []
     };
   }
 
@@ -17,7 +17,7 @@ export default class ResolutionView extends Component {
   componentDidUpdate = async (prevProps) => {
     if (this.props.id !== prevProps.id) {
       await this.setState({
-        resolutions: []
+        decisions: []
       });
       this.update();
     }
@@ -52,7 +52,7 @@ export default class ResolutionView extends Component {
           var newRes = e.returnValues;
           this.newestRes[newRes.title] = newRes.dataHash;
           await this.setState({
-            resolutions: [newRes, ...this.state.resolutions]
+            decisions: [newRes, ...this.state.decisions]
           });
         })
         .on("changed", e => {
@@ -68,7 +68,7 @@ export default class ResolutionView extends Component {
     if (this.props.case.status !== "0" && this.props.case.status !== "2") return null;
     if (this.newestRes[r.title] !== r.dataHash) return null;
     return (
-      <button className="helvetica w-20 f6 ml3 br1 ba bg-white" onClick={() => this.props.contractContext.complain(r)}>
+      <button className="helvetica w-20 f6 ml3 br1 ba bg-white" onClick={() => this.props.contractContext.appeal(r)}>
         Klag!
       </button>
     );
@@ -78,7 +78,7 @@ export default class ResolutionView extends Component {
     return (
       <div className="pa2 helvetica mv4">
         <h2 className="b f4">Afgørelser:</h2>
-        {this.state.resolutions.map((r,idx) => {
+        {this.state.decisions.map((r,idx) => {
           return (
             <div key={idx} className="pa1 ma1 flex justify-between bg-near-white">
               <DataEvent e={r} web3={this.props.contractContext.web3}/>

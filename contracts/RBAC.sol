@@ -21,7 +21,7 @@ contract RBAC {
 
   string CITIZEN = "citizen";
   string MUNICIPALITY = "municipality";
-  string COUNCIL = "council";
+  string APPEALSBOARD = "appealsboard";
 
   event RoleAdded(address indexed operator, string role);
   event RoleRemoved(address indexed operator, string role);
@@ -31,16 +31,15 @@ contract RBAC {
   }
 
   modifier anyRole() {
-    /* require (hasRole(msg.sender, Role.CITIZEN) || hasRole(msg.sender, Role.MUNICIPALITY) || hasRole(msg.sender, Role.COUNCIL)); */
     bool a = hasRole(msg.sender, CITIZEN);
     bool b = hasRole(msg.sender, MUNICIPALITY);
-    bool c = hasRole(msg.sender, COUNCIL);
+    bool c = hasRole(msg.sender, APPEALSBOARD);
     require(a || b || c);
     _;
   }
 
   modifier onlyAdmin() {
-    require (hasRole(msg.sender, MUNICIPALITY) || hasRole(msg.sender, COUNCIL));
+    require (hasRole(msg.sender, MUNICIPALITY) || hasRole(msg.sender, APPEALSBOARD));
     _;
   }
 

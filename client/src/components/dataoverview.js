@@ -1,19 +1,6 @@
 import React, { Component } from "react";
 import Row from "./row.js";
 
-// const Row = (title, id, hash) => {
-//   if (true) return null;
-//   return (
-//     <div className="flex items-center w-100">
-//       <div className="w-20">{title}</div>
-//       <div className="w-20">{id}</div>
-//       <div className="w-20">{hash}</div>
-//       <div className="w-20">her skal vi hashe data</div>
-//       <div className="w-20">her skal vi vise data</div>
-//     </div>
-//   );
-// };
-
 export default class DataOverview extends Component {
   render() {
     return (

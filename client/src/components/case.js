@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import DataList from "./datalist.js";
 import ActionsList from "./actionslist.js";
-import ResolutionView from "./resolutionview.js";
+import DecisionView from "./decisionview.js";
 import PaymentView from "./paymentview.js";
-
 import HistoryView from "./historyview.js";
 import DataOverview from "./dataoverview.js";
 import { MessageWait, ButtonExampleLoading } from "./message.js";
 import { zip } from "../store.js";
-// import { saveData, getData } from "./store.js";
 
 class Case extends Component {
   constructor(props) {
@@ -17,7 +15,7 @@ class Case extends Component {
     this.editData = this.editData.bind(this);
     this.dontEditData = this.dontEditData.bind(this);
     this.updateInput = this.updateInput.bind(this);
-    this.handleComplaint = this.handleComplaint.bind(this);
+    this.handleAppeal = this.handleAppeal.bind(this);
   }
 
   state = {
@@ -67,8 +65,6 @@ class Case extends Component {
       case 1:
         return "Under klage";
       case 2:
-        return "Klar til udbetaling";
-      case 3:
         return "Hos ankestyrelsen";
       default:
         return "Fejl";
@@ -127,15 +123,15 @@ class Case extends Component {
     );
   }
 
-  async handleComplaint() {
+  async handleAppeal() {
     if (this.state.marked) {
-      await this.props.contractContext.homesend(this.props.case.id);
+      await this.props.contractContext.redo(this.props.case.id);
     } else {
-      await this.props.contractContext.stadfast(this.props.case.id);
+      await this.props.contractContext.ratify(this.props.case.id);
     }
   }
 
-  councilInterface() {
+  appealsboardInterface() {
     if (this.state.loadstage < 1) {
       return (
         <div className="f6 bg-near-white ba pa3 black-60 helvetica ma2">
@@ -170,7 +166,7 @@ class Case extends Component {
               <div>
                 <button
                   className="helvetica f6 br1 ba bg-white fr mr3"
-                  onClick={() => this.handleComplaint()}
+                  onClick={() => this.handleAppeal()}
                 >
                   {this.state.marked ? "Hjemvis" : "Stadfæst"}
                 </button>
@@ -197,7 +193,7 @@ class Case extends Component {
       <div>
         <div className="w-100 flex justify-center helvetica">
           {this.dataList()}
-          {this.props.case.status !== "3" ? (
+          {this.props.case.status !== "2" ? (
             <ActionsList
               contractContext={this.props.contractContext}
               actions={this.state.actions}
@@ -220,12 +216,6 @@ class Case extends Component {
     );
   }
 
-  // <HistoryView
-  //     id={this.props.case.id}
-  //     history={this.state.history}
-  //     contractContext={this.props.contractContext}
-  //   />
-
   citizenInterface(data) {
     return (
       <div>
@@ -246,7 +236,7 @@ class Case extends Component {
           case={this.props.case}
           contractContext={this.props.contractContext}
         />
-        <ResolutionView
+        <DecisionView
           case={this.props.case}
           contractContext={this.props.contractContext}
         />
@@ -257,7 +247,7 @@ class Case extends Component {
   getInterface() {
     if (this.props.contractContext.role === 0) return this.citizenInterface();
     if (this.props.contractContext.role === 1) return this.sbhInterface();
-    if (this.props.contractContext.role === 2) return this.councilInterface();
+    if (this.props.contractContext.role === 2) return this.appealsboardInterface();
     return null;
   }
 
