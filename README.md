@@ -35,9 +35,9 @@ How to run the project:
 - press 'New Workspace'
 - press the 'add project' and choose the truffle-config.js file from the unzipped project
 - navigate to the tab server and make sure the settings are as follows:
-  Hostname: 127.0.0.1
-  Port number: 7545
-  Network ID: 5777
+  - Hostname: 127.0.0.1
+  - Port number: 7545
+  - Network ID: 5777
 - navigate to the tab 'chain'
 - change the gas limit to 9721975
 - press 'Save Worspace'
