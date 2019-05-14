@@ -76,7 +76,7 @@ MetaMask will automatically use account 0 when you log in. Remember account 0 fr
 
 
 The above guide was run successfully on windows (Windows 10 Home v1803) and mac (MacOS Mojave v10.14.4) on 14/05/2019 with the following versions:
-  Ganache: v2.0.1
-  Truffle: v5.0.6
-  Node.js: v8.15.0
-  MetaMask: v6.4.1
+- Ganache: v2.0.1
+- Truffle: v5.0.6
+- Node.js: v8.15.0
+- MetaMask: v6.4.1
