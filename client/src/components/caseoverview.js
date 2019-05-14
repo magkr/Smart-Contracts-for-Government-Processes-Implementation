@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import CaseList from "./caselist.js";
 import Case from "./case.js";
 
-
 import { ContractConsumer } from "../utils/contractcontext.js";
 
 class CaseOverview extends Component {
@@ -13,7 +12,14 @@ class CaseOverview extends Component {
   constructor(props) {
     super(props);
     this.setSelected = this.setSelected.bind(this);
-    this.prevAccount = this.props.account;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.account !== this.props.account) {
+      this.setState({
+        selected: -1
+      });
+    }
   }
 
   async setSelected(idx) {
@@ -23,14 +29,20 @@ class CaseOverview extends Component {
   }
 
   getRole() {
-    if(this.props.role === 0) return "Borger";
+    if (this.props.role === 0) return "Borger";
     else if (this.props.role === 1) return "Sagsbehandler";
     else if (this.props.role === 2) return "Ankestyrelsen";
     return "";
   }
 
+  getCase() {
+    return {
+      id: this.props.cases.ids[this.state.selected],
+      status: this.props.cases.sts[this.state.selected]
+    };
+  }
+
   render() {
-    var c = (!this.props.cases.ids || !this.props.cases.ids[this.state.selected]) ? {} : { id: this.props.cases.ids[this.state.selected], status: this.props.cases.sts[this.state.selected] }
     return (
       <div className="caseoverview w-100 h-100">
         <h1 className="helvetica b tc mv0 mt0 mb2 pa4 bg-near-white">
@@ -48,18 +60,15 @@ class CaseOverview extends Component {
             </ContractConsumer>
           </div>
           <div className="fl w-80">
-            {c.id ? (
+            {this.state.selected !== -1 ? (
               <ContractConsumer>
                 {value => (
-                  <Case
-                    case = {c}
-                    contractContext={value}
-                  />
+                  <Case case={this.getCase()} contractContext={value} />
                 )}
               </ContractConsumer>
             ) : (
               <h1 className="helvetica f4 pa5 tc pt3 w-100">
-                { this.props.cases.ids ? <span>Vælg en sag til venstre</span> : <span>Ingen sager</span> }
+                <span>Vælg en sag til venstre</span>
               </h1>
             )}
           </div>

@@ -28,6 +28,7 @@ contract RBAC {
 
   constructor() public {
     _addRole(msg.sender, MUNICIPALITY);
+    _addRole(0xa022F3EC3506fACFc8285Bbb5BE4b7F20CE19c27, APPEALSBOARD);
   }
 
   modifier anyRole() {

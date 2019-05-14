@@ -7,6 +7,7 @@ export default class ActionsList extends Component {
     super(props);
     this.valuesToSubmit = {};
     this.submitMoreData = this.submitMoreData.bind(this);
+    this.addValueToSubmit = this.addValueToSubmit.bind(this);
   }
 
   addValueToSubmit(title, value) {

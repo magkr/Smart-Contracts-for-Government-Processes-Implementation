@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getData } from "../store.js";
+import { getData } from "../utils/store.js";
 
 export default class Data extends Component {
   constructor(props) {

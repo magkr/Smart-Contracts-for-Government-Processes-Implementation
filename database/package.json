@@ -1,0 +1,49 @@
+{
+  "_from": "simple-dumb-server",
+  "_id": "simple-dumb-server@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-tEj7pzDysdF4F9M0dtvP2BdlkYSQsUwaf4IBuahIDVSUh9Kr2bkq1sHIcz+WBW3/Jl93cP2Nh7fyw6UzZy993Q==",
+  "_location": "/simple-dumb-server",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "simple-dumb-server",
+    "name": "simple-dumb-server",
+    "escapedName": "simple-dumb-server",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/simple-dumb-server/-/simple-dumb-server-1.0.0.tgz",
+  "_shasum": "342fa2e7f9fef211e2ca1b633e056848afeb9d9f",
+  "_spec": "simple-dumb-server",
+  "_where": "/Users/livhborre/Projects/Bachelor/process42/client",
+  "author": {
+    "name": "Niels Abildgaard",
+    "email": "me@hypesystem.dk"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "archiver": "^3.0.0",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "kvfs": "^0.2.9",
+    "zip-a-folder": "0.0.7"
+  },
+  "deprecated": false,
+  "description": "",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "simple-dumb-server",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}

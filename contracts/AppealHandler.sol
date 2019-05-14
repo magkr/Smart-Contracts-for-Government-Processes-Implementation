@@ -28,6 +28,7 @@ contract AppealHandler is CaseHandler {
     require(cases[_caseID].status == CaseStatus.APPEALSBOARD && appeals[_caseID].isMarked);
     Case storage c = cases[_caseID];
     c.status = CaseStatus.APPEALED;
+    appeals[_caseID].isMarked = false;
   }
 
   function _markData(bytes32 _title, uint32 _caseID) internal {

@@ -18,17 +18,16 @@ contract ProcessInterface is TransferHandler {
   }
 
   function fillData(bytes32 _title, uint32 _caseID, bytes32 _dataHash) public returns (uint32 id) {
-    if (activities[_getIdx(_title)].aType == ActivityType.DOC) require((caseToAddress[_caseID] == msg.sender) || hasRole(msg.sender, MUNICIPALITY));
+    if (activities[_getIdx(_title)].aType == ActivityType.DOC)
+      require((caseToAddress[_caseID] == msg.sender) || hasRole(msg.sender, MUNICIPALITY));
     else require(hasRole(msg.sender, MUNICIPALITY));
     return _fillData(_title, _caseID, _dataHash);
   }
 
   function fillDatas(bytes32[] memory _titles, uint32 _caseID, bytes32[] memory _dataHashes) public returns (uint32[] memory ids) {
     ids = new uint32[](_titles.length);
-    if(cases[_caseID].status == CaseStatus.ACTIVE) {
-      for(uint i = 0; i < _titles.length; i++) {
-        ids[i] = fillData(_titles[i], _caseID, _dataHashes[i]);
-      }
+    for(uint i = 0; i < _titles.length; i++) {
+      ids[i] = fillData(_titles[i], _caseID, _dataHashes[i]);
     }
   }
 

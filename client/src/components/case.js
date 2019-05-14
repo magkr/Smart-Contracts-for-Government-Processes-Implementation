@@ -6,7 +6,7 @@ import PaymentView from "./paymentview.js";
 import HistoryView from "./historyview.js";
 import DataOverview from "./dataoverview.js";
 import { MessageWait, ButtonExampleLoading } from "./message.js";
-import { zip } from "../store.js";
+import { zip } from "../utils/store.js";
 
 class Case extends Component {
   constructor(props) {
@@ -162,18 +162,14 @@ class Case extends Component {
         <div className="w-100 flex justify-center">
           {this.dataList()}
           <div className="w-50 flex justify-center items-center">
-            {this.props.case.status === "3" ? (
-              <div>
-                <button
-                  className="helvetica f6 br1 ba bg-white fr mr3"
-                  onClick={() => this.handleAppeal()}
-                >
-                  {this.state.marked ? "Hjemvis" : "Stadfæst"}
-                </button>
-              </div>
-            ) : (
-              <div className="w-50" />
-            )}
+            <div>
+              <button
+                className="helvetica f6 br1 ba bg-white fr mr3"
+                onClick={() => this.handleAppeal()}
+              >
+                {this.state.marked ? "Hjemvis" : "Stadfæst"}
+              </button>
+            </div>
           </div>
         </div>
         <HistoryView
@@ -211,7 +207,6 @@ class Case extends Component {
           id={this.props.case.id}
           contractContext={this.props.contractContext}
         />
-
       </div>
     );
   }
@@ -247,7 +242,8 @@ class Case extends Component {
   getInterface() {
     if (this.props.contractContext.role === 0) return this.citizenInterface();
     if (this.props.contractContext.role === 1) return this.sbhInterface();
-    if (this.props.contractContext.role === 2) return this.appealsboardInterface();
+    if (this.props.contractContext.role === 2)
+      return this.appealsboardInterface();
     return null;
   }
 

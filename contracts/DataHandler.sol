@@ -15,16 +15,18 @@ contract DataHandler is AppealHandler {
 
       dataCount++;
       c.dataMapping[_title] = Data(_dataHash, _caseID, dataCount, Status.DONE);
-      emit NewData(_title,  _dataHash, _caseID, dataCount, uint(activities[_getIdx(_title)].aType));
 
+      emit NewData(_title,  _dataHash, _caseID, dataCount, uint(activities[_getIdx(_title)].aType));
       return dataCount;
     } else {
+      require(c.dataMapping[_title].status != Status.MARKED);
 
       c.dataMapping[_title].status = Status.DONE;
       if(appeals[_caseID].data == _title) {
         c.status = CaseStatus.APPEALSBOARD;
       }
 
+      emit NewData(_title,  _dataHash, _caseID, c.dataMapping[_title].id, uint(activities[_getIdx(_title)].aType));
       return c.dataMapping[_title].id;
     }
   }

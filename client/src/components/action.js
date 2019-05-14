@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getData, zip } from "../store.js";
+import { getData, zip } from "../utils/store.js";
 
 export default class Action extends Component {
   constructor(props) {
@@ -9,13 +9,12 @@ export default class Action extends Component {
       value: ""
     };
     this.onClick = this.onClick.bind(this);
+    this.submit = this.submit.bind(this);
+    this.ratify = this.ratify.bind(this);
   }
 
-  isAppealDecision() {
-    return (
-      this.props.action.type === "1" &&
-      this.props.action.status === "4"
-    );
+  isAppealedDecision() {
+    return this.props.action.type === "1" && this.props.action.status === "4";
   }
 
   noData() {
@@ -45,13 +44,14 @@ export default class Action extends Component {
     this.props.addValueToSubmit(this.props.action.title, val);
   }
 
-  buttonText() {
-    var unchangedValue =
-      this.state.value === this.state.prevValue && this.state.value !== "";
+  isUnchanged() {
+    return this.state.value === this.state.prevValue && this.state.value !== "";
+  }
 
-    if (this.isAppealDecision())
-      return unchangedValue ? "Stadfæst" : "Ændre afgørelse";
-    else return unchangedValue ? "Behold" : "Indsend";
+  buttonText() {
+    if (this.isAppealedDecision())
+      return this.isUnchanged() ? "Stadfæst" : "Ændre afgørelse";
+    else return this.isUnchanged() ? "Behold" : "Indsend";
   }
 
   async sendZip() {
@@ -60,15 +60,20 @@ export default class Action extends Component {
   }
 
   async onClick() {
-    await this.props.contractContext
-      .submitData(
-        this.props.action.title,
-        this.props.action.caseID,
-        this.state.value
-      )
-      .then(() => {
-        if (this.isAppealDecision()) this.sendZip();
-      });
+    if (this.isAppealedDecision() && this.isUnchanged()) this.ratify();
+    else this.submit();
+  }
+
+  async ratify() {
+    await this.submit().then(() => this.sendZip());
+  }
+
+  async submit() {
+    await this.props.contractContext.submitData(
+      this.props.action.title,
+      this.props.action.caseID,
+      this.state.value
+    );
   }
 
   render() {

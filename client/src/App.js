@@ -3,7 +3,7 @@ import Process42 from "./contracts/Process42.json";
 import CaseOverview from "./components/caseoverview.js";
 import getWeb3 from "./utils/getWeb3";
 import { ContractProvider } from "./utils/contractcontext.js";
-import { saveData } from "./store.js";
+import { saveData } from "./utils/store.js";
 
 import "./App.css";
 
@@ -41,7 +41,6 @@ class App extends Component {
   }
 
   appeal(r) {
-    console.log(r);
     this.state.contract.methods
       .appeal(r.title, r.caseID)
       .send({ from: this.state.accounts[0] })
@@ -51,12 +50,10 @@ class App extends Component {
   }
 
   async newCase(add) {
-    console.log(this.state.contract);
     this.state.contract.methods
       .addCase(add)
       .send({ from: this.state.accounts[0] })
       .then(() => {
-        console.log(43);
         this.fetchCases();
       });
   }
@@ -244,7 +241,6 @@ class App extends Component {
             accounts: acc,
             role: role
           });
-          console.log(this.state.cases);
         });
       }
     });
@@ -267,15 +263,6 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address
       );
 
-      if (
-        !(await p.methods
-          .hasRole("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff", "appealsboard")
-          .call({ from: accounts[0] }))
-      ) {
-        await p.methods
-          .setAppealsBoard("0x4bf2a1B2523e7E3975Bf5323a762CA9F73958Dff")
-          .send({ from: accounts[0] });
-      }
       await this.setState({ web3, accounts: accounts, contract: p });
       await this.setState({ role: await this.role(accounts[0]) });
       this.fetchCases();
