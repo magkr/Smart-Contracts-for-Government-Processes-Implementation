@@ -1,6 +1,7 @@
 # BA-process42
 
 An implementation of a governmental process in smart contracts hosted on the Ethereum blockchain.
+The 'database' is a modification of a node package by Niels Abildgaard: https://www.npmjs.com/package/simple-dumb-server
 
 The project is using Truffle to deploy the contracts, and Ganache to host a local blockchain.
 To run the project you need on of the following browsers: Chrome, Firefox, Opera or Brave
