@@ -73,3 +73,10 @@ How to run the project:
 - Now you should be ready to use the app!
 
 MetaMask will automatically use account 0 when you log in. Remember account 0 from Ganache is the municipality and the account you selected as appeals board will be able to act as appeals board. Therefore, you will be presented with the fron-end for the municipality. You can change account in the MetaMask plugin. Use the other addresses from Ganache to create cases from the municipality interface. Once you do this, these accounts will be able to act as citizens, and see their cases in their interface.
+
+
+The above guide was run successfully on windows (Windows 10 Home v1803) and mac (MacOS Mojave v10.14.4) on 14/05/2019 with the following versions:
+  Ganache: v2.0.1
+  Truffle: v5.0.6
+  Node.js: v8.15.0
+  MetaMask: v6.4.1
