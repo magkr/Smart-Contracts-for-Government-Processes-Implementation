@@ -14,7 +14,7 @@ class CaseOverview extends Component {
     this.setSelected = this.setSelected.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentWillReceiveProps(prevProps) {
     if (prevProps.account !== this.props.account) {
       this.setState({
         selected: -1
@@ -33,6 +33,10 @@ class CaseOverview extends Component {
     else if (this.props.role === 1) return "Sagsbehandler";
     else if (this.props.role === 2) return "Ankestyrelsen";
     return "";
+  }
+
+  makeCheck() {
+    return this.props.cases.ids[this.state.selected]
   }
 
   getCase() {
@@ -60,17 +64,18 @@ class CaseOverview extends Component {
             </ContractConsumer>
           </div>
           <div className="fl w-80">
-            {this.state.selected !== -1 ? (
+            {this.state.selected === -1 ?  (
+              <h1 className="helvetica f4 pa5 tc pt3 w-100">
+                <span>Vælg en sag til venstre</span>
+              </h1>
+            ) : (
               <ContractConsumer>
                 {value => (
                   <Case case={this.getCase()} contractContext={value} />
                 )}
               </ContractConsumer>
-            ) : (
-              <h1 className="helvetica f4 pa5 tc pt3 w-100">
-                <span>Vælg en sag til venstre</span>
-              </h1>
-            )}
+            )
+          }
           </div>
         </div>
       </div>
